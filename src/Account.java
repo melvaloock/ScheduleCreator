@@ -2,6 +2,7 @@ package ScheduleCreator;
 
 import java.util.*;
 
+
 public class Account extends Student {
 	
 	private HashMap<String, Schedule> scheduleMap = new HashMap<String, Schedule>();
