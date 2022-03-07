@@ -1,4 +1,4 @@
-package ScheduleCreator;
+package ScheduleCreator.ScheduleCreator;
 
 public class Student {
 

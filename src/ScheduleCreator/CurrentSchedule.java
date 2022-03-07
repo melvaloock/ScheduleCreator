@@ -1,4 +1,4 @@
-package ScheduleCreator;
+package ScheduleCreator.ScheduleCreator;
 
 import java.util.ArrayList;
 
