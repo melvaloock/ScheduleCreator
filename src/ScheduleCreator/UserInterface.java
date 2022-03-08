@@ -18,6 +18,9 @@ public class UserInterface {
 	public void createGuest() {}
 	public void viewSchedule(Schedule s) {}
 
+
 	public static void main(String args[]) {
+		Test test = new Test();
+		test.test1();
 	}
 }

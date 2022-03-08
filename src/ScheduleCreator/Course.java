@@ -12,28 +12,30 @@ public class Course {
 	private String color;
 	private int referenceNum;
 	enum Day {M, T, W, R, F, NULL}
-	private String time;
+	private String startTime;
+	private String endTime;
 	private ArrayList<Day> days;// figure out how to do enum later
 	private String professor;
 	private char section;
 	private int totalSeats;
 	private int openSeats;
 
-	public Course(String code, String professor, String time, char section, ArrayList<Day> days) {
+	public Course(String code, String title, String startTime, String endTime, char section, ArrayList<Day> days) {
 		this.code = code;
-		this.professor = professor;
-		this.time = time;
+		this.title= title;
+		this.startTime = startTime;
+		this.endTime = endTime;
 		this.section = section;
 		this.days = days;
 	}
 
-	public Course(String code, String professor, String time, char section, String days) {
+	public Course(String code, String title, String startTime, String endTime, char section, String days) {
 		this.code = code;
-		this.professor = professor;
-		this.time = time;
+		this.title = title;
+		this.startTime = startTime;
+		this.endTime = endTime;
 		this.section = section;
 		this.days = daysToEnum(days);
-
 	}
 
 	/**
@@ -59,9 +61,28 @@ public class Course {
 		return dayList;
 	}
 
+	public String daysToString(ArrayList<Day> dayList) {
+		String dayString = "";
+		for (Day day : dayList) {
+			dayString.concat(String.valueOf(day));
+		}
+		return dayString;
+	}
+
 	@Override
-	public String toString() {return "";}
-	public boolean isFull() {return false;}
+	public String toString() {
+		String ds = daysToString(days);
+		String cs = String.format("%s | %s | %s %s - %s", code, title, ds, startTime, endTime);
+		return cs;
+	}
+
+	public boolean isFull() {
+		if (openSeats == 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	public String getTitle() {
 		return title;
@@ -103,14 +124,20 @@ public class Course {
 		this.referenceNum = referenceNum;
 	}
 
-	public String getTime() {
-		return time;
+	public String getStartTime() {
+		return startTime;
 	}
 
-	public void setTime(String time) {
-		this.time = time;
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
 	}
 
+	public String getEndTime() {
+		return endTime;
+	}
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
 	public String getProfessor() {
 		return professor;
 	}
