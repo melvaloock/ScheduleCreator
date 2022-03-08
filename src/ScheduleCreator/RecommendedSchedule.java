@@ -12,4 +12,10 @@ public class RecommendedSchedule extends Schedule {
 		this.major = major;
 		this.year = year;
 	}
+
+	public RecommendedSchedule(String statusSheet) {
+
+	}
+
+
 }
