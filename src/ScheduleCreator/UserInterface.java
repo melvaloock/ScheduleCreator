@@ -1,5 +1,6 @@
 package ScheduleCreator.ScheduleCreator;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class UserInterface {
@@ -9,7 +10,15 @@ public class UserInterface {
 	private static Student currentStudent;
 	private Scanner searchScan = new Scanner(System.in); //takes user input for now
 	
-	public ArrayList<Course> searchCoursesByCode(String code) {return null;}
+	public static ArrayList<Course> searchCoursesByCode(String code) {
+		ArrayList<Course> result = new ArrayList<>();
+		for (Course c : courses) {
+			if (c.getCode().contains(code)) {
+				result.add(c);
+			}
+		}
+		return result;
+	}
 	public ArrayList<Course> searchCoursesByKeyword(String keyword) {return null;}
 	public ArrayList<Course> dayFilter(ArrayList<Course> courses, ArrayList<String> days) {return null;}
 	public ArrayList<Course> timeFilter(ArrayList<Course> courses, ArrayList<String> times) {return null;}
@@ -18,9 +27,7 @@ public class UserInterface {
 	public void createGuest() {}
 	public void viewSchedule(Schedule s) {}
 
-
 	public static void main(String args[]) {
-		Test test = new Test();
-		test.test1();
+
 	}
 }
