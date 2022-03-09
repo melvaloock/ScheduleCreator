@@ -17,7 +17,9 @@ public class UserInterface {
 
 	public void addRecommendedSchedule(RecommendedSchedule r) {}
 	public void createGuest() {}
-	public void viewSchedule(Schedule s) {}
+	public void viewSchedule(Schedule s) {
+
+	}
 	public static void createAccount(){
 //		System.out.println("Username: ");
 //		String username = searchScan.next();
@@ -51,6 +53,8 @@ public class UserInterface {
 		Test test = new Test();
 		test.test1();
 		menuNav(0);
+		Schedule tests = new Schedule(courses, "Spring 2023");
+		tests.displaySchedule();
 	}
 
 

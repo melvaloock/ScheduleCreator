@@ -19,10 +19,12 @@ public class Test extends UserInterface {
     courses.add(c2);
     courses.add(c3);
 
-    System.out.println(courses);
-    System.out.println(searchCoursesByCode("COMP") + "\n");
 
-    consoleSearch();
+//
+//    System.out.println(courses);
+//    System.out.println(searchCoursesByCode("COMP") + "\n");
+//
+//    consoleSearch();
   }
 
 }
