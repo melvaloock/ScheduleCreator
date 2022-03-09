@@ -72,7 +72,7 @@ public class Course {
 	@Override
 	public String toString() {
 		String ds = daysToString(days);
-		String cs = String.format("%s | %s | %s %s - %s", code, title, ds, startTime, endTime);
+		String cs = String.format("%s (%c) | %s | %s %s - %s", code, section, title, ds, startTime, endTime);
 		return cs;
 	}
 
