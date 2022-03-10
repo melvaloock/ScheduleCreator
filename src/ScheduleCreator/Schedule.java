@@ -5,12 +5,12 @@ import java.io.*;
 
 public class Schedule {
 
-	private ArrayList<Course> courseList = new ArrayList<Course>();
-	private String semester;
-	private String outFile;
-	private FileWriter export;
-	private boolean isCurrent;
-	private static String defaultSemester = "Fall 2023";
+	protected ArrayList<Course> courseList = new ArrayList<Course>();
+	protected String semester;
+	protected String outFile;
+	protected FileWriter export;
+	protected boolean isCurrent;
+	protected static String defaultSemester = "Fall 2023";
 
 	public void exportSchedule() {}
 	public void displaySchedule() {
