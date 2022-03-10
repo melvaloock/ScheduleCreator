@@ -1,4 +1,4 @@
-package ScheduleCreator.ScheduleCreator;
+package ScheduleCreator;
 
 import java.util.*; // trying to get git to work
 
