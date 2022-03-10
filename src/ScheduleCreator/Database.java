@@ -10,13 +10,11 @@ public class Database {
             Properties info = new Properties();
             info.put("user", username);
             info.put("password", password);
-            Class.forName("com.mysql.jdbc.Driver");
+            // Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + schema, info);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-        } catch (ClassNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
+        } 
     }
 
     public static void main(String args[]) {
