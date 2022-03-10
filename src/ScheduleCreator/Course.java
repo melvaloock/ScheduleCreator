@@ -1,5 +1,9 @@
 package ScheduleCreator.ScheduleCreator;
 
+import java.util.*;
+
+import static java.util.Arrays.asList;
+
 public class Course {
 
 	private String title;
@@ -7,24 +11,78 @@ public class Course {
 	private String semester; //Spring 2022
 	private String color;
 	private int referenceNum;
-	private String time;
-	private String days;// figure out how to do enum later
+	enum Day {M, T, W, R, F, NULL}
+	private String startTime;
+	private String endTime;
+	private ArrayList<Day> days;// figure out how to do enum later
 	private String professor;
 	private char section;
 	private int totalSeats;
 	private int openSeats;
 
-	public Course(String code, String professor, String time, char section, String days) {
+	public Course(String code, String title, String startTime, String endTime, char section, ArrayList<Day> days) {
 		this.code = code;
-		this.professor = professor;
-		this.time = time;
+		this.title= title;
+		this.startTime = startTime;
+		this.endTime = endTime;
 		this.section = section;
 		this.days = days;
 	}
 
+	public Course(String code, String title, String startTime, String endTime, char section, String days) {
+		this.code = code;
+		this.title = title;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.section = section;
+		this.days = daysToEnum(days);
+	}
+
+	/**
+	 * converts a string into an array of Days (enum)
+	 * @param days
+	 * @return dayList, the array of enumerated Days
+	 */
+	public ArrayList<Day> daysToEnum(String days) {
+		ArrayList<Day> dayList = new ArrayList<Day>();
+		if (days == "") {
+			dayList.add(Day.NULL);
+			return dayList;
+		}
+		//iterates through each character in the string
+		for (char c : days.toCharArray()) {
+			//if the character is valid as an enum, convert to enum and add to list
+			if (asList(Day.values()).contains(Day.valueOf(String.valueOf(c)))) {
+				dayList.add(Day.valueOf(String.valueOf(c)));
+			} else { //else if
+				dayList.add(Day.NULL);
+			}
+		}
+		return dayList;
+	}
+
+	public String daysToString(ArrayList<Day> dayList) {
+		String dayString = "";
+		for (Day day : dayList) {
+			dayString.concat(String.valueOf(day));
+		}
+		return dayString;
+	}
+
 	@Override
-	public String toString() {return "";}
-	public boolean isFull() {return false;}
+	public String toString() {
+		String ds = daysToString(days);
+		String cs = String.format("%s (%c) | %s | %s %s - %s", code, section, title, ds, startTime, endTime);
+		return cs;
+	}
+
+	public boolean isFull() {
+		if (openSeats == 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	public String getTitle() {
 		return title;
@@ -66,14 +124,20 @@ public class Course {
 		this.referenceNum = referenceNum;
 	}
 
-	public String getTime() {
-		return time;
+	public String getStartTime() {
+		return startTime;
 	}
 
-	public void setTime(String time) {
-		this.time = time;
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
 	}
 
+	public String getEndTime() {
+		return endTime;
+	}
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
 	public String getProfessor() {
 		return professor;
 	}
@@ -107,10 +171,10 @@ public class Course {
 	}
 
 	public String getDays() {
-		return days;
+		return days.toString();
 	}
 
 	public void setDays(String days) {
-		this.days = days;
+		this.days = daysToEnum(days);
 	}
 }

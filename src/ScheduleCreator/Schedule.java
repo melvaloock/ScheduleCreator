@@ -13,7 +13,37 @@ public class Schedule {
 	private static String defaultSemester = "Fall 2023";
 
 	public void exportSchedule() {}
-	public void displaySchedule() {};
+	public void displaySchedule() {
+		String[][] schedule = new String[14][6];
+		String[] days = {"Monday","Tuesday","Wednesday","Thursday","Friday"};
+		//Make an Empty Schedule
+		for(int row = 0; row<schedule.length; row++){
+			if(row == 0){
+				System.out.println("************************* " + getSemester() + "  GCC Schedule " + " *************************");
+			}
+			for(int col = 0; col<schedule[row].length; col++){
+				if(row == 0){
+					schedule[row][col] = "*************";
+				}else if(row == 1){
+					if(col == 0){
+						schedule[row][col] = "Time   | ";
+					}else{
+						schedule[row][col] = days[col-1] + "   |   ";
+					}
+				}else{
+					schedule[row][0]= Integer.toString(row + 6) + ":00";
+					schedule[row][col] ="       *      ";
+				}
+				
+			}
+		}
+		for(int x =0; x< schedule.length; x++){
+			for(int y =0; y< schedule[x].length; y++){
+				System.out.print(schedule[x][y]);
+			}
+			System.out.println();
+		}
+	};
 	public void makeCurrent() {}
 
 	public Schedule() {}
