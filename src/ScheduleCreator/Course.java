@@ -38,6 +38,48 @@ public class Course {
 		this.days = daysToEnum(days);
 	}
 
+	@Override
+	public boolean equals(Object obj){
+		if (this == obj) {
+			return true;
+		}
+
+		Course c;
+		if (obj instanceof Course){
+			c = (Course)obj;
+		}else {
+			return false;
+		}
+
+		if (!code.equals(c.code)){
+			return false;
+		}
+		if (!title.equals(c.title)){
+			return false;
+		}
+		if (!startTime.equals(c.startTime)){
+			return false;
+		}
+		if (!endTime.equals(c.endTime)){
+			return false;
+		}
+		if (section != c.section){
+			return false;
+		}
+		if (!days.equals(c.days)){
+			return false;
+		}
+		if (!professor.equals(c.professor)){
+			return false;
+		}
+		if (referenceNum != c.referenceNum){
+			return false;
+		}
+		
+
+		return true;
+	}
+
 	/**
 	 * converts a string into an array of Days (enum)
 	 * @param days
