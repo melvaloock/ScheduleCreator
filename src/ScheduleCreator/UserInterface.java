@@ -42,7 +42,9 @@ public class UserInterface {
 	public ArrayList<Course> timeFilter(ArrayList<Course> courses, ArrayList<String> times) {return null;}
 
 	public void addRecommendedSchedule(RecommendedSchedule r) {}
-	public void createGuest() {}
+	public static void createGuest() {
+		currentStudent.getCurrentSchedule();
+	}
 	public void viewSchedule(Schedule s) {
 
 	}
@@ -52,31 +54,59 @@ public class UserInterface {
 	}
 
 	public static void createAccount(){
-//		System.out.println("Username: ");
-//		String username = searchScan.next();
-//		System.out.println("Password: ");
-//		String password = searchScan.next();
+		Scanner input = new Scanner(System.in);
+		System.out.println("Username: ");
+		String username = input.next();
+		System.out.println("Password: ");
+		String password = input.next();
 
 	}
 	public static void menuNav(int menuId){
 		switch(menuId){
-			case 0: mainMenu();
-			case 1: //create account;
+			case 0:
+				mainMenu();
+				break;
+			case 1:
+				createAccount();
+				break;
+			case 2:
+				login();
+				break;
+			case 3:
+				createGuest();
+				break;
+			default:
+				System.out.println("Invalid Selection");
+				mainMenu();
+				break;
 		}
 	}
 
 	public static void mainMenu(){
+		int selection = -1;
+		Scanner menu = new Scanner(System.in);
 		System.out.println("Welcome!");
 		System.out.println("1) Create an account");
 		System.out.println("2) Log into an account");
 		System.out.println("3) Continue as guest");
+		while (selection < 0 || selection > 3){
+			try{
+				selection = menu.nextInt();
+			}
+			catch (Exception e){
+				System.out.println("Invalid Selection");
+				selection = -1;
+			}
+		}
+		menuNav(selection);
 	}
 
-	public void login() {
+	public static void login() {
+		Scanner input = new Scanner(System.in);
 		System.out.println("Username: ");
-		String username = searchScan.next();
+		String username = input.next();
 		System.out.println("Password: ");
-		String password = searchScan.next();
+		String password = input.next();
 
 	}
 
@@ -100,12 +130,17 @@ public class UserInterface {
 		consoleSearch();
 	}
 
+	public static void testMenu() {
+		menuNav(0);
+	}
+
 	public static void main(String args[]) {
 //		menuNav(0);
 //		Schedule tests = new Schedule(courses, "Spring 2023");
 //		tests.displaySchedule();
 
-		test1();
+		//test1();
+		testMenu();
 	}
 
 
