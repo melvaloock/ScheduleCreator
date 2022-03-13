@@ -43,7 +43,7 @@ public class UserInterface {
 
 	public void addRecommendedSchedule(RecommendedSchedule r) {}
 	public static void createGuest() {
-		currentStudent.getCurrentSchedule();
+		currentStudent = new Student();
 	}
 	public void viewSchedule(Schedule s) {
 
