@@ -213,7 +213,7 @@ public class Course {
 	}
 
 	public String getDays() {
-		return days.toString();
+		return daysToString(days);
 	}
 
 	public void setDays(String days) {
