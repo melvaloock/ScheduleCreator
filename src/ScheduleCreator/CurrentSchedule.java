@@ -95,11 +95,23 @@ public class CurrentSchedule extends Schedule {
 				continue;
 			}
 
-			// check start times
+
+			// get current Course times
+			times = current.getStartTime().split(":");
+			tempStart = Integer.parseInt(times[0]) + Integer.parseInt(times[1])/60.0;
+			times = current.getEndTime().split(":");
+			tempEnd = Integer.parseInt(times[0]) + Integer.parseInt(times[1])/60.0;
 
 
-			// check end times
+			// check start time
+			if (cStart >= tempStart && cStart <= tempEnd){
+				return true;
+			}
 
+			// check end time
+			if (cEnd >= tempStart && cEnd <= tempEnd){
+				return true;
+			}
 
 		}
 
