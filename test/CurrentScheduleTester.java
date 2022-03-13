@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class CurrentScheduleTester {
 
     @Test
-    public void addCourse(){
+    public void addCourseTest(){
         CurrentSchedule cs = new CurrentSchedule(new ArrayList<Course>());
         Course c1 = new Course("MUSI 102", "MUSIC HISTORY II", "9:00 AM", "9:50 AM", 'A', "MWF");
         cs.addCourse(c1);
