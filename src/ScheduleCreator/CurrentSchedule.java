@@ -21,12 +21,11 @@ public class CurrentSchedule extends Schedule {
 	}
 
 	/**
-	 * Removes course c from courseList. If c is not in courseList, returns false.
+	 * Removes course c from courseList
 	 * @param c
-	 * @return true if course successfully removed, false otherwise
 	 */
-	public boolean removeCourse(Course c) {
-		return courseList.remove(c);
+	public void removeCourse(Course c) {
+		courseList.remove(c);
 	}
 
 	public boolean conflictsWith(Course c) {
