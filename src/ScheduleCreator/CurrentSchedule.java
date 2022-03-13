@@ -66,10 +66,10 @@ public class CurrentSchedule extends Schedule {
 		cDays = c.getDays().toCharArray();
 
 		String[] times = c.getStartTime().split(":");
-		cStart = Integer.parseInt(times[0]) + (Integer.parseInt(times[1])+0.0)/60;
+		cStart = Integer.parseInt(times[0]) + Integer.parseInt(times[1])+0.0/60.0;
 
 		times = c.getEndTime().split(":");
-		cEnd = Integer.parseInt(times[0]) + (Integer.parseInt(times[1])+0.0)/60;
+		cEnd = Integer.parseInt(times[0]) + Integer.parseInt(times[1])+0.0/60.0;
 
 		// check if each course has a conflict
 		for (Course current: courseList) {
