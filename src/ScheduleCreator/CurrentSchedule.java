@@ -38,10 +38,11 @@ public class CurrentSchedule extends Schedule {
 		remCode = remCode.toUpperCase();
 		boolean didRem = false;
 
-		for (Course c: courseList){
-			if (c.getCode().equals(remCode)){
-				courseList.remove(c);
+		for (int i = 0; i < courseList.size(); i++){
+			if (courseList.get(i).getCode().equals(remCode)){
+				courseList.remove(i);
 				didRem = true;
+				i--;
 			}
 		}
 
