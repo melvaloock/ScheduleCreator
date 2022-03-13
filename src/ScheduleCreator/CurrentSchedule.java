@@ -12,10 +12,17 @@ public class CurrentSchedule extends Schedule {
 		super();
 	}
 
+	/**
+	 * removes all courses from schedule
+	 */
 	public void clearSchedule() {
 		courseList = new ArrayList<Course>();
 	}
 
+	/**
+	 * adds Course c to list of courses
+	 * @param c
+	 */
 	public void addCourse(Course c) {
 		courseList.add(c);
 	}
@@ -52,9 +59,17 @@ public class CurrentSchedule extends Schedule {
 			return false;
 		}
 
-		// parse Course c time
+		// parse Course c days and time
+		double cStart, cEnd, tempStart, tempEnd;
+		char[] cDays, tempDays;
+
+		cDays = c.getDays().toCharArray();
+
 		String[] times = c.getStartTime().split(":");
-		double cStart = Integer.valueOf(times[0]) + Integer.valueOf(times[1])/60;
+		cStart = Integer.valueOf(times[0]) + Integer.valueOf(times[1])/60;
+
+		times = c.getEndTime().split(":");
+		cEnd = Integer.valueOf(times[0]) + Integer.valueOf(times[1])/60;
 
 		// check if each course has a conflict
 		for (Course current: courseList) {
@@ -63,7 +78,28 @@ public class CurrentSchedule extends Schedule {
 				continue;
 			}
 
-			// check startTime
+			// check if they have overlapping days
+			tempDays = current.getDays().toCharArray();
+			boolean hasOverlapDay = false;
+			for (char temp: tempDays) {
+				for (char orgDay: cDays){
+					if (temp == orgDay){
+						hasOverlapDay = true;
+						break;
+					}
+				}
+			}
+
+			// if no overlapping days, then no conflict
+			if (!hasOverlapDay) {
+				continue;
+			}
+
+			// check start times
+
+
+			// check end times
+
 
 		}
 
