@@ -46,6 +46,11 @@ public class UserInterface {
 	public void viewSchedule(Schedule s) {
 
 	}
+
+	public void alterSchedule(Schedule s){
+
+	}
+
 	public static void createAccount(){
 //		System.out.println("Username: ");
 //		String username = searchScan.next();
