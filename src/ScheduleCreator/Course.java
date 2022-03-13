@@ -103,17 +103,19 @@ public class Course {
 		return dayList;
 	}
 
-	public String daysToString(ArrayList<Day> dayList) {
+	public String daysToString() {
 		String dayString = "";
-		for (Day day : dayList) {
-			dayString.concat(String.valueOf(day));
+		for (Day day : days) {
+			if (day != Day.NULL) {	//NULL just goes to empty string
+				dayString += String.valueOf(day);
+			}
 		}
 		return dayString;
 	}
 
 	@Override
 	public String toString() {
-		String ds = daysToString(days);
+		String ds = daysToString();
 		String cs = String.format("%s (%c) | %s | %s %s - %s", code, section, title, ds, startTime, endTime);
 		return cs;
 	}
@@ -213,7 +215,7 @@ public class Course {
 	}
 
 	public String getDays() {
-		return daysToString(days);
+		return daysToString();
 	}
 
 	public void setDays(String days) {
