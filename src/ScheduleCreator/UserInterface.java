@@ -43,7 +43,7 @@ public class UserInterface {
 
 	public void addRecommendedSchedule(RecommendedSchedule r) {}
 	public static void createGuest() {
-		currentStudent = new Student();
+		currentStudent.getCurrentSchedule();
 	}
 	public void viewSchedule(Schedule s) {
 
@@ -84,34 +84,20 @@ public class UserInterface {
 
 	public static void mainMenu(){
 		int selection = -1;
-		Scanner scn = new Scanner(System.in);
+		Scanner menu = new Scanner(System.in);
 		System.out.println("Welcome!");
 		System.out.println("1) Create an account");
 		System.out.println("2) Log into an account");
 		System.out.println("3) Continue as guest");
-
-
-
-		while (selection < 0 || selection > 3) {
-
-			if (scn.hasNextInt()){
-				selection = scn.nextInt();
-			}
-
-			System.out.println("Invalid Selection");
-		}
-		do {
+		while (selection < 0 || selection > 3){
 			try{
-				//System.out.print("Selection: ");
-				selection = scn.nextInt();
-
+				selection = menu.nextInt();
 			}
 			catch (Exception e){
-				//System.out.println("Invalid Selection");
-				System.out.print(selection);
+				System.out.println("Invalid Selection");
 				selection = -1;
 			}
-		} while (selection < 0 || selection > 3);
+		}
 		menuNav(selection);
 	}
 
