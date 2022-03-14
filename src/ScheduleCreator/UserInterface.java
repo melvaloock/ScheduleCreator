@@ -83,22 +83,70 @@ public class UserInterface {
 	}
 
 	public static void mainMenu(){
-		int selection = -1;
-		Scanner menu = new Scanner(System.in);
-		System.out.println("Welcome!");
-		System.out.println("1) Create an account");
-		System.out.println("2) Log into an account");
-		System.out.println("3) Continue as guest");
-		while (selection < 0 || selection > 3){
-			try{
-				selection = menu.nextInt();
-			}
-			catch (Exception e){
-				System.out.println("Invalid Selection");
-				selection = -1;
+//		int selection = -1;
+//		Scanner menu = new Scanner(System.in);
+//		System.out.println("Welcome!");
+//		System.out.println("1) Create an account");
+//		System.out.println("2) Log into an account");
+//		System.out.println("3) Continue as guest");
+//		while (selection < 0 || selection > 3){
+//			try{
+//				selection = menu.nextInt();
+//			}
+//			catch (Exception e){
+//				System.out.println("Invalid Selection");
+//				selection = -1;
+//			}
+//		}
+//		menuNav(selection);
+
+// -------------------
+
+		Scanner scn = new Scanner(System.in);
+
+		int selection;
+
+		System.out.println("Enter 1,2,3: ");
+
+
+		// not using try catch
+		while(true) {
+
+			if (scn.hasNextInt()) {
+				selection = scn.nextInt();
+				if (selection > 0 && selection < 4) {
+					break;
+				} else {
+					System.out.println("Invalid, try again.");
+				}
+			} else {
+				scn.next();
+				System.out.println("Invalid, try again.");
 			}
 		}
-		menuNav(selection);
+
+
+		// using try catch
+//        while(true){
+//            try {
+//                selection = scn.nextInt();
+//                if (selection > 0 && selection < 4){
+//                    break;
+//                } else {
+//                    System.out.println("Invalid, try again.");
+//                }
+//            } catch (Exception e){
+//                scn.next();
+//                System.out.println("Invalid, try again.");
+//            }
+//        }
+
+
+
+		System.out.println("Selection is " + selection);
+
+
+
 	}
 
 	public static void login() {
