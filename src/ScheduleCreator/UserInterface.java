@@ -84,20 +84,34 @@ public class UserInterface {
 
 	public static void mainMenu(){
 		int selection = -1;
-		Scanner menu = new Scanner(System.in);
+		Scanner scn = new Scanner(System.in);
 		System.out.println("Welcome!");
 		System.out.println("1) Create an account");
 		System.out.println("2) Log into an account");
 		System.out.println("3) Continue as guest");
-		while (selection < 0 || selection > 3){
+
+
+
+		while (selection < 0 || selection > 3) {
+
+			if (scn.hasNextInt()){
+				selection = scn.nextInt();
+			}
+
+			System.out.println("Invalid Selection");
+		}
+		do {
 			try{
-				selection = menu.nextInt();
+				//System.out.print("Selection: ");
+				selection = scn.nextInt();
+
 			}
 			catch (Exception e){
-				System.out.println("Invalid Selection");
+				//System.out.println("Invalid Selection");
+				System.out.print(selection);
 				selection = -1;
 			}
-		}
+		} while (selection < 0 || selection > 3);
 		menuNav(selection);
 	}
 
