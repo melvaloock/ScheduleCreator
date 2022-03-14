@@ -11,19 +11,38 @@ public class UserInterface {
 
 
 	public static void consoleSearch() {
+
+		ArrayList<Course> searchResults = new ArrayList<>();
 		Scanner searchScan = new Scanner(System.in); //takes user input for now
 		System.out.println("Would you like to search by code (1) or keyword (2)?");
-		int searchType = searchScan.nextInt();
+		int searchType = intEntry(1, 2, searchScan);
 		searchScan.nextLine();
 		if (searchType == 1) {
 			System.out.println("Searching by course code \nEnter the course code you would like to search for");
 
 			String code = searchScan.nextLine().toUpperCase(); //matches all to the format in the database
 			//check for valid user input
-			ArrayList<Course> searchResults = searchCoursesByCode(code);
+			searchResults = searchCoursesByCode(code);
 			System.out.println("Search results:");
 			for (int i = 1; i <= searchResults.size(); i++) {
 				System.out.println(i + ". " +searchResults.get(i - 1));
+			}
+		}
+		else if (searchType == 2) {
+			System.out.println("Searching by keyword \nEnter the keyword you would like to search for");
+
+			String keyword = searchScan.nextLine().toUpperCase(); //matches all to the format in the database
+			//check for valid user input
+			searchResults = searchCoursesByKeyword(keyword);
+			System.out.println("Search results:");
+			for (int i = 1; i <= searchResults.size(); i++) {
+				System.out.println(i + ". " +searchResults.get(i - 1));
+			}
+		}
+		if (searchResults.isEmpty()) {
+			System.out.println("You search returned no courses-- search again? (y/n)");
+			if (ynEntry(searchScan) == 'Y') {
+				consoleSearch();
 			}
 		}
 	}
@@ -37,7 +56,51 @@ public class UserInterface {
 		}
 		return result;
 	}
-	public ArrayList<Course> searchCoursesByKeyword(String keyword) {return null;}
+	public static ArrayList<Course> searchCoursesByKeyword(String keyword) {
+		ArrayList<Course> result = new ArrayList<>();
+		for (Course c : courses) {
+			if (c.getTitle().contains(keyword)) {
+				result.add(c);
+			}
+		}
+		return result;
+	}
+
+	public static int intEntry(int min, int max, Scanner scanner) {
+		int entry;
+		while(true){
+			try {
+				entry = scanner.nextInt();
+				if (entry >= min && entry <= max){
+					break;
+				} else {
+					System.out.println("Enter an integer between " + min + " and "+ max);
+				}
+			} catch (Exception e){
+				scanner.next();
+				System.out.println("Enter an integer between " + min + " and "+ max);
+			}
+		}
+		return entry;
+	}
+
+	public static int ynEntry(Scanner scanner) {
+		char yn;
+		while(true){
+			try {
+				yn = scanner.next().toUpperCase().charAt(0);
+				if (yn == 'Y' || yn == 'N'){
+					break;
+				} else {
+					System.out.println("Enter 'Y' or 'N'");
+				}
+			} catch (Exception e){
+				scanner.next();
+				System.out.println("Enter 'Y' or 'N'");
+			}
+		}
+		return yn;
+	}
 	public ArrayList<Course> dayFilter(ArrayList<Course> courses, ArrayList<String> days) {return null;}
 	public ArrayList<Course> timeFilter(ArrayList<Course> courses, ArrayList<String> times) {return null;}
 
@@ -143,7 +206,7 @@ public class UserInterface {
 //		Schedule tests = new Schedule(courses, "Spring 2023");
 //		tests.displaySchedule();
 
-		//test1();
+		test1();
 		testMenu();
 	}
 

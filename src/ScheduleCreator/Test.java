@@ -11,7 +11,7 @@ public class Test extends UserInterface {
 
     Course c1 = new Course("MUSI 102", "MUSIC HISTORY II", "9:00 AM", "9:50 AM", 'A', "MWF");
     Course c2 = new Course("MUSI 102", "MUSIC HISTORY II", "9:00 AM", "9:50 AM", 'B', "MWF");
-    Course c3 = new Course("COMP 141", "INTRO TO PROGRAM", "11:00 AM", "11:50 AM", 'A', "MWF");
+    Course c3 = new Course("COMP 141", "INTRO TO PROGRAMMING", "11:00 AM", "11:50 AM", 'A', "MWF");
 
     System.out.println(c1);
 
