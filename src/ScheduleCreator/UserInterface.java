@@ -15,7 +15,8 @@ public class UserInterface {
 		Scanner searchScan = new Scanner(System.in); //takes user input for now
 		System.out.println("Would you like to search by code (1) or keyword (2)?");
 		int searchType = intEntry(1, 2, searchScan);
-		searchScan.nextLine();
+		searchScan.nextLine(); //clears scanner
+
 		if (searchType == 1) {
 			System.out.println("Searching by course code \nEnter the course code you would like to search for");
 
@@ -55,6 +56,7 @@ public class UserInterface {
 		System.out.println("Would you like to filter by day (1) or time of day (2)?");
 		int filterType = intEntry(1, 2, filterScan);
 		filterScan.nextLine();
+
 		if (filterType == 1) {
 			System.out.println("Enter all the days that you want to see results for");
 			String filterDays = filterScan.nextLine();
@@ -147,11 +149,28 @@ public class UserInterface {
 		return yn;
 	}
 
+	/** MELVA
+	 *
+	 * @param r
+	 */
 	public void addRecommendedSchedule(RecommendedSchedule r) {}
+
+	/**
+	 * Method should not return anything or print anything
+	 * Should create an instance of the Guest class and assign it to currentStudent
+	 * Should create blank schedule and set that schedule to currentStudent's currentSchedule
+	 */
 	public static void createGuest() {
-		currentStudent = new Student();
+		currentStudent = new Guest(); //Guest class inherits from Student class
+		//TODO: create instance of blank schedule
+		//TODO: use setCurrentSchedule method (from Student class)
+		// to assign blank schedule to currenstudent
 
 	}
+
+	/**
+	 *
+	 */
 	public static void autoScheduler(){
 		Scanner scn = new Scanner(System.in);
 		int yn;
@@ -162,32 +181,33 @@ public class UserInterface {
 
 	}
 
+	/** TYLER
+	 * shows the schedule page (can be either current or saved schedule)
+	 * should call the displaySchedule task from Schedule class
+	 * @param s
+	 */
 	public void viewSchedule(Schedule s) {
+	}
+
+	/**
+	 * John's Task --
+	 * implements console interaction with the schedule using methods in currentSchedule
+	 * @param s
+	 */
+	public void consoleAlterSchedule(CurrentSchedule s){
 
 	}
 
-	public void alterSchedule(Schedule s){
-
-	}
-
-	public static void createAccount(){
-		Scanner input = new Scanner(System.in);
-		System.out.println("Username: ");
-		String username = input.next();
-		System.out.println("Password: ");
-		String password = input.next();
-
-	}
 	public static void menuNav(int menuId){
 		switch(menuId){
 			case 0:
 				mainMenu();
 				break;
 			case 1:
-				createAccount();
+				consoleCreateAccount();
 				break;
 			case 2:
-				login();
+				consoleLogin();
 				break;
 			case 3:
 				createGuest();
@@ -222,7 +242,20 @@ public class UserInterface {
 		menuNav(selection);
 	}
 
-	public static void login() {
+	/** JOHN
+	 *
+	 */
+	public static void consoleLogin() {
+		Scanner input = new Scanner(System.in);
+		System.out.println("Username: ");
+		String username = input.next();
+		System.out.println("Password: ");
+		String password = input.next();
+	}
+	/** JOHN
+	 *
+	 */
+	public static void consoleCreateAccount(){
 		Scanner input = new Scanner(System.in);
 		System.out.println("Username: ");
 		String username = input.next();
@@ -235,36 +268,12 @@ public class UserInterface {
 		menuNav(0);
 	}
 
-	public static void test2() {
-		courses = new ArrayList<Course>();
-
-		Course c1 = new Course("MUSI 102", "MUSIC HISTORY II", "9:00 AM", "9:50 AM", 'A', "MWF");
-		Course c2 = new Course("MUSI 102", "MUSIC HISTORY II", "9:00 AM", "9:50 AM", 'B', "MWF");
-		Course c3 = new Course("COMP 141", "INTRO TO PROGRAM", "11:00 AM", "11:50 AM", 'A', "MWF");
-		Course c4 = new Course("COMP 205", "ETHICS, FAITH, AND THE CONSCIOUS MIND", "10:00 AM", "11:15 AM", 'A', "TR");
-
-
-		System.out.println(c1);
-
-		courses.add(c1);
-		courses.add(c2);
-		courses.add(c3);
-		courses.add(c4);
-
-
-		System.out.println(courses);
-		System.out.println(searchCoursesByCode("COMP") + "\n");
-
-		consoleSearch();
-	}
-
 	public static void main(String args[]) {
 //		menuNav(0);
 //		Schedule tests = new Schedule(courses, "Spring 2023");
 //		tests.displaySchedule();
 
 //		testMenu();
-		test2();
 	}
 
 

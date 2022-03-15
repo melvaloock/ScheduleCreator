@@ -2,9 +2,9 @@ package ScheduleCreator;
 
 public class Student {
 
-	private Schedule currentSchedule;
-	private String major;
-	private int year;
+	protected Schedule currentSchedule;
+	protected String major;
+	protected int year;
 
 	public Student() {}
 

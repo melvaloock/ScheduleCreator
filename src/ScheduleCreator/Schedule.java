@@ -13,6 +13,8 @@ public class Schedule {
 	protected static String defaultSemester = "Fall 2023";
 
 	public void exportSchedule() {}
+
+
 	public void displaySchedule() {
 		String[][] schedule = new String[14][6];
 		String[] days = {"Monday","Tuesday","Wednesday","Thursday","Friday"};
