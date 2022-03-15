@@ -218,6 +218,14 @@ public class Course {
 		return daysToString();
 	}
 
+	public ArrayList<Character> getDayList() {
+		ArrayList<Character> charList = new ArrayList<>();
+		for (int i = 0; i < days.size(); i++) {
+			charList.add(daysToString().charAt(i));
+		}
+		return charList;
+	}
+
 	public void setDays(String days) {
 		this.days = daysToEnum(days);
 	}

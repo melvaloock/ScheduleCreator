@@ -7,7 +7,6 @@ public class UserInterface {
 	private static HashMap<String, Schedule> recommendedSchedules;
 	private static ArrayList<Course> courses;
 	private static Student currentStudent;
-	private Scanner searchScan = new Scanner(System.in); //takes user input for now
 
 
 	public static void consoleSearch() {
@@ -45,6 +44,34 @@ public class UserInterface {
 				consoleSearch();
 			}
 		}
+
+		ArrayList<Course> filteredResults = consoleFilter(searchResults);
+	}
+
+	public static ArrayList<Course> consoleFilter(ArrayList<Course> searchResults) {
+
+		Scanner filterScan = new Scanner(System.in); //takes user input for now
+		ArrayList<Course> filterResults = new ArrayList<>();
+		System.out.println("Would you like to filter by day (1) or time of day (2)?");
+		int filterType = intEntry(1, 2, filterScan);
+		filterScan.nextLine();
+		if (filterType == 1) {
+			System.out.println("Enter all the days that you want to see results for");
+			String filterDays = filterScan.nextLine();
+			filterResults = dayFilter(searchResults, filterDays);
+		}
+		System.out.println("Filtered results:");
+		if (filterResults.isEmpty()) {
+			System.out.println("You search returned no courses-- search again? (y/n)");
+			if (ynEntry(filterScan) == 'Y') {
+				consoleFilter(searchResults);
+			}
+		}
+		for (int i = 1; i <= filterResults.size(); i++) {
+			System.out.println(i + ". " +filterResults.get(i - 1));
+		}
+
+		return filterResults;
 	}
 
 	public static ArrayList<Course> searchCoursesByCode(String code) {
@@ -66,6 +93,24 @@ public class UserInterface {
 		return result;
 	}
 
+	public static ArrayList<Course> dayFilter(ArrayList<Course> courses, String days) {
+		ArrayList<Course> result = new ArrayList<>();
+		for (Course c : courses) {
+			boolean add = true;
+			for (char d: c.getDayList()) {
+				if (!Arrays.asList(days.toCharArray()).contains(d)) {
+					add = false;
+				}
+			}
+			if (add) {
+				result.add(c);
+			}
+		}
+		return result;
+	}
+
+	public static ArrayList<Course> timeFilter(ArrayList<Course> courses, ArrayList<String> times) {return null;}
+
 	public static int intEntry(int min, int max, Scanner scanner) {
 		int entry;
 		while(true){
@@ -77,8 +122,8 @@ public class UserInterface {
 					System.out.println("Enter an integer between " + min + " and "+ max);
 				}
 			} catch (Exception e){
-				scanner.next();
 				System.out.println("Enter an integer between " + min + " and "+ max);
+				scanner.next();
 			}
 		}
 		return entry;
@@ -101,8 +146,6 @@ public class UserInterface {
 		}
 		return yn;
 	}
-	public ArrayList<Course> dayFilter(ArrayList<Course> courses, ArrayList<String> days) {return null;}
-	public ArrayList<Course> timeFilter(ArrayList<Course> courses, ArrayList<String> times) {return null;}
 
 	public void addRecommendedSchedule(RecommendedSchedule r) {}
 	public static void createGuest() {
@@ -115,7 +158,6 @@ public class UserInterface {
 		System.out.print("Do you want scheduling be automatic according to your year and major?: ");
 		yn = ynEntry(scn);
 		if (yn == 'Y'){
-
 		}
 
 	}
@@ -189,18 +231,25 @@ public class UserInterface {
 
 	}
 
-	public static void test1() {
+	public static void testMenu() {
+		menuNav(0);
+	}
+
+	public static void test2() {
 		courses = new ArrayList<Course>();
 
 		Course c1 = new Course("MUSI 102", "MUSIC HISTORY II", "9:00 AM", "9:50 AM", 'A', "MWF");
 		Course c2 = new Course("MUSI 102", "MUSIC HISTORY II", "9:00 AM", "9:50 AM", 'B', "MWF");
 		Course c3 = new Course("COMP 141", "INTRO TO PROGRAM", "11:00 AM", "11:50 AM", 'A', "MWF");
+		Course c4 = new Course("COMP 205", "ETHICS, FAITH, AND THE CONSCIOUS MIND", "10:00 AM", "11:15 AM", 'A', "TR");
+
 
 		System.out.println(c1);
 
 		courses.add(c1);
 		courses.add(c2);
 		courses.add(c3);
+		courses.add(c4);
 
 
 		System.out.println(courses);
@@ -209,17 +258,13 @@ public class UserInterface {
 		consoleSearch();
 	}
 
-	public static void testMenu() {
-		menuNav(0);
-	}
-
 	public static void main(String args[]) {
 //		menuNav(0);
 //		Schedule tests = new Schedule(courses, "Spring 2023");
 //		tests.displaySchedule();
 
-		test1();
-		testMenu();
+//		testMenu();
+		test2();
 	}
 
 
