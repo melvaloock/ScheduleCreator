@@ -84,7 +84,7 @@ public class UserInterface {
 		return entry;
 	}
 
-	public static int ynEntry(Scanner scanner) {
+	public static char ynEntry(Scanner scanner) {
 		char yn;
 		while(true){
 			try {
@@ -107,7 +107,19 @@ public class UserInterface {
 	public void addRecommendedSchedule(RecommendedSchedule r) {}
 	public static void createGuest() {
 		currentStudent = new Student();
+
 	}
+	public static void autoScheduler(){
+		Scanner scn = new Scanner(System.in);
+		int yn;
+		System.out.print("Do you want scheduling be automatic according to your year and major?: ");
+		yn = ynEntry(scn);
+		if (yn == 'Y'){
+
+		}
+
+	}
+
 	public void viewSchedule(Schedule s) {
 
 	}
