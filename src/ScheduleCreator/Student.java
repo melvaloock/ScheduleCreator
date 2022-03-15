@@ -9,7 +9,12 @@ public class Student {
 	public Student() {}
 
 	public Schedule addRecommendedSchedule() {return null;}
-	public void createNewSchedule() {}
+
+	/** Creates a new schedule, and sets it as a current schedule
+	 */
+	public void createNewSchedule() {
+		//use the setCurrentSchedule() method to set as current after creating schedule
+	}
 
 	public Schedule getCurrentSchedule() {
 		return currentSchedule;
@@ -17,6 +22,7 @@ public class Student {
 
 	public void setCurrentSchedule(Schedule currentSchedule) {
 		this.currentSchedule = currentSchedule;
+		currentSchedule.setCurrent(true);
 	}
 
 	public String getMajor() {

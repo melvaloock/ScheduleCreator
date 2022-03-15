@@ -30,6 +30,14 @@ public class Account extends Student {
 		// - this includes adding a label (key) to this schedule so that it can be accessed
 	}
 
+	public void setCurrentSchedule(Schedule currentSchedule) {
+		if (this.currentSchedule != null) {
+			saveCurrentSchedule();
+			this.currentSchedule.setCurrent(false);
+		}
+		super.setCurrentSchedule(currentSchedule);
+	}
+
 	public void setStudentID(int studentID) {
 		this.studentID = studentID;
 	}

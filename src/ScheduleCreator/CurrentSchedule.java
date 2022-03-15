@@ -10,6 +10,7 @@ public class CurrentSchedule extends Schedule {
 
 	public CurrentSchedule(Schedule schedule) {
 		super();
+		isCurrent = true;
 	}
 
 	/**

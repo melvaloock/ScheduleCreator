@@ -5,15 +5,28 @@ import java.io.*;
 
 public class Schedule {
 
-	protected ArrayList<Course> courseList = new ArrayList<Course>();
+	protected ArrayList<Course> courseList;
 	protected String semester;
 	protected String outFile;
 	protected FileWriter export;
 	protected boolean isCurrent;
 	protected static String defaultSemester = "Fall 2023";
 
-	public void exportSchedule() {}
+	/**
+	 * 	default constructor, creates blank schedule
+	 */
+	public Schedule() {
+		this.courseList = new ArrayList<Course>();
+		this.semester = defaultSemester;
 
+	}
+
+	public Schedule(ArrayList<Course> courseList, String semester) {
+		this.courseList = courseList;
+		this.semester = semester;
+	}
+
+	public void exportSchedule() {}
 
 	public void displaySchedule() {
 		String[][] schedule = new String[14][6];
@@ -47,13 +60,6 @@ public class Schedule {
 		}
 	};
 	public void makeCurrent() {}
-
-	public Schedule() {}
-
-	public Schedule(ArrayList<Course> courseList, String semester) {
-		this.courseList = courseList;
-		this.semester = semester;
-	}
 
 	//create constructor for saved schedules in whatever format they are
 
