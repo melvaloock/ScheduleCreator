@@ -160,22 +160,34 @@ public class UserInterface {
 	 * Should create an instance of the Guest class and assign it to currentStudent
 	 * Should create blank schedule and set that schedule to currentStudent's currentSchedule
 	 */
-	public static void createGuest() {
+	public static void consoleCreateGuest() {
 		currentStudent = new Guest(); //Guest class inherits from Student class
 		CurrentSchedule newSchedule = new CurrentSchedule();
 		currentStudent.setCurrentSchedule(newSchedule);
+		consoleScheduleChoice();
 
 	}
 
-	/**
-	 *
+	/** - provides the user with a menu to choose between manual creation (1) or recommended schedule (2)
+	 * if the user chooses 1, call the consoleSearch method
+	 * if the user chooses 2, get the input for their major and year
+	 * for now, stop here
 	 */
-	public static void autoScheduler(){
+	public static void consoleScheduleChoice(){
 		Scanner scn = new Scanner(System.in);
 		int yn;
+		int year;
+		String major;
 		System.out.print("Do you want scheduling be automatic according to your year and major?: ");
-		yn = ynEntry(scn);
-		if (yn == 'Y'){
+		yn = intEntry(1,2,scn);
+		if (yn == 1){
+			consoleSearch();
+		}
+		else{
+			System.out.print("What is your major: ");
+			major = scn.next();
+			System.out.print("\nWhat is your year: ");
+			year = intEntry(2000, 2030, scn);
 
 		}
 
@@ -210,7 +222,7 @@ public class UserInterface {
 				consoleLogin();
 				break;
 			case 3:
-				createGuest();
+				consoleCreateGuest();
 				break;
 			default:
 				System.out.println("Invalid Selection");
@@ -251,6 +263,7 @@ public class UserInterface {
 		String username = input.next();
 		System.out.println("Password: ");
 		String password = input.next();
+
 	}
 	/** JOHN
 	 *
@@ -262,6 +275,7 @@ public class UserInterface {
 		System.out.println("Password: ");
 		String password = input.next();
 
+		//implement the consoleScheduleChoice();
 	}
 
 	public static void testMenu() {
