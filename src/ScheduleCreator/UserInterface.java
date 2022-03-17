@@ -162,9 +162,8 @@ public class UserInterface {
 	 */
 	public static void createGuest() {
 		currentStudent = new Guest(); //Guest class inherits from Student class
-		//TODO: create instance of blank schedule
-		//TODO: use setCurrentSchedule method (from Student class)
-		// to assign blank schedule to currenstudent
+		CurrentSchedule newSchedule = new CurrentSchedule();
+		currentStudent.setCurrentSchedule(newSchedule);
 
 	}
 
@@ -177,6 +176,7 @@ public class UserInterface {
 		System.out.print("Do you want scheduling be automatic according to your year and major?: ");
 		yn = ynEntry(scn);
 		if (yn == 'Y'){
+
 		}
 
 	}

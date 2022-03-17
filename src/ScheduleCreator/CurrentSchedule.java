@@ -8,7 +8,7 @@ public class CurrentSchedule extends Schedule {
 		super.setCourseList(courses);
 	}
 
-	public CurrentSchedule(Schedule schedule) {
+	public CurrentSchedule() {
 		super();
 		isCurrent = true;
 	}
