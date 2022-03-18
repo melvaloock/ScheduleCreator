@@ -7,6 +7,7 @@ public class UserInterface {
 	private static HashMap<String, Schedule> recommendedSchedules;
 	private static ArrayList<Course> courses;
 	private static Student currentStudent;
+	private static Scanner scn = new Scanner(System.in);
 
 
 	public static void consoleSearch() {
@@ -174,11 +175,12 @@ public class UserInterface {
 	 * for now, stop here
 	 */
 	public static void consoleScheduleChoice(){
-		Scanner scn = new Scanner(System.in);
 		int yn;
 		int year;
 		String major;
-		System.out.print("Do you want scheduling be automatic according to your year and major?: ");
+		System.out.println("Do you want automatic scheduling?");
+		System.out.println("1) No, I want to manually set up my schedule.");
+		System.out.println("2) Yes, set up my schedule for me.");
 		yn = intEntry(1,2,scn);
 		if (yn == 1){
 			consoleSearch();
@@ -233,47 +235,47 @@ public class UserInterface {
 
 	public static void mainMenu(){
 		int selection = -1;
-		Scanner menu = new Scanner(System.in);
+		//Scanner menu = new Scanner(System.in);
 		System.out.println("Welcome!");
 		System.out.println("1) Create an account");
 		System.out.println("2) Log into an account");
 		System.out.println("3) Continue as guest");
-		while(true){
-            try {
-                selection = menu.nextInt();
-                if (selection > 0 && selection < 4){
-                    break;
-                } else {
-                    System.out.println("Invalid, try again.");
-                }
-            } catch (Exception e){
-                menu.next();
-                System.out.println("Invalid, try again.");
-            }
-        }
-		menuNav(selection);
+//		while(true){
+//            try {
+//                selection = menu.nextInt();
+//                if (selection > 0 && selection < 4){
+//                    break;
+//                } else {
+//                    System.out.println("Invalid, try again.");
+//                }
+//            } catch (Exception e){
+//                menu.next();
+//                System.out.println("Invalid, try again.");
+//            }
+//        }
+//		menuNav(selection);
 	}
 
 	/** JOHN
 	 *
 	 */
 	public static void consoleLogin() {
-		Scanner input = new Scanner(System.in);
+		//Scanner input = new Scanner(System.in);
 		System.out.println("Username: ");
-		String username = input.next();
+		String username = scn.next();
 		System.out.println("Password: ");
-		String password = input.next();
+		String password = scn.next();
 
 	}
 	/** JOHN
 	 *
 	 */
 	public static void consoleCreateAccount(){
-		Scanner input = new Scanner(System.in);
+		//Scanner input = new Scanner(System.in);
 		System.out.println("Username: ");
-		String username = input.next();
+		String username = scn.next();
 		System.out.println("Password: ");
-		String password = input.next();
+		String password = scn.next();
 
 		//implement the consoleScheduleChoice();
 	}
@@ -286,8 +288,34 @@ public class UserInterface {
 //		menuNav(0);
 //		Schedule tests = new Schedule(courses, "Spring 2023");
 //		tests.displaySchedule();
-
 //		testMenu();
+		//A suggestion by Dr. Hutchins
+		//to have a while loop for navigation.
+		int pageID = 0;
+		while (true){
+			if (pageID == 0){
+				menuNav(0);
+				pageID = intEntry(1,3,scn);
+			}
+			else if (pageID == 1){
+				menuNav(pageID);
+				//lead to scheduling page
+			}
+			else if (pageID == 2){
+				menuNav(pageID);
+				//lead to scheduling page
+			}
+			else if (pageID == 3){
+				menuNav(pageID);
+				//lead to scheduling page
+			}
+			else if (pageID == 4){
+				menuNav(pageID);
+				//scheduling page
+			}
+
+		}
+
 	}
 
 
