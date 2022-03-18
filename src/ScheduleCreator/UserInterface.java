@@ -209,7 +209,23 @@ public class UserInterface {
 	 * @param s
 	 */
 	public void consoleAlterSchedule(CurrentSchedule s){
+		int choice;
+		while(true) {
+			viewSchedule(s);
+			System.out.println("Alter Schedule Choices: ");
+			System.out.println("1. Add Course\n2. Remove Course\n3. Return to Main Menu");
+			choice = intEntry(1, 3, scn);
+			if (choice == 1){ // add course
 
+			}else if (choice == 2) { // remove course
+
+			}else if (choice == 3) { // return
+				break;
+			}else { // invalid choice (shouldn't reach this)
+				System.out.println("Invalid choice, try again.");
+			}
+		}
+		mainMenu();
 	}
 
 	public static void menuNav(int menuId){

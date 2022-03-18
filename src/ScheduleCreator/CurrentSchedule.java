@@ -22,7 +22,7 @@ public class CurrentSchedule extends Schedule {
 
 	/**
 	 * adds Course c to list of courses
-	 * @param c
+	 * @param c Course to add
 	 */
 	public void addCourse(Course c) {
 		courseList.add(c);
@@ -31,7 +31,7 @@ public class CurrentSchedule extends Schedule {
 	/**
 	 * Removes course of the given course code from schedule.
 	 * Returns false if the given course is not in the schedule.
-	 * @param remCode
+	 * @param remCode code of Course to remove
 	 * @return boolean
 	 */
 	public boolean removeCourse(String remCode) {
@@ -52,7 +52,7 @@ public class CurrentSchedule extends Schedule {
 
 	/**
 	 * returns true if Course c has a time conflict with any of the courses in the current schedule
-	 * @param c
+	 * @param c Course to check against Courses in schedule
 	 * @return boolean
 	 */
 	public boolean conflictsWith(Course c) {
