@@ -32,7 +32,7 @@ public class CurrentScheduleTester {
 
         ArrayList<Course> courseList = cs.getCourseList();
         //should be removed
-        Assert.assertEquals(true, didRem);
+        Assert.assertTrue(didRem);
         Assert.assertEquals(0, courseList.size());
     }
 
@@ -48,7 +48,7 @@ public class CurrentScheduleTester {
 
         ArrayList<Course> courseList = cs.getCourseList();
         // both should be removed
-        Assert.assertEquals(true, didRem);
+        Assert.assertTrue(didRem);
         Assert.assertEquals(0, courseList.size());
     }
 
@@ -62,8 +62,35 @@ public class CurrentScheduleTester {
 
         ArrayList<Course> courseList = cs.getCourseList();
         //should not be removed
-        Assert.assertEquals(false, didRem);
+        Assert.assertFalse(didRem);
         Assert.assertEquals(1, courseList.size());
     }
+
+    @Test
+    public void noConflict() {
+        CurrentSchedule cs = new CurrentSchedule(new ArrayList<>());
+        // same days, different times
+        Course c1 = new Course("MUSI 102", "MUSIC HISTORY II", "9:00", "9:50", 'A', "MWF");
+        Course c2 = new Course("ACCT 202", "PRIN OF ACCOUNT", "8:00", "8:50", 'A', "MWF");
+        cs.addCourse(c1);
+        Assert.assertFalse(cs.conflictsWith(c2));
+
+        // different days, same time
+        cs.clearSchedule();
+        c1 = new Course("MUSI 102", "MUSIC HISTORY II", "9:00", "9:50", 'A', "MWF");
+        c2 = new Course("ACCT 202", "PRIN OF ACCOUNT", "9:00", "9:50", 'A', "TR");
+        cs.addCourse(c1);
+        Assert.assertFalse(cs.conflictsWith(c2));
+    }
+
+    @Test
+    public void yesConflict() {
+        CurrentSchedule cs = new CurrentSchedule(new ArrayList<>());
+        Course c1 = new Course("MUSI 102", "MUSIC HISTORY II", "9:00", "9:50", 'A', "MWF");
+        Course c2 = new Course("ACCT 202", "PRIN OF ACCOUNT", "9:00", "9:50", 'A', "MWF");
+        cs.addCourse(c1);
+        Assert.assertTrue(cs.conflictsWith(c2));
+    }
+
 
 }
