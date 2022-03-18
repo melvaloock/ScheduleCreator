@@ -1,5 +1,4 @@
-import ScheduleCreator.Course;
-import ScheduleCreator.CurrentSchedule;
+package ScheduleCreator;
 import org.junit.Assert;
 import org.junit.Test;
 

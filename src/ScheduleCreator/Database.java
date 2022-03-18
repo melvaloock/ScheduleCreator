@@ -73,6 +73,10 @@ public class Database {
         }
     }
 
+    public void addAccount(int userID, String userEmail, String userPassword) {
+        
+    }
+
     public static void main(String args[]) {
         Database db = new Database("root", "password", "sys");
         db.processCourses("CourseDB_WithFictionalCapacities.csv");
