@@ -1,5 +1,6 @@
 package ScheduleCreator;
 
+import java.sql.SQLException;
 import java.util.*;
 
 public class UserInterface {
@@ -9,6 +10,10 @@ public class UserInterface {
 	private static Student currentStudent;
 	private static Scanner scn = new Scanner(System.in);
 
+	// database for the current session -- will only work if you have 
+	// an active db on your machine
+	private static Database db = new Database("root", "password", "sys");
+	private int userID;
 
 	public static void consoleSearch() {
 
@@ -217,11 +222,11 @@ public class UserInterface {
 			choice = intEntry(1, 3, scn);
 			if (choice == 1){ // add course
 
-			}else if (choice == 2) { // remove course
+			} else if (choice == 2) { // remove course
 
-			}else if (choice == 3) { // return
+			} else if (choice == 3) { // return
 				break;
-			}else { // invalid choice (shouldn't reach this)
+			} else { // invalid choice (shouldn't reach this)
 				System.out.println("Invalid choice, try again.");
 			}
 		}
@@ -288,16 +293,33 @@ public class UserInterface {
 	 */
 	public static void consoleCreateAccount(){
 		//Scanner input = new Scanner(System.in);
-		System.out.println("Username: ");
-		String username = scn.next();
-		System.out.println("Password: ");
-		String password = scn.next();
+		while (true) {
+			System.out.println("Email: ");
+			String userEmail = scn.next();
+			System.out.println("Password: ");
+			String userPassword = scn.next();
+
+			try {
+				db.addAccount(userEmail, userPassword, null);
+				break;
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
 
 		//implement the consoleScheduleChoice();
 	}
 
 	public static void testMenu() {
 		menuNav(0);
+	}
+
+	public int getUserID() {
+		return this.userID;
+	}
+
+	public int incrementUserID() {
+		return this.userID++;
 	}
 
 	public static void main(String args[]) {
@@ -311,7 +333,7 @@ public class UserInterface {
 		while (true){
 			if (pageID == 0){
 				menuNav(0);
-				pageID = intEntry(1,3,scn);
+				pageID = intEntry(1, 3, scn);
 			}
 			else if (pageID == 1){
 				menuNav(pageID);

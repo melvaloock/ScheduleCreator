@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.Properties;
 import java.util.Scanner;
-import java.time.LocalTime;
+// import java.time.LocalTime;
 
 public class Database { 
     private Connection conn;
@@ -56,6 +56,7 @@ public class Database {
         
     }
 
+    // this is only used in db population
     public void processCourses(String csvFilename) {
         try {
             Scanner csvScanner = new Scanner(new File(csvFilename));
@@ -73,8 +74,31 @@ public class Database {
         }
     }
 
-    public void addAccount(int userID, String userEmail, String userPassword) {
+    public void addAccount(String userEmail, String userPassword, String scheduleID) throws SQLException {
         
+            PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM account WHERE UserEmail = ?");
+            pstmtCheck.setString(1, userEmail);
+            ResultSet rstCheck = pstmtCheck.executeQuery();
+
+            if (rstCheck.next()) { 
+                throw new SQLException("An account already exists under that email.");
+            }
+
+            PreparedStatement insertStmt = conn.prepareStatement("INSERT INTO account values(?, ?, ?)");
+            insertStmt.setString(1, userEmail);
+
+            // TODO: this MUST be hashed before final release
+            insertStmt.setString(2, userPassword);
+            insertStmt.setString(3, scheduleID);
+            int rows = insertStmt.executeUpdate();
+
+            if (rows <= 0) {
+                throw new SQLException("ERROR: Account creation failed. Please try again.");
+            }
+
+            pstmtCheck.close();
+            rstCheck.close(); 
+            insertStmt.close();
     }
 
     public static void main(String args[]) {
