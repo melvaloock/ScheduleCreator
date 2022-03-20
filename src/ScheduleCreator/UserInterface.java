@@ -10,7 +10,7 @@ public class UserInterface {
 	private static Scanner scn = new Scanner(System.in);
 
 
-	public static void consoleSearch() {
+	public static ArrayList<Course> consoleSearch() {
 
 		ArrayList<Course> searchResults = new ArrayList<>();
 		Scanner searchScan = new Scanner(System.in); //takes user input for now
@@ -48,6 +48,9 @@ public class UserInterface {
 		}
 
 		ArrayList<Course> filteredResults = consoleFilter(searchResults);
+
+
+		return searchResults;
 	}
 
 	public static ArrayList<Course> consoleFilter(ArrayList<Course> searchResults) {
@@ -206,18 +209,89 @@ public class UserInterface {
 	/**
 	 * John's Task --
 	 * implements console interaction with the schedule using methods in currentSchedule
-	 * @param s
+	 * @param s CurrentSchedule
 	 */
 	public void consoleAlterSchedule(CurrentSchedule s){
 		int choice;
+		String courseEntry;
+		String sectionEntry;
 		while(true) {
 			viewSchedule(s);
 			System.out.println("Alter Schedule Choices: ");
 			System.out.println("1. Add Course\n2. Remove Course\n3. Return to Main Menu");
 			choice = intEntry(1, 3, scn);
 			if (choice == 1){ // add course
+				// course search
+				ArrayList<Course> results = consoleSearch();
+
+				// ask for course to add (option to add none and/or search again)
+				System.out.println("Which course would you like to add? (case sensitive)");
+				System.out.println("(enter the course code without the section to add; enter NONE to add none)");
+				System.out.print("Course Entry: ");
+				courseEntry = scn.next();
+
+				// check if none
+				if (courseEntry.equals("NONE")){
+					continue;
+				}
+
+				System.out.println("Which section? ");
+				sectionEntry = scn.next();
+
+				/* find which course(s) they entered
+				(some course sections have 2 course objects if the times differ across days)
+				 */
+				ArrayList<Course> coursesToAdd = new ArrayList<>();
+				for (Course c: results){
+					if (c.getCode().equals(courseEntry) && c.getSection() == sectionEntry.charAt(0)){
+						coursesToAdd.add(c);
+					}
+				}
+
+				// check if there is a conflict before adding
+				CurrentSchedule cs = new CurrentSchedule(currentStudent.getCurrentSchedule().getCourseList());
+				boolean hasConflict = false;
+				for (Course c: coursesToAdd){
+					if (cs.conflictsWith(c)){
+						hasConflict = true;
+					}
+				}
+
+				if (hasConflict){
+					System.out.println("The course you selected conflicts with another course in your schedule," +
+							" so it cannot be added.");
+				} else {
+					for (Course c: coursesToAdd){
+						cs.addCourse(c);
+					}
+					System.out.println("Course Added.");
+				}
+
+				currentStudent.setCurrentSchedule(cs);
 
 			}else if (choice == 2) { // remove course
+				System.out.println("Which course would you like to add? (case sensitive)");
+				System.out.println("(enter the course code without the section to remove; enter NONE to remove none)");
+				System.out.print("Course Entry: ");
+				courseEntry = scn.next();
+
+				// check if none
+				if (courseEntry.equals("NONE")){
+					continue;
+				}
+
+				// remove course
+				CurrentSchedule cs = new CurrentSchedule(currentStudent.getCurrentSchedule().getCourseList());
+				boolean didRem = cs.removeCourse(courseEntry);
+
+				// give result
+				if (didRem){
+					System.out.println("Course Removed.");
+				} else {
+					System.out.println("Course not found in your current schedule, so nothing was removed.");
+				}
+
+				currentStudent.setCurrentSchedule(cs);
 
 			}else if (choice == 3) { // return
 				break;
