@@ -13,6 +13,7 @@ public class UserInterface {
 	// database for the current session -- will only work if you have 
 	// an active db on your machine
 	private static Database db = new Database("root", "password", "sys");
+	private int userID;
 
 
 	public static ArrayList<Course> consoleSearch() {
@@ -208,7 +209,7 @@ public class UserInterface {
 	 * should call the displaySchedule task from Schedule class
 	 * @param s
 	 */
-	public void viewSchedule(Schedule s) {
+	public static void viewSchedule(Schedule s) {
 	}
 
 	/**
@@ -307,6 +308,17 @@ public class UserInterface {
 		mainMenu();
 	}
 
+	public static void consoleSchedulePage(){
+		viewSchedule(currentStudent.currentSchedule);
+		System.out.println("1) Help");
+		System.out.println("2) Save current schedule");
+		System.out.println("3) Alter current schedule");
+		System.out.println("4) Load another schedule");
+		System.out.println("5) Send current schedule via email");
+		System.out.println("6) Save schedule as file");
+		System.out.println("7) logout");
+	}
+
 	public static void menuNav(int menuId){
 		switch(menuId){
 			case 0:
@@ -320,6 +332,9 @@ public class UserInterface {
 				break;
 			case 3:
 				consoleCreateGuest();
+				break;
+			case 4:
+				consoleSchedulePage();
 				break;
 			default:
 				System.out.println("Invalid Selection");
@@ -335,20 +350,7 @@ public class UserInterface {
 		System.out.println("1) Create an account");
 		System.out.println("2) Log into an account");
 		System.out.println("3) Continue as guest");
-//		while(true){
-//            try {
-//                selection = menu.nextInt();
-//                if (selection > 0 && selection < 4){
-//                    break;
-//                } else {
-//                    System.out.println("Invalid, try again.");
-//                }
-//            } catch (Exception e){
-//                menu.next();
-//                System.out.println("Invalid, try again.");
-//            }
-//        }
-//		menuNav(selection);
+
 	}
 
 	/** JOHN
@@ -389,10 +391,29 @@ public class UserInterface {
 		CurrentSchedule newSchedule = new CurrentSchedule();
 		currentStudent.setCurrentSchedule(newSchedule);
 		consoleScheduleChoice();
+
 	}
 
 	public static void testMenu() {
 		menuNav(0);
+	}
+
+	public int getUserID() {
+		return this.userID;
+	}
+
+	public int incrementUserID() {
+		return this.userID++;
+	}
+
+	public static void helpDescriptions(int helpID) {
+		switch (helpID) {
+			case 1:
+				System.out.println("Here you can, save your schedule (if you have an account),");
+				System.out.println("change (alter) your schedule, load an existing schedule");
+				System.out.println("(if you have an account), send the schedule to an email, ");
+				System.out.println("or save this schedule on your computer.");
+		}
 	}
 
 	public static void main(String args[]) {
@@ -402,6 +423,7 @@ public class UserInterface {
 //		testMenu();
 		//A suggestion by Dr. Hutchins
 		//to have a while loop for navigation.
+		helpDescriptions(1);
 		int pageID = 0;
 		while (true){
 			if (pageID == 0){
@@ -422,8 +444,12 @@ public class UserInterface {
 			}
 			else if (pageID == 4){
 				menuNav(pageID);
-				//lead to scheduling page
-			} 
+				int choice = intEntry(1,7,scn);
+				if (choice == 1){
+
+				}
+				//scheduling page
+			}
 
 		}
 
