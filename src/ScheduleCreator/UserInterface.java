@@ -13,7 +13,6 @@ public class UserInterface {
 	// database for the current session -- will only work if you have 
 	// an active db on your machine
 	private static Database db = new Database("root", "password", "sys");
-	private int userID;
 
 	public static ArrayList<Course> consoleSearch() {
 
@@ -386,14 +385,6 @@ public class UserInterface {
 
 	public static void testMenu() {
 		menuNav(0);
-	}
-
-	public int getUserID() {
-		return this.userID;
-	}
-
-	public int incrementUserID() {
-		return this.userID++;
 	}
 
 	public static void main(String args[]) {
