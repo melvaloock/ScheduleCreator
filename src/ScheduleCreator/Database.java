@@ -53,8 +53,9 @@ public class Database {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        
     }
+
+    
 
     // this is only used in db population
     public void processCourses(String csvFilename) {
@@ -75,7 +76,6 @@ public class Database {
     }
 
     public void addAccount(String userEmail, String userPassword, String scheduleID) throws SQLException {
-        
             PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM account WHERE UserEmail = ?");
             pstmtCheck.setString(1, userEmail);
             ResultSet rstCheck = pstmtCheck.executeQuery();
@@ -99,6 +99,32 @@ public class Database {
             pstmtCheck.close();
             rstCheck.close(); 
             insertStmt.close();
+    }
+
+    public void addSchedule(String scheduleID, boolean isCurrent, int courseID) throws SQLException {
+        // PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM schedule WHERE UserEmail = ?");
+        // pstmtCheck.setString(1, userEmail);
+        // ResultSet rstCheck = pstmtCheck.executeQuery();
+
+        // if (rstCheck.next()) { 
+        //     throw new SQLException("An account already exists under that email.");
+        // }
+
+        // PreparedStatement insertStmt = conn.prepareStatement("INSERT INTO account values(?, ?, ?)");
+        // insertStmt.setString(1, userEmail);
+
+        // // TODO: this MUST be hashed before final release
+        // insertStmt.setString(2, userPassword);
+        // insertStmt.setString(3, scheduleID);
+        // int rows = insertStmt.executeUpdate();
+
+        // if (rows <= 0) {
+        //     throw new SQLException("ERROR: Account creation failed. Please try again.");
+        // }
+
+        // pstmtCheck.close();
+        // rstCheck.close(); 
+        // insertStmt.close();
     }
 
     public static void main(String args[]) {

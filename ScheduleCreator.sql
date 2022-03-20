@@ -1,6 +1,6 @@
 drop table if exists account;
-drop table if exists course; 
 drop table if exists schedule;
+drop table if exists course; 
 
 create table if not exists course (
 	CourseID int not null,
@@ -33,6 +33,8 @@ create table if not exists account (
 select * from course;
 
 select * from account;
+
+select * from schedule;
     
 
 

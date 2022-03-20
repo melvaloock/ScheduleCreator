@@ -14,6 +14,7 @@ public class UserInterface {
 	// an active db on your machine
 	private static Database db = new Database("root", "password", "sys");
 
+
 	public static ArrayList<Course> consoleSearch() {
 
 		ArrayList<Course> searchResults = new ArrayList<>();
@@ -366,21 +367,28 @@ public class UserInterface {
 	 */
 	public static void consoleCreateAccount(){
 		//Scanner input = new Scanner(System.in);
+		String userEmail;
+		String userPassword;
+
 		while (true) {
 			System.out.println("Email: ");
-			String userEmail = scn.next();
+			userEmail = scn.next();
 			System.out.println("Password: ");
-			String userPassword = scn.next();
+			userPassword = scn.next();
 
 			try {
-				db.addAccount(userEmail, userPassword, null);
+				// TODO: a blank schedule for the current semester will be created by default
+				db.addAccount(userEmail, userPassword, "SPR2022");
 				break;
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}
 		}
 
-		//implement the consoleScheduleChoice();
+		currentStudent = new Account(userEmail, userPassword);
+		CurrentSchedule newSchedule = new CurrentSchedule();
+		currentStudent.setCurrentSchedule(newSchedule);
+		consoleScheduleChoice();
 	}
 
 	public static void testMenu() {
@@ -414,8 +422,8 @@ public class UserInterface {
 			}
 			else if (pageID == 4){
 				menuNav(pageID);
-				//scheduling page
-			}
+				//lead to scheduling page
+			} 
 
 		}
 
