@@ -22,10 +22,10 @@ public class Database {
         } 
     }
 
-    public void addCourse(int CourseID, String courseCode, String courseName, String startTime, String endTime, String weekday, int enrollment, int capacity) {
+    public void addCourse(int courseID, String courseCode, String courseName, String startTime, String endTime, String weekday, int enrollment, int capacity) {
         try {
             PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM course WHERE CourseID = ?");
-            pstmtCheck.setInt(1, CourseID);
+            pstmtCheck.setInt(1, courseID);
             ResultSet rstCheck = pstmtCheck.executeQuery();
 
             if (rstCheck.next()) { 
@@ -33,7 +33,7 @@ public class Database {
             }
 
             PreparedStatement insertStmt = conn.prepareStatement("INSERT INTO course values(?, ?, ?, ?, ?, ?, ?, ?)");
-            insertStmt.setInt(1, CourseID);
+            insertStmt.setInt(1, courseID);
             insertStmt.setString(2, courseCode);
             insertStmt.setString(3, courseName);
             insertStmt.setString(4, weekday);
@@ -75,7 +75,7 @@ public class Database {
         }
     }
 
-    public void addAccount(String userEmail, String userPassword, String scheduleID) throws SQLException {
+    public void addAccount(String userEmail, String userPassword) throws SQLException {
             PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM account WHERE UserEmail = ?");
             pstmtCheck.setString(1, userEmail);
             ResultSet rstCheck = pstmtCheck.executeQuery();
@@ -89,7 +89,6 @@ public class Database {
 
             // TODO: this MUST be hashed before final release
             insertStmt.setString(2, userPassword);
-            insertStmt.setString(3, scheduleID);
             int rows = insertStmt.executeUpdate();
 
             if (rows <= 0) {

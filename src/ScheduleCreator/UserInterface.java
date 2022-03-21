@@ -379,8 +379,7 @@ public class UserInterface {
 			userPassword = scn.next();
 
 			try {
-				// TODO: a blank schedule for the current semester will be created by default
-				db.addAccount(userEmail, userPassword, "SPR2022");
+				db.addAccount(userEmail, userPassword);
 				break;
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
@@ -454,9 +453,4 @@ public class UserInterface {
 		}
 
 	}
-
-
-
-
-
 }
