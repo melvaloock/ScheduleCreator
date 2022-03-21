@@ -100,7 +100,7 @@ public class Database {
             insertStmt.close();
     }
 
-    public void addSchedule(String scheduleID, boolean isCurrent, int courseID) throws SQLException {
+    public void addSchedule(String scheduleID, boolean isCurrent, String email) throws SQLException {
         // PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM schedule WHERE UserEmail = ?");
         // pstmtCheck.setString(1, userEmail);
         // ResultSet rstCheck = pstmtCheck.executeQuery();
@@ -124,6 +124,10 @@ public class Database {
         // pstmtCheck.close();
         // rstCheck.close(); 
         // insertStmt.close();
+    }
+
+    public void addCourseRef(String courseCode, String courseName, String semester, String email){
+
     }
 
     public static void main(String args[]) {
