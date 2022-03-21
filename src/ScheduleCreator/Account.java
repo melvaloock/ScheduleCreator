@@ -9,9 +9,9 @@ public class Account extends Student {
 	// temporary
 	private HashMap<String, Schedule> scheduleMap = new HashMap<String, Schedule>(); // stores saved schedules for now
 
-	private String username;
+	private String email;
 	private String passwordHash;
-	private int studentID;	
+	private int studentID;
 	private String advisorEmail;
 
 
@@ -25,16 +25,26 @@ public class Account extends Student {
 	/** CHRISTIAN & KEVIN
 	 * adds user's currentSchedule (inherited from parent class Student) to their saved schedules
 	 */
-	public void saveCurrentSchedule() {
+	public void saveCurrentSchedule(Schedule sch, String email, Database db) {
 		//TODO: add currentSchedule to scheduleMap (or however saved schedules will be stored)
 		// - this includes adding a label (key) to this schedule so that it can be accessed
+		try {
+			db.addSchedule(sch.getSemester(), sch.isCurrent(), email);
+			for (Course c : sch.getCourseList()){
+				db.addCourseRef(c.getCode(), c.getTitle(), c.getSemester(), email);
+			}
+
+		}
+		catch (Exception e){
+
+		}
 
 		
 	}
 
-	public void setCurrentSchedule(Schedule currentSchedule) {
+	public void setCurrentSchedule(Schedule currentSchedule, Database db) {
 		if (this.currentSchedule != null) {
-			saveCurrentSchedule();
+			saveCurrentSchedule(currentSchedule, email, db);
 			this.currentSchedule.setCurrent(false);
 		}
 		super.setCurrentSchedule(currentSchedule);
@@ -52,8 +62,8 @@ public class Account extends Student {
 		return advisorEmail;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getEmail() {
+		return email;
 	}
 
 	public String getPasswordHash() {
