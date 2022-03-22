@@ -171,7 +171,17 @@ public class Console extends UserInterface{
                 }
 
                 //Refactored -- put in UserInterface
-                addCourses(coursesToAdd);
+                boolean hasConflict = addCourses(coursesToAdd);
+
+                if (hasConflict) {
+                    System.out.println("The course you selected conflicts with another course in your schedule," +
+                            " so it cannot be added.");
+                } else {
+        //			for (Course c : coursesToAdd) {
+        //				cs.addCourse(c);
+        //			}
+                    System.out.println("Course Added.");
+                }
 
             } else if (choice == 2) { // remove course
                 System.out.println("Which course would you like to add? (case sensitive)");

@@ -85,7 +85,7 @@ public class UserInterface {
 	 *
 	 * @param coursesToAdd Arraylist of courses needing to be added
 	 */
-	void addCourses(ArrayList<Course> coursesToAdd) {
+	boolean addCourses(ArrayList<Course> coursesToAdd) {
 		// check if there is a conflict before adding
 		CurrentSchedule cs = new CurrentSchedule(currentStudent.getCurrentSchedule().getCourseList());
 		boolean hasConflict = false;
@@ -95,17 +95,14 @@ public class UserInterface {
 			}
 		}
 
-		if (hasConflict) {
-			System.out.println("The course you selected conflicts with another course in your schedule," +
-					" so it cannot be added.");
-		} else {
+		if (!hasConflict) {
 			for (Course c : coursesToAdd) {
 				cs.addCourse(c);
 			}
-			System.out.println("Course Added.");
+			currentStudent.setCurrentSchedule(cs);
 		}
 
-		currentStudent.setCurrentSchedule(cs);
+		return hasConflict;
 	}
 
 	public boolean removeCourse(String courseEntry) {
