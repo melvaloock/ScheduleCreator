@@ -226,9 +226,9 @@ public class UserInterface {
 		while(true) {
 			viewSchedule(s);
 			System.out.println("Alter Schedule Choices: ");
-			System.out.println("1. Add Course\n2. Remove Course\n3. Return to Main Menu");
+			System.out.println("1. Add Course\n2. Remove Course\n3. Clear Schedule \n4. Return to Previous Menu");
 			choice = intEntry(1, 3, scn);
-			if (choice == 1){ // add course
+			if (choice == 1) { // add course
 				// course search
 				ArrayList<Course> results = consoleSearch();
 
@@ -239,7 +239,7 @@ public class UserInterface {
 				courseEntry = scn.next();
 
 				// check if none
-				if (courseEntry.equals("NONE")){
+				if (courseEntry.equals("NONE")) {
 					continue;
 				}
 
@@ -250,8 +250,8 @@ public class UserInterface {
 				(some course sections have 2 course objects if the times differ across days)
 				 */
 				ArrayList<Course> coursesToAdd = new ArrayList<>();
-				for (Course c: results){
-					if (c.getCode().equals(courseEntry) && c.getSection() == sectionEntry.charAt(0)){
+				for (Course c : results) {
+					if (c.getCode().equals(courseEntry) && c.getSection() == sectionEntry.charAt(0)) {
 						coursesToAdd.add(c);
 					}
 				}
@@ -259,17 +259,17 @@ public class UserInterface {
 				// check if there is a conflict before adding
 				CurrentSchedule cs = new CurrentSchedule(currentStudent.getCurrentSchedule().getCourseList());
 				boolean hasConflict = false;
-				for (Course c: coursesToAdd){
-					if (cs.conflictsWith(c)){
+				for (Course c : coursesToAdd) {
+					if (cs.conflictsWith(c)) {
 						hasConflict = true;
 					}
 				}
 
-				if (hasConflict){
+				if (hasConflict) {
 					System.out.println("The course you selected conflicts with another course in your schedule," +
 							" so it cannot be added.");
 				} else {
-					for (Course c: coursesToAdd){
+					for (Course c : coursesToAdd) {
 						cs.addCourse(c);
 					}
 					System.out.println("Course Added.");
@@ -277,14 +277,14 @@ public class UserInterface {
 
 				currentStudent.setCurrentSchedule(cs);
 
-			}else if (choice == 2) { // remove course
+			} else if (choice == 2) { // remove course
 				System.out.println("Which course would you like to add? (case sensitive)");
 				System.out.println("(enter the course code without the section to remove; enter NONE to remove none)");
 				System.out.print("Course Entry: ");
 				courseEntry = scn.next();
 
 				// check if none
-				if (courseEntry.equals("NONE")){
+				if (courseEntry.equals("NONE")) {
 					continue;
 				}
 
@@ -293,7 +293,7 @@ public class UserInterface {
 				boolean didRem = cs.removeCourse(courseEntry);
 
 				// give result
-				if (didRem){
+				if (didRem) {
 					System.out.println("Course Removed.");
 				} else {
 					System.out.println("Course not found in your current schedule, so nothing was removed.");
@@ -301,13 +301,24 @@ public class UserInterface {
 
 				currentStudent.setCurrentSchedule(cs);
 
-			} else if (choice == 3) { // return
+			}else if (choice == 3){	// clear schedule
+
+				// confirm they want to clear schedule
+				System.out.println("Are you sure you want to clear your schedule? (Y/N) ");
+				char yn = ynEntry(scn);
+				if (yn == 'Y'){
+					CurrentSchedule cs = new CurrentSchedule(currentStudent.getCurrentSchedule().getCourseList());
+					cs.clearSchedule();
+					currentStudent.setCurrentSchedule(cs);
+				}
+
+			}else if (choice == 4) { // return
 				break;
 			} else { // invalid choice (shouldn't reach this)
 				System.out.println("Invalid choice, try again.");
 			}
 		}
-		mainMenu();
+		consoleSchedulePage();
 	}
 
 	public static void consoleSchedulePage(){
