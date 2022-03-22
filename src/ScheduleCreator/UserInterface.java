@@ -70,9 +70,25 @@ public class UserInterface {
 		filterScan.nextLine();
 
 		if (filterType == 1) {
-			System.out.println("Enter all the days that you want to see results for");
+			System.out.println("Enter all the days that you want to see results for:");
 			String filterDays = filterScan.nextLine();
 			filterResults = dayFilter(searchResults, filterDays);
+		}
+		else if (filterType == 2) {
+			System.out.println("Enter the numbers of all the times you want to see results for :");
+			for (int i = 1; i <= 9; i++) {
+				System.out.printf("%d) %s \n", i, intToTime(i));
+			}
+
+			filterScan.useDelimiter("");
+			ArrayList<String> filterTimes = new ArrayList<>();
+
+			while (filterScan.hasNextInt()) {
+				int i = filterScan.nextInt();
+				filterTimes.add(intToTime(i));
+			}
+
+			filterResults = timeFilter(searchResults, filterTimes);
 		}
 		System.out.println("Filtered results:");
 		if (filterResults.isEmpty()) {
@@ -86,6 +102,11 @@ public class UserInterface {
 		}
 
 		return filterResults;
+	}
+
+	//move to time and day class later
+	public static String intToTime(int i) {
+		return ((i + 7 > 12) ? (i + 7) % 12 : i + 7) + ":00 " +  ((i > 4)? "PM" : "AM");
 	}
 
 	public static ArrayList<Course> searchCoursesByCode(String code) {
@@ -123,7 +144,20 @@ public class UserInterface {
 		return result;
 	}
 
-	public static ArrayList<Course> timeFilter(ArrayList<Course> courses, ArrayList<String> times) {return null;}
+	public static ArrayList<Course> timeFilter(ArrayList<Course> courses, ArrayList<String> times) {
+
+		ArrayList<Course> result = new ArrayList<>();
+		for (Course c : courses) {
+			boolean add = true;
+			if (!times.contains(c.getStartTime())) {
+				add = false;
+			}
+			if (add) {
+				result.add(c);
+			}
+		}
+		return result;
+	}
 
 	public static int intEntry(int min, int max, Scanner scanner) {
 		int entry;
@@ -428,7 +462,35 @@ public class UserInterface {
 		}
 	}
 
+	public static void test2() {
+		courses = new ArrayList<Course>();
+
+		Course c1 = new Course("MUSI 102", "MUSIC HISTORY II", "9:00 AM", "9:50 AM", 'A', "MWF");
+		Course c2 = new Course("MUSI 102", "MUSIC HISTORY II", "9:00 AM", "9:50 AM", 'B', "MWF");
+		Course c3 = new Course("COMP 141", "INTRO TO PROGRAM", "11:00 AM", "11:50 AM", 'A', "MWF");
+		Course c4 = new Course("COMP 205", "ETHICS, FAITH, AND THE CONSCIOUS MIND", "10:00 AM", "11:15 AM", 'A', "TR");
+
+
+		System.out.println(c1);
+
+		courses.add(c1);
+		courses.add(c2);
+		courses.add(c3);
+		courses.add(c4);
+
+
+		System.out.println(courses);
+
+		consoleSearch();
+	}
+
+
 	public static void main(String args[]) {
+
+		test2();
+
+
+
 //		menuNav(0);
 //		Schedule tests = new Schedule(courses, "Spring 2023");
 //		tests.displaySchedule();
