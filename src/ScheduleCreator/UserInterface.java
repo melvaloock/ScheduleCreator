@@ -425,6 +425,21 @@ public class UserInterface {
 				System.out.println("change (alter) your schedule, load an existing schedule");
 				System.out.println("(if you have an account), send the schedule to an email, ");
 				System.out.println("or save this schedule on your computer.");
+				break;
+			case 2:
+				System.out.println("");
+				System.out.println("");
+				System.out.println("");
+				System.out.println("");
+				break;
+			case 3:
+				System.out.println("1");
+				System.out.println("");
+				System.out.println("");
+				System.out.println("");
+				break;
+
+
 		}
 	}
 
