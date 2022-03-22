@@ -16,8 +16,7 @@ public class Database {
             info.put("user", username);
             info.put("password", password);
             // conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + schema, info);
-            conn = DriverManager.getConnection("jdbc:mysql:///<DATABASE_NAME>?cloudSqlInstance=sleepless-developers" +
-                "-db&socketFactory=com.google.cloud.sql.mysql.SocketFactory&user=root&password=EnuzPkHDO29J6gCH" + schema, info);
+            conn = DriverManager.getConnection("jdbc:mysql://34.121.27.151/" + schema, info);
             System.out.println("Connection successful!");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -133,7 +132,8 @@ public class Database {
     }
 
     public static void main(String args[]) {
-        Database db = new Database("root", "password", "sys");
+        // Database db = new Database("root", "password", "sys");
+        Database db = new Database("root", "EnuzPkHDO29J6gCH", "schedule_creator_db");
         db.processCourses("CourseDB_WithFictionalCapacities.csv");
     }
 }

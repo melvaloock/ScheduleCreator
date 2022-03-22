@@ -12,6 +12,10 @@ public class Schedule {
 	protected boolean isCurrent;
 	protected static String defaultSemester = "Fall 2023";
 
+	// used to create a schedule matrix; there may be a better solution, idk
+	private static final int ROWS = 14;
+	private static final int COLS = 6;
+
 	/**
 	 * 	default constructor, creates blank schedule
 	 */
@@ -147,6 +151,105 @@ public class Schedule {
 
 	};
 
+	public void displaySchedule2() {
+		String[][] schedule = createEmptySchedule();
+		schedule = populateSchedule(schedule);
+		System.out.println("*********************** " + getSemester() + " GCC Schedule " + "***********************");
+		for (int row = 0; row < ROWS; row++) {
+			System.out.println();
+			for (int col = 0; col < COLS; col++) {
+				System.out.printf("%-12s", schedule[row][col]);
+			}
+		}
+	}
+
+	public String[][] createEmptySchedule() {
+		String[][] schedule = new String[ROWS][COLS];
+		String[] days = {"M", "T", "W", "R", "F"};
+		String[] times = {"8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", 
+			"1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM"};
+
+		schedule[0][0] = "";
+
+		// add column labels
+		for (int i = 1; i < COLS; i++) {
+			schedule[0][i] = days[i - 1];
+		}
+		
+		// add row labels
+		for (int i = 1; i < ROWS; i++) {
+			schedule[i][0] = times[i - 1];
+		}
+
+		// all others empty
+		for (int row = 1; row < ROWS; row++) {
+			for (int col = 1; col < COLS; col++) {
+				schedule[row][col] = "---";
+			}
+		}
+		return schedule;
+	}
+
+	public String[][] populateSchedule(String[][] schedule) {
+		for (Course c: getCourseList()) {
+			int row = getRow(c.getStartTime());
+			for (char day: c.getDayList()) {
+				int col = getCol(day);
+				schedule[row][col] = c.getCode();
+			}
+		}
+		return schedule;
+	}
+
+	public int getCol(char day) {
+		if (day == 'M') {
+			return 1;
+		} else if (day == 'T') {
+			return 2;
+		} else if (day == 'W') {
+			return 3;
+		} else if (day == 'R') {
+			return 4;
+		} else if (day == 'F') {
+			return 5;
+		} else {
+			return -1;
+		}
+	}
+
+	// yes, I know this is less than desirable--I am trying to just get it done
+	public int getRow(String startTime) {
+		if ((startTime.compareTo("8:00 AM") > 0 && startTime.compareTo("9:00 AM") < 0) || startTime.compareTo("8:00 AM") == 0) {
+			return 1;
+		} else if ((startTime.compareTo("9:00 AM") > 0 && startTime.compareTo("10:00 AM") < 0) || startTime.compareTo("9:00 AM") == 0) {
+			return 2;
+		} else if ((startTime.compareTo("10:00 AM") > 0 && startTime.compareTo("11:00 AM") < 0) || startTime.compareTo("10:00 AM") == 0) {
+			return 3;
+		} else if ((startTime.compareTo("11:00 AM") > 0 && startTime.compareTo("12:00 AM") < 0) || startTime.compareTo("11:00 AM") == 0) {
+			return 4;
+		} else if ((startTime.compareTo("12:00 PM") > 0 && startTime.compareTo("13:00 PM") < 0) || startTime.compareTo("12:00 PM") == 0) {
+			return 5;
+		} else if ((startTime.compareTo("13:00 PM") > 0 && startTime.compareTo("14:00 PM") < 0) || startTime.compareTo("13:00 PM") == 0) {
+			return 6;
+		} else if ((startTime.compareTo("14:00 PM") > 0 && startTime.compareTo("15:00 PM") < 0) || startTime.compareTo("14:00 PM") == 0) {
+			return 7;
+		} else if ((startTime.compareTo("15:00 PM") > 0 && startTime.compareTo("16:00 PM") < 0) || startTime.compareTo("15:00 PM") == 0) {
+			return 8;
+		} else if ((startTime.compareTo("16:00 PM") > 0 && startTime.compareTo("17:00 PM") < 0) || startTime.compareTo("16:00 PM") == 0) {
+			return 9;
+		} else if ((startTime.compareTo("17:00 PM") > 0 && startTime.compareTo("18:00 PM") < 0) || startTime.compareTo("17:00 PM") == 0) {
+			return 10;
+		} else if ((startTime.compareTo("18:00 PM") > 0 && startTime.compareTo("19:00 PM") < 0) || startTime.compareTo("18:00 PM") == 0) {
+			return 11;
+		} else if ((startTime.compareTo("19:00 PM") > 0 && startTime.compareTo("20:00 PM") < 0) || startTime.compareTo("19:00 PM") == 0) {
+			return 12;
+		} else if ((startTime.compareTo("20:00 PM") > 0 && startTime.compareTo("21:00 PM") < 0) || startTime.compareTo("20:00 PM") == 0) {
+			return 13;
+		} else {
+			return -1;
+		}
+	}
+
 	public void makeCurrent() {}
 
 	//create constructor for saved schedules in whatever format they are
@@ -189,5 +292,26 @@ public class Schedule {
 
 	public void setCurrent(boolean current) {
 		isCurrent = current;
+	}
+
+
+
+
+	public static void main(String[] args) {
+		Course c1 = new Course("MUSI 102", "MUSIC HISTORY II", "9:00 AM", "9:50 AM", 'A', "MWF");
+		Course c4 = new Course("COMP 205", "INTRO TO PROGRAM", "11:00 AM", "11:50 AM", 'A', "MWF");
+		Course c5 = new Course("COMP 233", "PARALLEL COMP", "11:00 AM", "12:15 AM", 'A', "TR");
+		Course c6 = new Course("Test 000", "TEST COURSE", "20:10 PM", "21:00 PM", 'A', "MWF");
+
+		ArrayList<Course> course = new ArrayList<Course>();
+		course.add(c1);
+		course.add(c4);
+		course.add(c5);
+		course.add(c6);
+		System.out.println(course);
+
+		Schedule sch = new Schedule(course, "SPRING 2022");
+
+		sch.displaySchedule2();
 	}
 }

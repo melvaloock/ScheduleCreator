@@ -12,7 +12,9 @@ public class UserInterface {
 
 	// database for the current session -- will only work if you have 
 	// an active db on your machine
-	private static Database db = new Database("root", "password", "sys");
+
+	// FORGET THAT COMMENT CUZ IT DO BE A CLOUD DATABASE
+	private static Database db = new Database("root", "EnuzPkHDO29J6gCH", "schedule_creator_db");
 	private int userID;
 
 
