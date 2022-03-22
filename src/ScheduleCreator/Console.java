@@ -185,7 +185,14 @@ public class Console extends UserInterface{
                 }
 
                 // remove course
-                removeCourse(courseEntry);
+                boolean didRem = removeCourse(courseEntry);
+
+                // give result
+                if (didRem) {
+                    System.out.println("Course Removed.");
+                } else {
+                    System.out.println("Course not found in your current schedule, so nothing was removed.");
+                }
 
             }else if (choice == 3){	// clear schedule
 
@@ -349,6 +356,32 @@ public class Console extends UserInterface{
         }
 
     }
+
+    public static void helpDescriptions(int helpID) {
+        switch (helpID) {
+            case 1:
+                System.out.println("Here you can, save your schedule (if you have an account),");
+                System.out.println("change (alter) your schedule, load an existing schedule");
+                System.out.println("(if you have an account), send the schedule to an email, ");
+                System.out.println("or save this schedule on your computer.");
+                break;
+            case 2:
+                System.out.println("");
+                System.out.println("");
+                System.out.println("");
+                System.out.println("");
+                break;
+            case 3:
+                System.out.println("1");
+                System.out.println("");
+                System.out.println("");
+                System.out.println("");
+                break;
+
+
+        }
+    }
+
 
 }
 
