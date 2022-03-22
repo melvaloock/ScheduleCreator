@@ -25,7 +25,7 @@ public class Test extends UserInterface {
     System.out.println(courses);
     System.out.println(searchCoursesByCode("COMP") + "\n");
 
-    consoleSearch();
+    Console.consoleSearch();
   }
 
   public static void test2() {
@@ -47,7 +47,7 @@ public class Test extends UserInterface {
 
     System.out.println(courses);
 
-    consoleSearch();
+    Console.consoleSearch();
   }
 
 
