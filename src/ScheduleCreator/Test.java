@@ -42,10 +42,10 @@ public class Test extends UserInterface {
     courses.add(c1);
     courses.add(c2);
     courses.add(c3);
+    courses.add(c4);
 
 
     System.out.println(courses);
-    System.out.println(searchCoursesByCode("COMP") + "\n");
 
     consoleSearch();
   }
