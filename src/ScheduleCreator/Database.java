@@ -125,7 +125,7 @@ public class Database {
                 throw new SQLException("An account already exists under that email.");
             }
 
-            PreparedStatement insertStmt = conn.prepareStatement("INSERT INTO account values(?, ?, ?)");
+            PreparedStatement insertStmt = conn.prepareStatement("INSERT INTO account values(?, ?)");
             insertStmt.setString(1, userEmail);
 
             // TODO: this MUST be hashed before final release
