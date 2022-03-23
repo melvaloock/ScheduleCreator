@@ -1,49 +1,43 @@
 package ScheduleCreator;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 
-public class DateAndTime  {
+public class DateAndTime {
 
-    private String time;
-    private ArrayList<Character> daysOfTheWeek;
-    private String timeFormat = "h:mm a";
+    private final String TIMEFORMAT = "h:mm a";
+    private final String DAYOFWEEKFORMAT = "u";
+    private Date time1;
+    private Date time2;
+    private ArrayList<Date> daysOfWeek;
+    private Date combined;
 
-    //consider making blank
-    public DateAndTime(String time, ArrayList<Character> daysOfTheWeek){
-        this.time = time;
-        this.daysOfTheWeek = daysOfTheWeek;
+    public DateAndTime(){
     }
 
-    public DateFormat convertTime(String time, ArrayList<Character> daysOfTheWeek){
-        SimpleDateFormat inputParser = new SimpleDateFormat(timeFormat, Locale.US);
-        //not done
-        return inputParser;
+    public void setTime(String time1, String time2) throws ParseException {
+        SimpleDateFormat inputParser = new SimpleDateFormat(TIMEFORMAT, Locale.US);
+        this.time1 = inputParser.parse(time1);
+        this.time2 = inputParser.parse(time2);
     }
 
-    //method to compare a current time
-    public boolean compareTimes(String time1, String time2){
-       //not done
-        //a am-pm-of-day text  PM
-    return false;
+    public long timeDifference(){
+        return (time2.getTime() - time1.getTime());
     }
 
-    public String getTime() {
-        return time;
+    public void setDaysOfWeek(ArrayList<Character> daysOfWeek) throws ParseException {
+        SimpleDateFormat inputParser = new SimpleDateFormat(DAYOFWEEKFORMAT);
+        for(Character c: daysOfWeek){
+            this.daysOfWeek.add(inputParser.parse(String.valueOf(c)));
+        }
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public ArrayList<Date> getDaysOfWeek() {
+        return daysOfWeek;
     }
 
-    public ArrayList<Character> getDaysOfTheWeek() {
-        return daysOfTheWeek;
-    }
-
-    public void setDaysOfTheWeek(ArrayList<Character> daysOfTheWeek) {
-        this.daysOfTheWeek = daysOfTheWeek;
-    }
 }
