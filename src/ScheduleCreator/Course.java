@@ -11,7 +11,6 @@ public class Course {
 	private String semester; //Spring 2022
 	private String color;
 	private int referenceNum;
-	enum Day {M, T, W, R, F, NULL}
 	private String startTime;
 	private String endTime;
 	private ArrayList<Day> days;// figure out how to do enum later

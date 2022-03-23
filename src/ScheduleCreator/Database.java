@@ -3,8 +3,10 @@ package ScheduleCreator;
 import java.io.File;
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Scanner;
+
 // import java.time.LocalTime;
 
 public class Database { 
@@ -56,8 +58,6 @@ public class Database {
         }
     }
 
-    
-
     // this is only used in db population
     public void processCourses(String csvFilename) {
         try {
@@ -76,45 +76,6 @@ public class Database {
         }
     }
 
-    public Student checkLogin(String userEmail, String userPassword) throws SQLException {
-        PreparedStatement userCheck = conn
-                .prepareStatement("SELECT * FROM account WHERE UserEmail = ?");
-        userCheck.setString(1, userEmail);
-        ResultSet rstCheck = userCheck.executeQuery();
-
-        // if an account exists with userEmail, continue
-        if (rstCheck.next()) {
-            String dbPass = rstCheck.getString("UserPassword");
-            // check if the passwords match
-            if (dbPass.equals(userPassword)){
-                return getStudentInfo(userEmail);
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * after a user login is verified, gets the student's saved information
-     * @param userEmail
-     * @return
-     */
-    private Student getStudentInfo(String userEmail) throws SQLException {
-        return new Student();
-        // TODO: complete when schedule data can be saved to db
-        // get user's current schedule, if they have one
-//        PreparedStatement scheduleCheck = conn
-//                .prepareStatement("SELECT * FROM schedule WHERE UserEmail = ? AND IsCurrent = true");
-//        scheduleCheck.setString(1, userEmail);
-//        ResultSet rstCheck = scheduleCheck.executeQuery();
-//
-//        // check if they have a current schedule
-//        if (rstCheck.next()){
-//
-//        }
-
-
-    }
 
     public void addAccount(String userEmail, String userPassword) throws SQLException {
             PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM account WHERE UserEmail = ?");
@@ -276,12 +237,108 @@ public class Database {
         rstCheck.close(); 
     }
 
+    public Student checkLogin(String userEmail, String userPassword) throws SQLException {
+        PreparedStatement userCheck = conn
+                .prepareStatement("SELECT * FROM account WHERE UserEmail = ?");
+        userCheck.setString(1, userEmail);
+        ResultSet rstCheck = userCheck.executeQuery();
+
+        // if an account exists with userEmail, continue
+        if (rstCheck.next()) {
+            String dbPass = rstCheck.getString("UserPassword");
+            // check if the passwords match
+            if (dbPass.equals(userPassword)){
+                return getStudentInfo(userEmail);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * after a user login is verified, gets the student's saved information
+     * @param userEmail
+     * @return
+     */
+    private Student getStudentInfo(String userEmail) throws SQLException {
+        PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM schedule WHERE UserEmail = ?");
+        pstmtCheck.setString(1, userEmail);
+        ResultSet rstCheck = pstmtCheck.executeQuery();
+
+        if (rstCheck.next()) {
+            PreparedStatement selectStmt = conn
+                .prepareStatement("SELECT * FROM student WHERE UserEmail = ? AND IsCurrent = 1");
+        }
+        // TODO: complete once account is setup with the methods below
+
+        return new Student();
+    }
+
+    public Schedule getSchedule(String userEmail) throws SQLException {
+        PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM schedule WHERE UserEmail = ?");
+        pstmtCheck.setString(1, userEmail);
+        ResultSet rstCheck = pstmtCheck.executeQuery();
+
+        if (rstCheck.next()) {
+            PreparedStatement selectStmt = conn
+                .prepareStatement("SELECT * FROM schedule WHERE UserEmail = ? AND IsCurrent = 1");
+            selectStmt.setString(1, userEmail);
+            ResultSet rstSelect = selectStmt.executeQuery();
+
+            String scheduleID = rstSelect.getString("ScheduleID");
+            ArrayList<Course> courses = getCourseList(userEmail, scheduleID);
+
+            return new Schedule(courses, scheduleID);
+        } else {
+            throw new SQLException("No schedule found for that user.");
+        }
+    }
+
+    public ArrayList<Course> getCourseList(String userEmail, String scheduleID) throws SQLException {
+        PreparedStatement pstmtCheck = conn
+            .prepareStatement("SELECT * FROM courseReference WHERE UserEmail = ? AND ScheduleID = ?");
+        pstmtCheck.setString(1, userEmail);
+        pstmtCheck.setString(2, scheduleID);
+        ResultSet rstCheck = pstmtCheck.executeQuery();
+
+        ArrayList<Course> courses = new ArrayList<Course>();
+        while (rstCheck.next()) {
+            PreparedStatement selectStmt = conn
+                .prepareStatement("SELECT * FROM course WHERE CourseCode = ? AND CourseName = ?");
+            selectStmt.setString(1, rstCheck.getString("CourseCode"));
+            selectStmt.setString(2, rstCheck.getString("CourseName"));
+            ResultSet rstSelect = selectStmt.executeQuery();
+
+            while (rstSelect.next()) {
+                courses.add(createCourse(rstSelect));
+            }
+        }
+        return courses;
+    }
+
+    public Course createCourse(ResultSet rst) throws SQLException {
+        if (rst.next()) {
+            ArrayList<Day> days = new ArrayList<Day>();
+            String daysString = rst.getString("Weekday");
+            for (char c : daysString.toCharArray()) {
+                days.add(Day.getDay(c));
+            }
+            String code = rst.getString("CourseCode");
+            return new Course(rst.getString("CourseCode"), rst.getString("CourseName"),
+                rst.getString("StartTime"), rst.getString("EndTime"), code.charAt(code.length() - 1),
+                days);
+        } else {
+            throw new SQLException("No course found with that code.");
+        }
+    }
+
+    
     /**
 	 * This method implements the functionality necessary to exit the application:
 	 * this should allow the user to cleanly exit the application properly. This
 	 * should close the connection and any prepared statements.
 	 */
-	public void exitApplication() {
+	public void endDatabaseConnection() {
 		try {
 			if (conn != null) {
 				conn.close();

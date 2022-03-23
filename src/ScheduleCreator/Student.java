@@ -8,6 +8,12 @@ public class Student {
 
 	public Student() {}
 
+	public Student(Schedule currentSchedule, String major, int year) {
+		this.currentSchedule = currentSchedule;
+		this.major = major;
+		this.year = year;
+	}
+
 	public Schedule addRecommendedSchedule() {return null;}
 
 	/** Creates a new schedule, and sets it as a current schedule
