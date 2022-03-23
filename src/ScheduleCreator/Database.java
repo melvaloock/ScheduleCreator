@@ -193,6 +193,105 @@ public class Database {
         insertStmt.close();
     }
 
+    public void deleteCourseRef(String courseCode, String courseName, String scheduleID, String userEmail) throws SQLException {
+        PreparedStatement pstmtCheck = conn
+            .prepareStatement("SELECT * FROM courseReference WHERE CourseCode = ? AND CourseName = ? AND ScheduleID = ? AND UserEmail = ?");
+        pstmtCheck.setString(1, courseCode);
+        pstmtCheck.setString(2, courseName);
+        pstmtCheck.setString(3, scheduleID);
+        pstmtCheck.setString(4, userEmail);
+        ResultSet rstCheck = pstmtCheck.executeQuery();
+
+        if (rstCheck.next()) {
+            PreparedStatement deleteStmt = conn
+                .prepareStatement("DELETE FROM courseReference WHERE CourseCode = ? AND CourseName = ? AND ScheduleID = ? AND UserEmail = ?");
+            deleteStmt.setString(1, courseCode);
+            deleteStmt.setString(2, courseName);
+            deleteStmt.setString(3, scheduleID);
+            deleteStmt.setString(4, userEmail);
+            int rows = deleteStmt.executeUpdate();
+            deleteStmt.close();
+
+            if (rows > 0) {
+                throw new SQLException("ERROR: Course deletion failed. Please try again.");
+            }
+        } else {
+            throw new SQLException("No course found given those parameters.");
+        }
+
+        pstmtCheck.close();
+        rstCheck.close(); 
+    }
+
+    public void deleteAllCourses(String scheduleID, String userEmail) throws SQLException {
+        PreparedStatement pstmtCheck = conn
+            .prepareStatement("SELECT * FROM courseReference WHERE ScheduleID = ? AND UserEmail = ?");
+        pstmtCheck.setString(1, scheduleID);
+        pstmtCheck.setString(2, userEmail);
+        ResultSet rstCheck = pstmtCheck.executeQuery();
+
+        if (rstCheck.next()) {
+            PreparedStatement deleteStmt = conn
+                .prepareStatement("DELETE * FROM courseReference WHERE ScheduleID = ? AND UserEmail = ?");
+            deleteStmt.setString(1, scheduleID);
+            deleteStmt.setString(2, userEmail);
+            int rows = deleteStmt.executeUpdate();
+            deleteStmt.close();
+
+            if (rows > 0) {
+                throw new SQLException("ERROR: Course deletion failed. Please try again.");
+            }
+        } else {
+            throw new SQLException("No courses found for that schedule.");
+        }
+
+        pstmtCheck.close();
+        rstCheck.close(); 
+    }
+
+    public void deleteSchedule(String scheduleID, String userEmail) throws SQLException {
+        PreparedStatement pstmtCheck = conn
+            .prepareStatement("SELECT * FROM schedule WHERE ScheduleID = ? AND UserEmail = ?");
+        pstmtCheck.setString(1, scheduleID);
+        pstmtCheck.setString(2, userEmail);
+        ResultSet rstCheck = pstmtCheck.executeQuery();
+
+        if (rstCheck.next()) {
+            deleteAllCourses(scheduleID, userEmail);
+            PreparedStatement deleteStmt = conn
+                .prepareStatement("DELETE FROM schedule WHERE ScheduleID = ? AND UserEmail = ?");
+            deleteStmt.setString(1, scheduleID);
+            deleteStmt.setString(2, userEmail);
+            int rows = deleteStmt.executeUpdate();
+            deleteStmt.close();
+
+            if (rows > 0) {
+                throw new SQLException("ERROR: Schedule deletion failed. Please try again.");
+            }
+        } else {
+            throw new SQLException("No schedule found given those parameters.");
+        }
+
+        pstmtCheck.close();
+        rstCheck.close(); 
+    }
+
+    /**
+	 * This method implements the functionality necessary to exit the application:
+	 * this should allow the user to cleanly exit the application properly. This
+	 * should close the connection and any prepared statements.
+	 */
+	public void exitApplication() {
+		try {
+			if (conn != null) {
+				conn.close();
+				System.out.println("Disconnected!");
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
     public static void main(String args[]) {
         // Database db = new Database("root", "password", "sys");
         Database db = new Database("root", "EnuzPkHDO29J6gCH", "schedule_creator_db");
