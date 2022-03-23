@@ -141,35 +141,156 @@ public class Database {
             insertStmt.close();
     }
 
-    public void addSchedule(String scheduleID, boolean isCurrent, String email) throws SQLException {
-        // PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM schedule WHERE UserEmail = ?");
-        // pstmtCheck.setString(1, userEmail);
-        // ResultSet rstCheck = pstmtCheck.executeQuery();
+    public void addSchedule(String scheduleID, boolean isCurrent, String userEmail) throws SQLException {
+        PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM schedule WHERE UserEmail = ? AND ScheduleID = ?");
+        pstmtCheck.setString(1, userEmail);
+        pstmtCheck.setString(2, scheduleID);
+        ResultSet rstCheck = pstmtCheck.executeQuery();
 
-        // if (rstCheck.next()) { 
-        //     throw new SQLException("An account already exists under that email.");
-        // }
+        if (rstCheck.next()) { 
+            throw new SQLException("A schedule already exists during that semester.");
+        }
 
-        // PreparedStatement insertStmt = conn.prepareStatement("INSERT INTO account values(?, ?, ?)");
-        // insertStmt.setString(1, userEmail);
+        PreparedStatement insertStmt = conn.prepareStatement("INSERT INTO schedule values(?, ?, ?)");
+        insertStmt.setString(1, scheduleID);
+        insertStmt.setInt(2, (isCurrent) ? 1 : 0);
+        insertStmt.setString(3, userEmail);;
+        int rows = insertStmt.executeUpdate();
 
-        // // TODO: this MUST be hashed before final release
-        // insertStmt.setString(2, userPassword);
-        // insertStmt.setString(3, scheduleID);
-        // int rows = insertStmt.executeUpdate();
+        if (rows <= 0) {
+            throw new SQLException("ERROR: Schedule creation failed. Please try again.");
+        }
 
-        // if (rows <= 0) {
-        //     throw new SQLException("ERROR: Account creation failed. Please try again.");
-        // }
-
-        // pstmtCheck.close();
-        // rstCheck.close(); 
-        // insertStmt.close();
+        pstmtCheck.close();
+        rstCheck.close(); 
+        insertStmt.close();
     }
 
-    public void addCourseRef(String courseCode, String courseName, String semester, String email){
+    public void addCourseRef(String courseCode, String courseName, String scheduleID, String userEmail) throws SQLException {
+        PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM courseReference WHERE CourseCode = ? AND CourseName = ? AND UserEmail = ?");
+        pstmtCheck.setString(1, courseCode);
+        pstmtCheck.setString(2, courseName);
+        pstmtCheck.setString(3, scheduleID);
+        ResultSet rstCheck = pstmtCheck.executeQuery();
 
+        if (rstCheck.next()) { 
+            throw new SQLException("This course already exists in your " + scheduleID + " semester");
+        }
+
+        PreparedStatement insertStmt = conn.prepareStatement("INSERT INTO courseReference values(?, ?, ?, ?)");
+        insertStmt.setString(1, courseCode);
+        insertStmt.setString(2, courseName);
+        insertStmt.setString(3, scheduleID);
+        insertStmt.setString(4, userEmail);
+        int rows = insertStmt.executeUpdate();
+
+        if (rows <= 0) {
+            throw new SQLException("ERROR: Course addition failed. Please try again.");
+        }
+
+        pstmtCheck.close();
+        rstCheck.close(); 
+        insertStmt.close();
     }
+
+    public void deleteCourseRef(String courseCode, String courseName, String scheduleID, String userEmail) throws SQLException {
+        PreparedStatement pstmtCheck = conn
+            .prepareStatement("SELECT * FROM courseReference WHERE CourseCode = ? AND CourseName = ? AND ScheduleID = ? AND UserEmail = ?");
+        pstmtCheck.setString(1, courseCode);
+        pstmtCheck.setString(2, courseName);
+        pstmtCheck.setString(3, scheduleID);
+        pstmtCheck.setString(4, userEmail);
+        ResultSet rstCheck = pstmtCheck.executeQuery();
+
+        if (rstCheck.next()) {
+            PreparedStatement deleteStmt = conn
+                .prepareStatement("DELETE FROM courseReference WHERE CourseCode = ? AND CourseName = ? AND ScheduleID = ? AND UserEmail = ?");
+            deleteStmt.setString(1, courseCode);
+            deleteStmt.setString(2, courseName);
+            deleteStmt.setString(3, scheduleID);
+            deleteStmt.setString(4, userEmail);
+            int rows = deleteStmt.executeUpdate();
+            deleteStmt.close();
+
+            if (rows > 0) {
+                throw new SQLException("ERROR: Course deletion failed. Please try again.");
+            }
+        } else {
+            throw new SQLException("No course found given those parameters.");
+        }
+
+        pstmtCheck.close();
+        rstCheck.close(); 
+    }
+
+    public void deleteAllCourses(String scheduleID, String userEmail) throws SQLException {
+        PreparedStatement pstmtCheck = conn
+            .prepareStatement("SELECT * FROM courseReference WHERE ScheduleID = ? AND UserEmail = ?");
+        pstmtCheck.setString(1, scheduleID);
+        pstmtCheck.setString(2, userEmail);
+        ResultSet rstCheck = pstmtCheck.executeQuery();
+
+        if (rstCheck.next()) {
+            PreparedStatement deleteStmt = conn
+                .prepareStatement("DELETE * FROM courseReference WHERE ScheduleID = ? AND UserEmail = ?");
+            deleteStmt.setString(1, scheduleID);
+            deleteStmt.setString(2, userEmail);
+            int rows = deleteStmt.executeUpdate();
+            deleteStmt.close();
+
+            if (rows > 0) {
+                throw new SQLException("ERROR: Course deletion failed. Please try again.");
+            }
+        } else {
+            throw new SQLException("No courses found for that schedule.");
+        }
+
+        pstmtCheck.close();
+        rstCheck.close(); 
+    }
+
+    public void deleteSchedule(String scheduleID, String userEmail) throws SQLException {
+        PreparedStatement pstmtCheck = conn
+            .prepareStatement("SELECT * FROM schedule WHERE ScheduleID = ? AND UserEmail = ?");
+        pstmtCheck.setString(1, scheduleID);
+        pstmtCheck.setString(2, userEmail);
+        ResultSet rstCheck = pstmtCheck.executeQuery();
+
+        if (rstCheck.next()) {
+            deleteAllCourses(scheduleID, userEmail);
+            PreparedStatement deleteStmt = conn
+                .prepareStatement("DELETE FROM schedule WHERE ScheduleID = ? AND UserEmail = ?");
+            deleteStmt.setString(1, scheduleID);
+            deleteStmt.setString(2, userEmail);
+            int rows = deleteStmt.executeUpdate();
+            deleteStmt.close();
+
+            if (rows > 0) {
+                throw new SQLException("ERROR: Schedule deletion failed. Please try again.");
+            }
+        } else {
+            throw new SQLException("No schedule found given those parameters.");
+        }
+
+        pstmtCheck.close();
+        rstCheck.close(); 
+    }
+
+    /**
+	 * This method implements the functionality necessary to exit the application:
+	 * this should allow the user to cleanly exit the application properly. This
+	 * should close the connection and any prepared statements.
+	 */
+	public void exitApplication() {
+		try {
+			if (conn != null) {
+				conn.close();
+				System.out.println("Disconnected!");
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
 
     public static void main(String args[]) {
         // Database db = new Database("root", "password", "sys");
