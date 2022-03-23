@@ -383,10 +383,20 @@ public class Console extends UserInterface{
                 menuNav(pageID);
                 int choice = intEntry(1,7,scn);
                 if (choice == 1){
+                    helpDescriptions(1);
+                    choice = intEntry(1,1,scn);
+                }
+                else if (choice == 2){
 
                 }
                 //scheduling page
             }
+            else if (pageID == 5){
+                menuNav(pageID);
+
+
+            }
+
 
         }
 
@@ -396,22 +406,24 @@ public class Console extends UserInterface{
         switch (helpID) {
             case 1:
                 System.out.println("Here you can, save your schedule (if you have an account),");
-                System.out.println("change (alter) your schedule, load an existing schedule");
+                System.out.println("alter (change) your schedule to add or remove courses ");
+                System.out.println("or clear it all together, load an existing schedule");
                 System.out.println("(if you have an account), send the schedule to an email, ");
                 System.out.println("or save this schedule on your computer.");
+                System.out.println("1) Ok");
                 break;
-            case 2:
-                System.out.println("");
-                System.out.println("");
-                System.out.println("");
-                System.out.println("");
-                break;
-            case 3:
-                System.out.println("1");
-                System.out.println("");
-                System.out.println("");
-                System.out.println("");
-                break;
+//            case 2:
+//                System.out.println("");
+//                System.out.println("");
+//                System.out.println("");
+//                System.out.println("");
+//                break;
+//            case 3:
+//                System.out.println("1");
+//                System.out.println("");
+//                System.out.println("");
+//                System.out.println("");
+//                break;
 
 
         }
