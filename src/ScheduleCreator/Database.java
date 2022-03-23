@@ -141,34 +141,56 @@ public class Database {
             insertStmt.close();
     }
 
-    public void addSchedule(String scheduleID, boolean isCurrent, String email) throws SQLException {
-        // PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM schedule WHERE UserEmail = ?");
-        // pstmtCheck.setString(1, userEmail);
-        // ResultSet rstCheck = pstmtCheck.executeQuery();
+    public void addSchedule(String scheduleID, boolean isCurrent, String userEmail) throws SQLException {
+        PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM schedule WHERE UserEmail = ? AND ScheduleID = ?");
+        pstmtCheck.setString(1, userEmail);
+        pstmtCheck.setString(2, scheduleID);
+        ResultSet rstCheck = pstmtCheck.executeQuery();
 
-        // if (rstCheck.next()) { 
-        //     throw new SQLException("An account already exists under that email.");
-        // }
+        if (rstCheck.next()) { 
+            throw new SQLException("A schedule already exists during that semester.");
+        }
 
-        // PreparedStatement insertStmt = conn.prepareStatement("INSERT INTO account values(?, ?, ?)");
-        // insertStmt.setString(1, userEmail);
+        PreparedStatement insertStmt = conn.prepareStatement("INSERT INTO schedule values(?, ?, ?)");
+        insertStmt.setString(1, scheduleID);
+        insertStmt.setInt(2, (isCurrent) ? 1 : 0);
+        insertStmt.setString(3, userEmail);;
+        int rows = insertStmt.executeUpdate();
 
-        // // TODO: this MUST be hashed before final release
-        // insertStmt.setString(2, userPassword);
-        // insertStmt.setString(3, scheduleID);
-        // int rows = insertStmt.executeUpdate();
+        if (rows <= 0) {
+            throw new SQLException("ERROR: Schedule creation failed. Please try again.");
+        }
 
-        // if (rows <= 0) {
-        //     throw new SQLException("ERROR: Account creation failed. Please try again.");
-        // }
-
-        // pstmtCheck.close();
-        // rstCheck.close(); 
-        // insertStmt.close();
+        pstmtCheck.close();
+        rstCheck.close(); 
+        insertStmt.close();
     }
 
-    public void addCourseRef(String courseCode, String courseName, String semester, String email){
+    public void addCourseRef(String courseCode, String courseName, String scheduleID, String userEmail) throws SQLException {
+        PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM courseReference WHERE CourseCode = ? AND CourseName = ? AND UserEmail = ?");
+        pstmtCheck.setString(1, courseCode);
+        pstmtCheck.setString(2, courseName);
+        pstmtCheck.setString(3, scheduleID);
+        ResultSet rstCheck = pstmtCheck.executeQuery();
 
+        if (rstCheck.next()) { 
+            throw new SQLException("This course already exists in your " + scheduleID + " semester");
+        }
+
+        PreparedStatement insertStmt = conn.prepareStatement("INSERT INTO courseReference values(?, ?, ?, ?)");
+        insertStmt.setString(1, courseCode);
+        insertStmt.setString(2, courseName);
+        insertStmt.setString(3, scheduleID);
+        insertStmt.setString(4, userEmail);
+        int rows = insertStmt.executeUpdate();
+
+        if (rows <= 0) {
+            throw new SQLException("ERROR: Course addition failed. Please try again.");
+        }
+
+        pstmtCheck.close();
+        rstCheck.close(); 
+        insertStmt.close();
     }
 
     public static void main(String args[]) {
