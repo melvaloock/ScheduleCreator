@@ -148,6 +148,18 @@ public class UserInterface {
 		return true;
 	}
 
+	public static boolean loginToAccount(String userEmail, String userPassword) {
+
+		try {
+			currentStudent = db.checkLogin(userEmail, userPassword);
+		} catch (SQLException e){
+			System.out.println(e.getMessage());
+			return false;
+		}
+
+		return true;
+	}
+
 	public static void testMenu() {
 		Console.menuNav(0);
 	}

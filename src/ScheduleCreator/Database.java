@@ -76,6 +76,46 @@ public class Database {
         }
     }
 
+    public Student checkLogin(String userEmail, String userPassword) throws SQLException {
+        PreparedStatement userCheck = conn
+                .prepareStatement("SELECT * FROM account WHERE UserEmail = ?");
+        userCheck.setString(1, userEmail);
+        ResultSet rstCheck = userCheck.executeQuery();
+
+        // if an account exists with userEmail, continue
+        if (rstCheck.next()) {
+            String dbPass = rstCheck.getString("UserPassword");
+            // check if the passwords match
+            if (dbPass.equals(userPassword)){
+                return getStudentInfo(userEmail);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * after a user login is verified, gets the student's saved information
+     * @param userEmail
+     * @return
+     */
+    private Student getStudentInfo(String userEmail) throws SQLException {
+        return new Student();
+        // TODO: complete when schedule data can be saved to db
+        // get user's current schedule, if they have one
+//        PreparedStatement scheduleCheck = conn
+//                .prepareStatement("SELECT * FROM schedule WHERE UserEmail = ? AND IsCurrent = true");
+//        scheduleCheck.setString(1, userEmail);
+//        ResultSet rstCheck = scheduleCheck.executeQuery();
+//
+//        // check if they have a current schedule
+//        if (rstCheck.next()){
+//
+//        }
+
+
+    }
+
     public void addAccount(String userEmail, String userPassword) throws SQLException {
             PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM account WHERE UserEmail = ?");
             pstmtCheck.setString(1, userEmail);

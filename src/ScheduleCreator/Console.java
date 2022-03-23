@@ -275,16 +275,41 @@ public class Console extends UserInterface{
         consoleScheduleChoice();
     }
 
-    /** JOHN
-     *
+    /**
+     * Gets login information from user and attempts to log in to an account using that information.
+     * If the attempt fails, the user has the option to try to log in again or to return to the
+     * main menu.
      */
     public static void consoleLogin() {
-        //Scanner input = new Scanner(System.in);
-        System.out.println("Username: ");
-        String username = scn.next();
-        System.out.println("Password: ");
-        String password = scn.next();
+        String userEmail, userPassword;
+        char yn;
+        boolean loggedIn = false;
 
+        while(true) {
+            System.out.println("Email: ");
+            userEmail = scn.next();
+            System.out.println("Password: ");
+            userPassword = scn.next();
+
+            if (loginToAccount(userEmail, userPassword)) {
+                loggedIn = true;
+                break;
+            } else {
+                System.out.println("Incorrect email or password.");
+                System.out.println("Would you like to try again? (Y/N) ");
+                yn = ynEntry(scn);
+                if (yn == 'N') {
+                    break;
+                }
+            }
+        }
+
+        if (loggedIn) {
+            consoleScheduleChoice();
+        }
+        else {
+            consoleMain();
+        }
     }
 
     public static void consoleSchedulePage(){
