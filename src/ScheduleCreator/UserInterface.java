@@ -149,11 +149,9 @@ public class UserInterface {
 	}
 
 	public static boolean loginToAccount(String userEmail, String userPassword) {
-
 		try {
 			currentStudent = db.checkLogin(userEmail, userPassword);
-		} catch (SQLException | PasswordStorage.InvalidHashException
-				| PasswordStorage.CannotPerformOperationException e){
+		} catch (SQLException | PasswordStorage.InvalidHashException | PasswordStorage.CannotPerformOperationException e){
 			System.out.println(e.getMessage());
 			return false;
 		}
