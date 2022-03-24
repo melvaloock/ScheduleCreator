@@ -1,7 +1,7 @@
 drop table if exists course;
-drop table if exists courseReference;
-drop table if exists schedule;
-drop table if exists account;
+-- drop table if exists courseReference;
+-- drop table if exists schedule;
+-- drop table if exists account;
 
 create table if not exists account (
     UserEmail varchar(255) not null,
@@ -36,6 +36,18 @@ create table if not exists course (
     Enrollment int,
     Capacity int,
     constraint pk_course primary key (CourseID)
+	);
+    
+create table if not exists recommendedSchedule (
+	Major varchar(50) not null,
+    GradYear int not null,
+    constraint pk_recommendedSchedule primary key (Major, GradYear)
+	);
+    
+create table if not exists recommendedCourse (
+	CourseCode varchar(30) not null,
+    CourseName varchar(255) not null
+    -- finish
 	);
         
 select * from course;

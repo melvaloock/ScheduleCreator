@@ -63,7 +63,7 @@ public class Database {
         try {
             Scanner csvScanner = new Scanner(new File(csvFilename));
             String[] vars;
-            int courseID = 1;
+            int courseID = 100000;
             while (csvScanner.hasNextLine()) {
                 vars = csvScanner.nextLine().split(";");
                 addCourse(courseID, vars[0], vars[2], vars[3], vars[4], vars[5], Integer.parseInt(vars[8]), Integer.parseInt(vars[9]));
@@ -331,7 +331,7 @@ public class Database {
                 days.add(Day.getDay(c));
             }
             String code = rst.getString("CourseCode");
-            return new Course(rst.getString("CourseCode"), rst.getString("CourseName"),
+            return new Course(rst.getInt("CourseID"), rst.getString("CourseCode"), rst.getString("CourseName"),
                 rst.getString("StartTime"), rst.getString("EndTime"), code.charAt(code.length() - 1),
                 days);
         } else {

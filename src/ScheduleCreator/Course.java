@@ -19,7 +19,8 @@ public class Course {
 	private int totalSeats;
 	private int openSeats;
 
-	public Course(String code, String title, String startTime, String endTime, char section, ArrayList<Day> days) {
+	public Course(int referenceNum, String code, String title, String startTime, String endTime, char section, ArrayList<Day> days) {
+		this.referenceNum = referenceNum;
 		this.code = code;
 		this.title= title;
 		this.startTime = startTime;
