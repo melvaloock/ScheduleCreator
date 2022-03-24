@@ -52,3 +52,7 @@ insert into schedule values("SPRING2022", 1, "hambykr19@gcc.edu");
 
 insert into courseReference values("courseCode", "courseName", "SPRING2022", "hambykr19@gcc.edu");
 
+delete from courseReference where UserEmail = "hambykr19@gcc.edu" and CourseCode = "courseCode" and ScheduleID = "SPRING2022";
+
+-- for melva
+select * from course where CourseName like "%music%";
