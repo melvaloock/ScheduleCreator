@@ -39,6 +39,9 @@ public class AccountCreateLoginTester {
         String password = "create";
         db.addAccount(email, password);
 
+        // should throw exception if account already exists
+        Assert.assertThrows(SQLException.class, () -> db.addAccount(email, password));
+
         PreparedStatement stmnt = conn.prepareStatement("SELECT * FROM account WHERE UserEmail = ?");
         stmnt.setString(1, email);
         ResultSet rstCheck = stmnt.executeQuery();
@@ -50,6 +53,11 @@ public class AccountCreateLoginTester {
         stmnt = conn.prepareStatement("DELETE FROM account WHERE UserEmail = ?");
         stmnt.setString(1, email);
         stmnt.executeUpdate();
+    }
+
+    @Test
+    public void canLoginToAccount(){
+
     }
 
 }
