@@ -77,7 +77,7 @@ public class Database {
     }
 
 
-    public void addAccount(String userEmail, String userPassword) throws SQLException {
+    public void addAccount(String userEmail, String userPassword) throws SQLException, PasswordStorage.CannotPerformOperationException {
             PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM account WHERE UserEmail = ?");
             pstmtCheck.setString(1, userEmail);
             ResultSet rstCheck = pstmtCheck.executeQuery();
@@ -90,7 +90,8 @@ public class Database {
             insertStmt.setString(1, userEmail);
 
             // TODO: this MUST be hashed before final release
-            insertStmt.setString(2, userPassword);
+
+            insertStmt.setString(2, PasswordStorage.createHash(userPassword));
             int rows = insertStmt.executeUpdate();
 
             if (rows <= 0) {
@@ -237,7 +238,7 @@ public class Database {
         rstCheck.close(); 
     }
 
-    public Student checkLogin(String userEmail, String userPassword) throws SQLException {
+    public Student checkLogin(String userEmail, String userPassword) throws SQLException, PasswordStorage.InvalidHashException, PasswordStorage.CannotPerformOperationException {
         PreparedStatement userCheck = conn
                 .prepareStatement("SELECT * FROM account WHERE UserEmail = ?");
         userCheck.setString(1, userEmail);
@@ -247,7 +248,7 @@ public class Database {
         if (rstCheck.next()) {
             String dbPass = rstCheck.getString("UserPassword");
             // check if the passwords match
-            if (dbPass.equals(userPassword)){
+            if (PasswordStorage.verifyPassword(userPassword, dbPass)){
                 return getStudentInfo(userEmail);
             }
         }

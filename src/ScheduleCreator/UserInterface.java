@@ -136,7 +136,7 @@ public class UserInterface {
 		//adds user to DB
 		try {
 			db.addAccount(userEmail, userPassword);
-		} catch (SQLException e) {
+		} catch (SQLException | PasswordStorage.CannotPerformOperationException e) {
 			System.out.println(e.getMessage());
 			return false;
 		}
@@ -152,7 +152,8 @@ public class UserInterface {
 
 		try {
 			currentStudent = db.checkLogin(userEmail, userPassword);
-		} catch (SQLException e){
+		} catch (SQLException | PasswordStorage.InvalidHashException
+				| PasswordStorage.CannotPerformOperationException e){
 			System.out.println(e.getMessage());
 			return false;
 		}
