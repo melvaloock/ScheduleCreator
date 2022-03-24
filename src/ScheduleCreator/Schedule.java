@@ -165,7 +165,7 @@ public class Schedule {
 
 	public String[][] createEmptySchedule() {
 		String[][] schedule = new String[ROWS][COLS];
-		String[] days = {"M", "T", "W", "R", "F"};
+		String[] days = {"Mon", "Tue", "Wed", "Thu", "Fri"};
 		String[] times = {"8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM",
 			"1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM"};
 
@@ -200,7 +200,29 @@ public class Schedule {
 		}
 		return schedule;
 	}
-
+//gonna be the methods I change and alter
+	public String[][] populateSchedule2(String[][] schedule) {
+		for (Course c: getCourseList()) {
+			int row = getRow(c.getStartTime());
+			for (char day: c.getDayList()) {
+				int col = getCol(day);
+				schedule[row][col] = c.getCode();
+			}
+		}
+		return schedule;
+	}
+	//method I'll change and alter
+	public void displaySchedule3() {
+		String[][] schedule = createEmptySchedule();
+		schedule = populateSchedule2(schedule);
+		System.out.println("*********************** " + getSemester() + " GCC Schedule " + "***********************");
+		for (int row = 0; row < ROWS; row++) {
+			System.out.println();
+			for (int col = 0; col < COLS; col++) {
+				System.out.printf("%-12s", schedule[row][col]);
+			}
+		}
+	}
 	public int getCol(char day) {
 		if (day == 'M') {
 			return 1;

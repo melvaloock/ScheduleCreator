@@ -31,14 +31,17 @@ public class DateAndTime {
     }
 
     public double timeDifference(){
-        return (((double)(time2.getTime() - time1.getTime())/60000)/60);
+        return (((double)(time2.getTime() - time1.getTime())/60000));
     }
 
-    public void setDaysOfWeek(ArrayList<Character> daysOfWeek) throws ParseException {
+    public void setDaysOfWeek(ArrayList<String> daysOfWeek) throws ParseException {
         SimpleDateFormat inputParser = new SimpleDateFormat(DAYOFWEEKFORMAT);
-        for(Character c: daysOfWeek){
+        for(String c: daysOfWeek){
             this.daysOfWeek.add(inputParser.parse(String.valueOf(c)));
         }
+        //bug with format
+        inputParser.format(this.daysOfWeek);
+
     }
 
     public ArrayList<Date> getDaysOfWeek() {
@@ -59,9 +62,10 @@ public class DateAndTime {
         for (String tim: times){
             setTime(tim);
         }
+
         for(int x = 0; x < times.length; x++){
             if(scheduleTime.get(x).compareTo(this.time1) == 0){
-                if(timeDifference() > 1){
+                if(timeDifference() == 50){
 
                 }
             }
@@ -70,15 +74,16 @@ public class DateAndTime {
         return null;
     }
 
-//    public ArrayList<Integer> findDayOfWeek(ArrayList<Character> daysOfWeek) throws ParseException {
-//        setDaysOfWeek(daysOfWeek);
-//        int[] days = {1,2,3,4,5};
-//        ArrayList<Integer> dayLoc;
-//        for(int x = 0; x < daysOfWeek.size(); x++){
-//            if(this.daysOfWeek.get(x) == days[x]){
-//
-//            }
-//        }
-//    }
+    public ArrayList<Integer> findDayOfWeek(ArrayList<String> daysOfWeek) throws ParseException {
+        setDaysOfWeek(daysOfWeek);
+        String[] days = {"Mon", "Tue", "Wed", "Thu", "Fri"};
+        ArrayList<Integer> dayLoc = new ArrayList<>();
+        for(int x = 0; x < daysOfWeek.size(); x++){
+            if(this.daysOfWeek.get(x).toString().equals(days[x])){
+                dayLoc.add(x);
+            }
+        }
+        return dayLoc;
+    }
 
 }
