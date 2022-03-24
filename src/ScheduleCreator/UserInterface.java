@@ -85,7 +85,7 @@ public class UserInterface {
 	 *
 	 * @param coursesToAdd Arraylist of courses needing to be added
 	 */
-	boolean addCourses(ArrayList<Course> coursesToAdd) {
+	static boolean addCourses(ArrayList<Course> coursesToAdd) {
 		// check if there is a conflict before adding
 		CurrentSchedule cs = new CurrentSchedule(currentStudent.getCurrentSchedule().getCourseList());
 		boolean hasConflict = false;
@@ -105,7 +105,7 @@ public class UserInterface {
 		return hasConflict;
 	}
 
-	public boolean removeCourse(String courseEntry) {
+	public static boolean removeCourse(String courseEntry) {
 		CurrentSchedule cs = new CurrentSchedule(currentStudent.getCurrentSchedule().getCourseList());
 		boolean didRem = cs.removeCourse(courseEntry);
 
@@ -113,7 +113,7 @@ public class UserInterface {
 		return didRem;
 	}
 
-	public void clearSchedule() {
+	public static void clearSchedule() {
 		CurrentSchedule cs = new CurrentSchedule(currentStudent.getCurrentSchedule().getCourseList());
 		cs.clearSchedule();
 		currentStudent.setCurrentSchedule(cs);
@@ -128,7 +128,6 @@ public class UserInterface {
 		currentStudent = new Guest(); //Guest class inherits from Student class
 		CurrentSchedule newSchedule = new CurrentSchedule();
 		currentStudent.setCurrentSchedule(newSchedule);
-//		consoleScheduleChoice();
 
 	}
 

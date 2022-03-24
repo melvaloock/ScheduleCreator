@@ -2,14 +2,14 @@ package ScheduleCreator;
 
 public class Student {
 
-	protected Schedule currentSchedule;
+	protected CurrentSchedule currentSchedule;
 	protected String major;
 	protected int year;
 
 	public Student() {}
 
 	public Student(Schedule currentSchedule, String major, int year) {
-		this.currentSchedule = currentSchedule;
+		this.currentSchedule = (CurrentSchedule) currentSchedule;
 		this.major = major;
 		this.year = year;
 	}
@@ -26,8 +26,9 @@ public class Student {
 		return currentSchedule;
 	}
 
+	//i think this might be broken
 	public void setCurrentSchedule(Schedule currentSchedule) {
-		this.currentSchedule = currentSchedule;
+		currentSchedule.makeCurrent();
 		currentSchedule.setCurrent(true);
 	}
 

@@ -21,57 +21,59 @@ public class Console extends UserInterface{
         System.out.println("2) Yes, set up my schedule for me.");
         yn = intEntry(1,2,scn);
         if (yn == 1){
-            consoleSearch();
+            consoleSchedulePage();
         }
-        else{
+        else {
             System.out.print("What is your major: ");
             major = scn.next();
             System.out.print("\nWhat is your year: ");
             year = intEntry(2000, 2030, scn);
-
         }
 
     }
 
     public static ArrayList<Course> consoleSearch() {
 
-        ArrayList<Course> searchResults = new ArrayList<>();
         Scanner searchScan = new Scanner(System.in); //takes user input for now
-        System.out.println("Would you like to search by code (1) or keyword (2)?");
-        int searchType = intEntry(1, 2, searchScan);
-        searchScan.nextLine(); //clears scanner
+        boolean search = true;
+        ArrayList<Course> searchResults = new ArrayList<>();
 
-        if (searchType == 1) {
-            System.out.println("Searching by course code \nEnter the course code you would like to search for");
+        do {
 
-            String code = searchScan.nextLine().toUpperCase(); //matches all to the format in the database
-            //check for valid user input
-            searchResults = searchCoursesByCode(code);
-            System.out.println("Search results:");
-            for (int i = 1; i <= searchResults.size(); i++) {
-                System.out.println(i + ". " +searchResults.get(i - 1));
+            System.out.println("Would you like to search by code (1) or keyword (2)?");
+            int searchType = intEntry(1, 2, searchScan);
+            searchScan.nextLine(); //clears scanner
+
+            if (searchType == 1) {
+                System.out.println("Searching by course code \nEnter the course code you would like to search for");
+
+                String code = searchScan.nextLine().toUpperCase(); //matches all to the format in the database
+                //check for valid user input
+                searchResults = searchCoursesByCode(code);
+                System.out.println("Search results:");
+                for (int i = 1; i <= searchResults.size(); i++) {
+                    System.out.println(i + ". " + searchResults.get(i - 1));
+                }
+            } else if (searchType == 2) {
+                System.out.println("Searching by keyword \nEnter the keyword you would like to search for");
+
+                String keyword = searchScan.nextLine().toUpperCase(); //matches all to the format in the database
+                //check for valid user input
+                searchResults = searchCoursesByKeyword(keyword);
+                System.out.println("Search results:");
+                for (int i = 1; i <= searchResults.size(); i++) {
+                    System.out.println(i + ". " + searchResults.get(i - 1));
+                }
             }
-        }
-        else if (searchType == 2) {
-            System.out.println("Searching by keyword \nEnter the keyword you would like to search for");
 
-            String keyword = searchScan.nextLine().toUpperCase(); //matches all to the format in the database
-            //check for valid user input
-            searchResults = searchCoursesByKeyword(keyword);
-            System.out.println("Search results:");
-            for (int i = 1; i <= searchResults.size(); i++) {
-                System.out.println(i + ". " +searchResults.get(i - 1));
+            if (searchResults.isEmpty()) {
+                System.out.println("You search returned no courses-- search again? (y/n)");
+                if (ynEntry(searchScan) == 'N') {
+                    search = false;
+                }
             }
-        }
-        if (searchResults.isEmpty()) {
-            System.out.println("You search returned no courses-- search again? (y/n)");
-            if (ynEntry(searchScan) == 'Y') {
-                consoleSearch();
-            }
-        }
 
-        ArrayList<Course> filteredResults = consoleFilter(searchResults);
-
+        } while (search = true);
 
         return searchResults;
     }
@@ -79,39 +81,50 @@ public class Console extends UserInterface{
     public static ArrayList<Course> consoleFilter(ArrayList<Course> searchResults) {
 
         Scanner filterScan = new Scanner(System.in); //takes user input for now
+
+        System.out.println("Would you like to filter your search?");
+        if (ynEntry(filterScan) == 'N') {
+            return searchResults;
+        }
+
+        boolean filter = false;
         ArrayList<Course> filterResults = new ArrayList<>();
-        System.out.println("Would you like to filter by day (1) or time of day (2)?");
-        int filterType = intEntry(1, 2, filterScan);
-        filterScan.nextLine();
 
-        if (filterType == 1) {
-            System.out.println("Enter all the days that you want to see results for:");
-            String filterDays = filterScan.nextLine();
-            filterResults = dayFilter(searchResults, filterDays);
-        }
-        else if (filterType == 2) {
-            System.out.println("Enter the numbers of all the times you want to see results for :");
-            for (int i = 1; i <= 9; i++) {
-                System.out.printf("%d) %s \n", i, intToTime(i));
+        do {
+
+            System.out.println("Would you like to filter by day (1) or time of day (2)?");
+            int filterType = intEntry(1, 2, filterScan);
+            filterScan.nextLine();
+
+            if (filterType == 1) {
+                System.out.println("Enter all the days that you want to see results for:");
+                String filterDays = filterScan.nextLine();
+                filterResults = dayFilter(searchResults, filterDays);
+            } else if (filterType == 2) {
+                System.out.println("Enter the numbers of all the times you want to see results for :");
+                for (int i = 1; i <= 9; i++) {
+                    System.out.printf("%d) %s \n", i, intToTime(i));
+                }
+
+                filterScan.useDelimiter("");
+                ArrayList<String> filterTimes = new ArrayList<>();
+
+                while (filterScan.hasNextInt()) {
+                    int i = filterScan.nextInt();
+                    filterTimes.add(intToTime(i));
+                }
+
+                filterResults = timeFilter(searchResults, filterTimes);
             }
-
-            filterScan.useDelimiter("");
-            ArrayList<String> filterTimes = new ArrayList<>();
-
-            while (filterScan.hasNextInt()) {
-                int i = filterScan.nextInt();
-                filterTimes.add(intToTime(i));
+            System.out.println("Filtered results:");
+            if (filterResults.isEmpty()) {
+                System.out.println("You search returned no courses-- search again? (y/n)");
+                if (ynEntry(filterScan) == 'N') {
+                    filter = false;
+                }
             }
+        } while (filter);
 
-            filterResults = timeFilter(searchResults, filterTimes);
-        }
-        System.out.println("Filtered results:");
-        if (filterResults.isEmpty()) {
-            System.out.println("You search returned no courses-- search again? (y/n)");
-            if (ynEntry(filterScan) == 'Y') {
-                consoleFilter(searchResults);
-            }
-        }
         for (int i = 1; i <= filterResults.size(); i++) {
             System.out.println(i + ". " +filterResults.get(i - 1));
         }
@@ -133,7 +146,7 @@ public class Console extends UserInterface{
      * implements console interaction with the schedule using methods in currentSchedule
      * @param s CurrentSchedule
      */
-    public void consoleAlterSchedule(CurrentSchedule s){
+    public static void consoleAlterSchedule(CurrentSchedule s){
         int choice;
         String courseEntry;
         String sectionEntry;
@@ -145,6 +158,9 @@ public class Console extends UserInterface{
             if (choice == 1) { // add course
                 // course search
                 ArrayList<Course> results = consoleSearch();
+
+                // filter search
+                results = consoleFilter(results);
 
                 // ask for course to add (option to add none and/or search again)
                 System.out.println("Which course would you like to add? (case sensitive)");
@@ -219,6 +235,7 @@ public class Console extends UserInterface{
                 System.out.println("Invalid choice, try again.");
             }
         }
+
         consoleSchedulePage();
     }
 
@@ -235,6 +252,7 @@ public class Console extends UserInterface{
                 break;
             case 3:
                 createGuest();
+                consoleScheduleChoice();
                 break;
             case 4:
                 consoleSchedulePage();
@@ -321,6 +339,22 @@ public class Console extends UserInterface{
         System.out.println("5) Send current schedule via email");
         System.out.println("6) Save schedule as file");
         System.out.println("7) logout");
+
+//        int in = intEntry(1,7,scn);
+//
+//            switch (in) {
+//                case 1:
+//                    helpDescriptions(1);
+//                    break;
+//                case 2:
+//                    //save current schedule
+//                    break;
+//                case 3:
+//                    consoleAlterSchedule((CurrentSchedule) getCurrentStudent().getCurrentSchedule());
+//
+//            }
+//
+
     }
 
     public static char ynEntry(Scanner scanner) {
