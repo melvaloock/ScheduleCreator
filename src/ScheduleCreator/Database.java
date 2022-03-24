@@ -239,8 +239,7 @@ public class Database {
     }
 
     public Student checkLogin(String userEmail, String userPassword) throws SQLException, PasswordStorage.InvalidHashException, PasswordStorage.CannotPerformOperationException {
-        PreparedStatement userCheck = conn
-                .prepareStatement("SELECT * FROM account WHERE UserEmail = ?");
+        PreparedStatement userCheck = conn.prepareStatement("SELECT * FROM account WHERE UserEmail = ?");
         userCheck.setString(1, userEmail);
         ResultSet rstCheck = userCheck.executeQuery();
 
@@ -251,7 +250,8 @@ public class Database {
             String dbPass = rstCheck.getString("UserPassword");
             // check if the passwords match
             if (PasswordStorage.verifyPassword(userPassword, dbPass)){
-                ret = getStudentInfo(userEmail);
+                //ret = getStudentInfo(userEmail);
+                ret = new Student();
             }
         }
 
@@ -272,8 +272,7 @@ public class Database {
 
 
         if (rstCheck.next()) {
-            pstmtCheck = conn
-                .prepareStatement("SELECT * FROM student WHERE UserEmail = ? AND IsCurrent = 1");
+            pstmtCheck = conn.prepareStatement("SELECT * FROM student WHERE UserEmail = ? AND IsCurrent = 1");
         }
         // TODO: complete once account is setup with the methods below
 
