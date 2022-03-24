@@ -10,7 +10,7 @@ import java.util.Locale;
 public class DateAndTime {
 
     private final String TIMEFORMAT = "h:mm a";
-    private final String DAYOFWEEKFORMAT = "u";
+    private final String DAYOFWEEKFORMAT = "E";
     private Date time1;
     private Date time2;
     private ArrayList<Date> scheduleTime;
