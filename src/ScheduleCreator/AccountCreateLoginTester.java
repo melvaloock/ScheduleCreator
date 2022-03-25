@@ -56,8 +56,26 @@ public class AccountCreateLoginTester {
     }
 
     @Test
-    public void canLoginToAccount(){
+    public void canLoginToAccount() throws SQLException, PasswordStorage.CannotPerformOperationException, PasswordStorage.InvalidHashException {
+        dbSetUp();
 
+        // add account (assuming account creation works)
+        String email = "createAccountTest@email.com";
+        String password = "create";
+        db.addAccount(email, password);
+
+        // check that a student object was returned
+        Assert.assertNotNull(db.checkLogin(email, password));
+
+        // wrong password throws exception
+        Assert.assertThrows(SQLException.class, () -> db.checkLogin(email, "wrong"));
+
+        // remove account from db
+        PreparedStatement stmnt = conn.prepareStatement("DELETE FROM account WHERE UserEmail = ?");
+        stmnt.setString(1, email);
+        stmnt.executeUpdate();
     }
+
+    // TODO: add test to verify that schedule is saved correctly ( getStudentInfo() and getSchedule() in Database class)
 
 }
