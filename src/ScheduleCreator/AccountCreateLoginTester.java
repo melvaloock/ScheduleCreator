@@ -30,7 +30,6 @@ public class AccountCreateLoginTester {
         Assert.assertFalse(PasswordStorage.verifyPassword("wrong", hash));
     }
 
-    // TODO: alter create account test for the changes in the db
 
     @Test
     public void canCreateAccount() throws SQLException, PasswordStorage.CannotPerformOperationException {
@@ -98,7 +97,7 @@ public class AccountCreateLoginTester {
         // current schedule was added
         Assert.assertTrue(rstCheck.next());
 
-        stmnt = conn.prepareStatement("REMOVE FROM schedule WHERE UserEmail = ? AND ScheduleID = ?");
+        stmnt = conn.prepareStatement("DELETE FROM schedule WHERE UserEmail = ? AND ScheduleID = ? AND IsCurrent = ?");
         stmnt.setString(1, email);
         stmnt.setString(2, scheduleID);
         stmnt.setInt(3, 1);
@@ -116,13 +115,13 @@ public class AccountCreateLoginTester {
         // non current schedule was added
         Assert.assertTrue(rstCheck.next());
 
-        stmnt = conn.prepareStatement("REMOVE FROM schedule WHERE UserEmail = ? AND ScheduleID = ?");
+        stmnt = conn.prepareStatement("DELETE FROM schedule WHERE UserEmail = ? AND ScheduleID = ? AND IsCurrent = ?");
         stmnt.setString(1, email);
         stmnt.setString(2, scheduleID);
         stmnt.setInt(3, 0);
         stmnt.executeUpdate();
 
-        stmnt = conn.prepareStatement("REMOVE FROM account WHERE UserEmail = ?");
+        stmnt = conn.prepareStatement("DELETE FROM account WHERE UserEmail = ?");
         stmnt.setString(1, email);
         stmnt.executeUpdate();
 
