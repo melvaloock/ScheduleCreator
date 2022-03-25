@@ -30,6 +30,8 @@ public class AccountCreateLoginTester {
         Assert.assertFalse(PasswordStorage.verifyPassword("wrong", hash));
     }
 
+    // TODO: alter create account test for the changes in the db
+
     @Test
     public void canCreateAccount() throws SQLException, PasswordStorage.CannotPerformOperationException {
         dbSetUp();
@@ -78,6 +80,7 @@ public class AccountCreateLoginTester {
 
     @Test
     public void addScheduleTest() throws SQLException, PasswordStorage.CannotPerformOperationException {
+        dbSetUp();
         String email = "scheduleTest@email.com";
         String scheduleID = "SPRING2022";
         // add account with this email for foreign keys
@@ -127,6 +130,7 @@ public class AccountCreateLoginTester {
         rstCheck.close();
     }
 
-    // TODO: add test to verify that schedule is saved correctly ( getStudentInfo() and getSchedule() in Database class)
+    // TODO: add test to verify that schedule is saved correctly
+    //  getAccount(), getYear(), getMajor(), getCurrentSchedule() in Database class
 
 }
