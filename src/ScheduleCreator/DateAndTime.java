@@ -69,7 +69,7 @@ public class DateAndTime {
                     timeLoc.add(x+2);
                     timeLoc.add(x+3);
                 }
-            }else if(scheduleTime.get(x).compareTo(this.time1) < 0 && scheduleTime.get(x+1).compareTo(this.time2) > 0 ){
+            }else if(scheduleTime.get(x).compareTo(this.time1) < 0){
                 if(timeDifference() == 50 || timeDifference() == 75){
                     timeLoc.add(x+1);
                     timeLoc.add(x+2);
