@@ -295,6 +295,41 @@ public class Database {
         }
     }
 
+    /**
+     *
+     * @param searchCode
+     * @return
+     * @throws SQLException
+     */
+
+    public ArrayList<Course> searchByCode(String searchCode) throws SQLException {
+        PreparedStatement pstmtCheck = conn
+                .prepareStatement("SELECT * FROM course WHERE CourseCode LIKE ?");
+        pstmtCheck.setString(1, "%" + searchCode + "%");
+        ResultSet rstSearch = pstmtCheck.executeQuery();
+
+        ArrayList<Course> searchResults = new ArrayList<Course>();
+        while (rstSearch.next()) {
+            searchResults.add(createCourse(rstSearch));
+        }
+
+        return searchResults;
+    }
+
+    public ArrayList<Course> searchByKeyword(String searchKeyword) throws SQLException {
+        PreparedStatement pstmtCheck = conn
+                .prepareStatement("SELECT * FROM course WHERE CourseName LIKE ?");
+        pstmtCheck.setString(1, "%" + searchKeyword + "%");
+        ResultSet rstSearch = pstmtCheck.executeQuery();
+
+        ArrayList<Course> searchResults = new ArrayList<Course>();
+        while (rstSearch.next()) {
+            searchResults.add(createCourse(rstSearch));
+        }
+
+        return searchResults;
+    }
+
     public ArrayList<Course> getCourseList(String userEmail, String scheduleID) throws SQLException {
         PreparedStatement pstmtCheck = conn
             .prepareStatement("SELECT * FROM courseReference WHERE UserEmail = ? AND ScheduleID = ?");
@@ -353,6 +388,12 @@ public class Database {
     public static void main(String args[]) {
         // Database db = new Database("root", "password", "sys");
         Database db = new Database("root", "EnuzPkHDO29J6gCH", "schedule_creator_db");
-        db.processCourses("CourseDB_WithFictionalCapacities.csv");
+//        db.processCourses("CourseDB_WithFictionalCapacities.csv");
+
+        try {
+            db.addAccount("test", "testPass");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

@@ -1,5 +1,6 @@
 package ScheduleCreator;
 
+import javax.xml.crypto.Data;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -9,7 +10,7 @@ public class UserInterface {
 	private static ArrayList<Course> courses;
 	private static Student currentStudent;
 
-	// database for the current session -- will only work if you have 
+	// database for the current session -- will only work if you have
 	// an active db on your machine
 
 	// FORGET THAT COMMENT CUZ IT DO BE A CLOUD DATABASE
@@ -26,21 +27,34 @@ public class UserInterface {
 	}
 
 	public static ArrayList<Course> searchCoursesByCode(String code) {
+
 		ArrayList<Course> result = new ArrayList<>();
-		for (Course c : courses) {
-			if (c.getCode().contains(code)) {
-				result.add(c);
-			}
+
+		try {
+			result = db.searchByCode(code);
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
+
 		return result;
 	}
 	public static ArrayList<Course> searchCoursesByKeyword(String keyword) {
+//		ArrayList<Course> result = new ArrayList<>();
+//		for (Course c : courses) {
+//			if (c.getTitle().contains(keyword)) {
+//				result.add(c);
+//			}
+//		}
+//		return result;
+
 		ArrayList<Course> result = new ArrayList<>();
-		for (Course c : courses) {
-			if (c.getTitle().contains(keyword)) {
-				result.add(c);
-			}
+
+		try {
+			result = db.searchByKeyword(keyword);
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
+
 		return result;
 	}
 
@@ -182,6 +196,10 @@ public class UserInterface {
 //		testMenu();
 		//A suggestion by Dr. Hutchins
 		//to have a while loop for navigation.
+
+		for (Course c : searchCoursesByCode("COMP")) {
+			System.out.println(c);
+		}
 
 		Console.consoleMain();
 	}
