@@ -76,6 +76,57 @@ public class AccountCreateLoginTester {
         stmnt.executeUpdate();
     }
 
+    @Test
+    public void addScheduleTest() throws SQLException, PasswordStorage.CannotPerformOperationException {
+        String email = "scheduleTest@email.com";
+        String scheduleID = "SPRING2022";
+        // add account with this email for foreign keys
+        db.addAccount(email, "pass");
+
+        // add a current schedule
+        db.addSchedule(scheduleID, true, email);
+
+        PreparedStatement stmnt = conn.prepareStatement("SELECT * FROM schedule WHERE UserEmail = ? AND ScheduleID = ? AND IsCurrent = ?");
+        stmnt.setString(1, email);
+        stmnt.setString(2, scheduleID);
+        stmnt.setString(3, "1");
+        ResultSet rstCheck = stmnt.executeQuery();
+
+        // current schedule was added
+        Assert.assertTrue(rstCheck.next());
+
+        stmnt = conn.prepareStatement("REMOVE FROM schedule WHERE UserEmail = ? AND ScheduleID = ? AND IsCurrent = ?");
+        stmnt.setString(1, email);
+        stmnt.setString(2, scheduleID);
+        stmnt.setString(3, "1");
+        stmnt.executeUpdate();
+
+        // add non current schedule
+        db.addSchedule(scheduleID, false, email);
+
+        stmnt = conn.prepareStatement("SELECT * FROM schedule WHERE UserEmail = ? AND ScheduleID = ? AND IsCurrent = ?");
+        stmnt.setString(1, email);
+        stmnt.setString(2, scheduleID);
+        stmnt.setString(3, "0");
+        rstCheck = stmnt.executeQuery();
+
+        // non current schedule was added
+        Assert.assertTrue(rstCheck.next());
+
+        stmnt = conn.prepareStatement("REMOVE FROM schedule WHERE UserEmail = ? AND ScheduleID = ? AND IsCurrent = ?");
+        stmnt.setString(1, email);
+        stmnt.setString(2, scheduleID);
+        stmnt.setString(3, "0");
+        stmnt.executeUpdate();
+
+        stmnt = conn.prepareStatement("REMOVE FROM account WHERE UserEmail = ?");
+        stmnt.setString(1, email);
+        stmnt.executeUpdate();
+
+        stmnt.close();
+        rstCheck.close();
+    }
+
     // TODO: add test to verify that schedule is saved correctly ( getStudentInfo() and getSchedule() in Database class)
 
 }
