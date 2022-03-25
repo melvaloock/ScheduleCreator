@@ -1,5 +1,6 @@
 package ScheduleCreator;
 
+import java.text.ParseException;
 import java.util.*;
 import java.io.*;
 
@@ -201,18 +202,21 @@ public class Schedule {
 		return schedule;
 	}
 //gonna be the methods I change and alter
-	public String[][] populateSchedule2(String[][] schedule) {
+	public String[][] populateSchedule2(String[][] schedule) throws ParseException {
 		for (Course c: getCourseList()) {
-			int row = getRow(c.getStartTime());
-			for (char day: c.getDayList()) {
-				int col = getCol(day);
-				schedule[row][col] = c.getCode();
+			DateAndTime dat = new DateAndTime();
+			ArrayList<ArrayList<Integer>> location = new ArrayList<>();
+			location = dat.locOfClass(c.getStartTime(), c.getEndTime(), c.getDayStringList());
+			for(int x = 1; x< ROWS; x++){
+				for(int y = 1; y<COLS; y++){
+
+				}
 			}
 		}
 		return schedule;
 	}
 	//method I'll change and alter
-	public void displaySchedule3() {
+	public void displaySchedule3() throws ParseException {
 		String[][] schedule = createEmptySchedule();
 		schedule = populateSchedule2(schedule);
 		System.out.println("*********************** " + getSemester() + " GCC Schedule " + "***********************");
@@ -332,6 +336,7 @@ public class Schedule {
 		course.add(c6);
 		System.out.println(course);
 
+		//System.out.println(c1.getDayStringList());
 		Schedule sch = new Schedule(course, "SPRING 2022");
 
 		sch.displaySchedule2();

@@ -46,12 +46,11 @@ public class DateAndTime {
     //    It returns a value less than 0 if this Date is before the Date argument.
     //    It returns a value greater than 0 if this Date is after the Date argument.
     public ArrayList<ArrayList<Integer>> locOfClass(String time1, String time2, ArrayList<String> daysOfWeek) throws ParseException {
-        ArrayList<ArrayList<Integer>> loc = new ArrayList<ArrayList<Integer>>();
+        ArrayList<ArrayList<Integer>> loc = new ArrayList<>();
         ArrayList<Integer> timeLoc = new ArrayList<>();
         String[] times = {"8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM",
                 "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM"};
 
-        loc.add(findDayOfWeek(daysOfWeek));
         setTime(time1,time2);
 
         for (String time : times) {
@@ -88,7 +87,7 @@ public class DateAndTime {
         }
 
         loc.add(timeLoc);
-
+        loc.add(findDayOfWeek(daysOfWeek));
         return loc;
     }
 
