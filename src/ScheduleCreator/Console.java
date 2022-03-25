@@ -393,6 +393,7 @@ public class Console extends UserInterface{
     }
 
     static void consoleMain() {
+        helpDescriptions(1);
         int pageID = 0;
         while (true){
             if (pageID == 0){
@@ -417,7 +418,6 @@ public class Console extends UserInterface{
                 if (choice == 1){
                     helpDescriptions(1);
                     choice = intEntry(1,1,scn);
-                    pageID = 4;
                 }
                 else if (choice == 2){
 
@@ -427,30 +427,11 @@ public class Console extends UserInterface{
             else if (pageID == 5){
                 menuNav(pageID);
 
+
             }
 
+
         }
-//        switch(menuId){
-//            case 0:
-//                mainMenu();
-//                break;
-//            case 1:
-//                consoleCreateAccount();
-//                break;
-//            case 2:
-//                consoleLogin();
-//                break;
-//            case 3:
-//                createGuest();
-//                consoleScheduleChoice();
-//                break;
-//            case 4:
-//                consoleSchedulePage();
-//                break;
-//            default:
-//                System.out.println("Invalid Selection");
-//                mainMenu();
-//                break;
 
     }
 

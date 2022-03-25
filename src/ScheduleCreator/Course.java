@@ -75,7 +75,7 @@ public class Course {
 		if (referenceNum != c.referenceNum){
 			return false;
 		}
-
+		
 
 		return true;
 	}
@@ -87,7 +87,7 @@ public class Course {
 	 */
 	public ArrayList<Day> daysToEnum(String days) {
 		ArrayList<Day> dayList = new ArrayList<Day>();
-		if (days.equals("")) {
+		if (days == "") {
 			dayList.add(Day.NULL);
 			return dayList;
 		}
@@ -120,7 +120,11 @@ public class Course {
 	}
 
 	public boolean isFull() {
-		return openSeats == 0;
+		if (openSeats == 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public String getTitle() {
