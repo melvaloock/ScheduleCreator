@@ -252,7 +252,13 @@ public class Database {
             if (PasswordStorage.verifyPassword(userPassword, dbPass)){
                 //ret = getStudentInfo(userEmail);
                 ret = new Student();
+            } else {
+                // wrong password
+                throw new SQLException("Incorrect email or password.");
             }
+        } else {
+            // account with this email does not exist
+            throw new SQLException("Incorrect email or password.");
         }
 
         userCheck.close();

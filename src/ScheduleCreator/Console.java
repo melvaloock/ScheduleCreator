@@ -313,7 +313,6 @@ public class Console extends UserInterface{
                 loggedIn = true;
                 break;
             } else {
-                System.out.println("Incorrect email or password.");
                 System.out.println("Would you like to try again? (Y/N) ");
                 yn = ynEntry(scn);
                 if (yn == 'N') {
