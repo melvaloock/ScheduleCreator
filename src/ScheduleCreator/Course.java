@@ -19,7 +19,8 @@ public class Course {
 	private int totalSeats;
 	private int openSeats;
 
-	public Course(String code, String title, String startTime, String endTime, char section, ArrayList<Day> days) {
+	public Course(int referenceNum, String code, String title, String startTime, String endTime, char section, ArrayList<Day> days) {
+		this.referenceNum = referenceNum;
 		this.code = code;
 		this.title= title;
 		this.startTime = startTime;
@@ -74,7 +75,7 @@ public class Course {
 		if (referenceNum != c.referenceNum){
 			return false;
 		}
-		
+
 
 		return true;
 	}
@@ -86,7 +87,7 @@ public class Course {
 	 */
 	public ArrayList<Day> daysToEnum(String days) {
 		ArrayList<Day> dayList = new ArrayList<Day>();
-		if (days == "") {
+		if (days.equals("")) {
 			dayList.add(Day.NULL);
 			return dayList;
 		}
@@ -115,16 +116,11 @@ public class Course {
 	@Override
 	public String toString() {
 		String ds = daysToString();
-		String cs = String.format("%s (%c) | %s | %s %s - %s", code, section, title, ds, startTime, endTime);
-		return cs;
+		return String.format("%s (%c) | %s | %s %s - %s", code, section, title, ds, startTime, endTime);
 	}
 
 	public boolean isFull() {
-		if (openSeats == 0) {
-			return true;
-		} else {
-			return false;
-		}
+		return openSeats == 0;
 	}
 
 	public String getTitle() {
@@ -215,6 +211,31 @@ public class Course {
 
 	public String getDays() {
 		return daysToString();
+	}
+
+	//temp method
+	public ArrayList<String> getDayStringList(){
+		ArrayList<String> stringList = new ArrayList<>();
+		for(int x = 0; x<days.size(); x++){
+			stringList.add(String.valueOf((daysToString().charAt(x))));
+			if(stringList.get(x).equalsIgnoreCase("M")){
+				stringList.remove(x);
+				stringList.add(x,"Mon");
+			}else if(stringList.get(x).equalsIgnoreCase("T")){
+				stringList.remove(x);
+				stringList.add(x,"Tue");
+			}else if(stringList.get(x).equalsIgnoreCase("W")){
+				stringList.remove(x);
+				stringList.add(x,"Wed");
+			}else if(stringList.get(x).equalsIgnoreCase("R")){
+				stringList.remove(x);
+				stringList.add(x,"Thu");
+			}else if(stringList.get(x).equalsIgnoreCase("F")){
+				stringList.remove(x);
+				stringList.add(x,"Fri");
+			}
+		}
+		return stringList;
 	}
 
 	public ArrayList<Character> getDayList() {

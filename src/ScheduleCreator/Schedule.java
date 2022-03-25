@@ -1,5 +1,6 @@
 package ScheduleCreator;
 
+import java.text.ParseException;
 import java.util.*;
 import java.io.*;
 
@@ -165,7 +166,7 @@ public class Schedule {
 
 	public String[][] createEmptySchedule() {
 		String[][] schedule = new String[ROWS][COLS];
-		String[] days = {"M", "T", "W", "R", "F"};
+		String[] days = {"Mon", "Tue", "Wed", "Thu", "Fri"};
 		String[] times = {"8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM",
 			"1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM"};
 
@@ -200,7 +201,32 @@ public class Schedule {
 		}
 		return schedule;
 	}
+//gonna be the methods I change and alter
+	public String[][] populateSchedule2(String[][] schedule) throws ParseException {
+		for (Course c: getCourseList()) {
+			DateAndTime dat = new DateAndTime();
+			ArrayList<ArrayList<Integer>> location = new ArrayList<>();
+			location = dat.locOfClass(c.getStartTime(), c.getEndTime(), c.getDayStringList());
+			for(int x = 1; x< ROWS; x++){
+				for(int y = 1; y<COLS; y++){
 
+				}
+			}
+		}
+		return schedule;
+	}
+	//method I'll change and alter
+	public void displaySchedule3() throws ParseException {
+		String[][] schedule = createEmptySchedule();
+		schedule = populateSchedule2(schedule);
+		System.out.println("*********************** " + getSemester() + " GCC Schedule " + "***********************");
+		for (int row = 0; row < ROWS; row++) {
+			System.out.println();
+			for (int col = 0; col < COLS; col++) {
+				System.out.printf("%-12s", schedule[row][col]);
+			}
+		}
+	}
 	public int getCol(char day) {
 		if (day == 'M') {
 			return 1;
@@ -310,6 +336,7 @@ public class Schedule {
 		course.add(c6);
 		System.out.println(course);
 
+		//System.out.println(c1.getDayStringList());
 		Schedule sch = new Schedule(course, "SPRING 2022");
 
 		sch.displaySchedule2();

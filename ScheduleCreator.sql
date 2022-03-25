@@ -1,4 +1,4 @@
-drop table if exists course;
+-- drop table if exists course;
 drop table if exists courseReference;
 drop table if exists schedule;
 drop table if exists account;
@@ -6,6 +6,8 @@ drop table if exists account;
 create table if not exists account (
     UserEmail varchar(255) not null,
     UserPassword varchar(255) not null,
+    Major varchar(255),
+    GradYear int,
     constraint pk_account primary key(UserEmail)
 	);
 
@@ -37,6 +39,18 @@ create table if not exists course (
     Capacity int,
     constraint pk_course primary key (CourseID)
 	);
+    
+create table if not exists recommendedSchedule (
+	Major varchar(50) not null,
+    GradYear int not null,
+    constraint pk_recommendedSchedule primary key (Major, GradYear)
+	);
+    
+create table if not exists recommendedCourse (
+	CourseCode varchar(30) not null,
+    CourseName varchar(255) not null
+    -- finish
+	);
         
 select * from course;
 
@@ -52,3 +66,7 @@ insert into schedule values("SPRING2022", 1, "hambykr19@gcc.edu");
 
 insert into courseReference values("courseCode", "courseName", "SPRING2022", "hambykr19@gcc.edu");
 
+delete from courseReference where UserEmail = "hambykr19@gcc.edu" and CourseCode = "courseCode" and ScheduleID = "SPRING2022";
+
+-- for melva
+select * from course where CourseName like "%music%";
