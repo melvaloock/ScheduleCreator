@@ -5,21 +5,28 @@ import java.util.*; // trying to get git to work
 
 public class Account extends Student {
 
-	//TODO: @KEVIN figure out how to store account schedules with database -- my hunch is that this is
-	// temporary
 	private HashMap<String, Schedule> scheduleMap = new HashMap<String, Schedule>(); // stores saved schedules for now
 
 	private String email;
 	private String passwordHash;
-	private int studentID;
+	private int studentID; // may not need this
 	private String advisorEmail;
 
 
-	public Account(String username, String passwordHash) {
+	public Account(String username, String passwordHash, Schedule currentSchedule, String major, int year) {
 		//see if they are in the database
 		//load hashmap from database
 
+		super(currentSchedule, major, year);
+		this.email = username;
+		this.passwordHash = passwordHash;
+
 		//else, create default (blank) schedule
+	}
+
+	public Account(String username, String passwordHash) {
+		this.email = username;
+		this.passwordHash = passwordHash;
 	}
 
 	/** CHRISTIAN & KEVIN

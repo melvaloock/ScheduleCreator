@@ -1,11 +1,13 @@
-drop table if exists course;
--- drop table if exists courseReference;
--- drop table if exists schedule;
--- drop table if exists account;
+-- drop table if exists course;
+drop table if exists courseReference;
+drop table if exists schedule;
+drop table if exists account;
 
 create table if not exists account (
     UserEmail varchar(255) not null,
     UserPassword varchar(255) not null,
+    Major varchar(255),
+    GradYear int,
     constraint pk_account primary key(UserEmail)
 	);
 

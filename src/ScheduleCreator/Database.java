@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Scanner;
 
+import com.mysql.cj.x.protobuf.MysqlxPrepare.Prepare;
+
 // import java.time.LocalTime;
 
 public class Database { 
@@ -267,27 +269,72 @@ public class Database {
     }
 
     /**
-     * after a user login is verified, gets the student's saved information
+     * after a user login is verified, gets the account's saved information
      * @param userEmail
      * @return
      */
-    private Student getStudentInfo(String userEmail) throws SQLException {
+    public Account getAccount(String userEmail) throws SQLException {
         PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM schedule WHERE UserEmail = ?");
         pstmtCheck.setString(1, userEmail);
         ResultSet rstCheck = pstmtCheck.executeQuery();
 
-
+        // get schedule if it exists
+        Schedule currentSchedule = new Schedule();
         if (rstCheck.next()) {
-            pstmtCheck = conn.prepareStatement("SELECT * FROM student WHERE UserEmail = ? AND IsCurrent = 1");
+            currentSchedule = getCurrentSchedule(userEmail);
         }
-        // TODO: complete once account is setup with the methods below
+
+        // get the year and major; may return nothing
+        int year = getYear(userEmail);
+        String major = getMajor(userEmail);
+
+        // get password hash
+        PreparedStatement selectStmt = conn.prepareStatement("SELECT * FROM account WHERE UserEmail = ?");
+        selectStmt.setString(1, userEmail);
+        ResultSet rst = selectStmt.executeQuery();
+
+        String passwordHash = rst.getString("UserPassword");
 
         pstmtCheck.close();
         rstCheck.close();
-        return new Student();
+        return new Account(userEmail, passwordHash, currentSchedule, major, year);
     }
 
-    public Schedule getSchedule(String userEmail) throws SQLException {
+    // needs error checking somewhere
+    public int getYear(String userEmail) throws SQLException {
+        PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM account WHERE UserEmail = ?");
+        pstmtCheck.setString(1, userEmail);
+        ResultSet rstCheck = pstmtCheck.executeQuery();
+
+        int year = 0;
+
+        if (rstCheck.next()) {
+            year = rstCheck.getInt("Year");
+        }
+
+        pstmtCheck.close();
+        rstCheck.close();
+        return year;
+    }
+
+    // needs error checking somewhere
+    public String getMajor(String userEmail) throws SQLException {
+        PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM account WHERE UserEmail = ?");
+        pstmtCheck.setString(1, userEmail);
+        ResultSet rstCheck = pstmtCheck.executeQuery();
+
+        String major = "";
+
+        if (rstCheck.next()) {
+            major = rstCheck.getString("Major");
+        }
+
+        pstmtCheck.close();
+        rstCheck.close();
+        return major;
+    }
+
+    public Schedule getCurrentSchedule(String userEmail) throws SQLException {
         PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM schedule WHERE UserEmail = ?");
         pstmtCheck.setString(1, userEmail);
         ResultSet rstCheck = pstmtCheck.executeQuery();
@@ -345,6 +392,10 @@ public class Database {
         }
     }
 
+    // TODO: Kevin -> sprint 2
+    public void updateYear(){};
+    public void updateMajor(){};
+    public void updateEmail(){};
     
     /**
 	 * This method implements the functionality necessary to exit the application:
