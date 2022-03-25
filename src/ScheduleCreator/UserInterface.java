@@ -1,8 +1,9 @@
 package ScheduleCreator;
 
-import javax.xml.crypto.Data;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 public class UserInterface {
 	
@@ -175,9 +176,7 @@ public class UserInterface {
 		return true;
 	}
 
-	public static void testMenu() {
-		Console.menuNav(0);
-	}
+
 
 	public int getUserID() {
 		return this.userID;

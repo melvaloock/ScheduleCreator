@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class Console extends UserInterface{
 
     private static Scanner scn = new Scanner(System.in);
+    private static int pageID;
 
     /** - provides the user with a menu to choose between manual creation (1) or recommended schedule (2)
      * if the user chooses 1, call the consoleSearch method
@@ -154,7 +155,7 @@ public class Console extends UserInterface{
             viewSchedule(s);
             System.out.println("Alter Schedule Choices: ");
             System.out.println("1. Add Course\n2. Remove Course\n3. Clear Schedule \n4. Return to Previous Menu");
-            choice = intEntry(1, 3, scn);
+            choice = intEntry(1, 4, scn);
             if (choice == 1) { // add course
                 // course search
                 ArrayList<Course> results = consoleSearch();
@@ -236,41 +237,18 @@ public class Console extends UserInterface{
             }
         }
 
-        consoleSchedulePage();
+        //consoleSchedulePage(); due to how consoleSchedule page is set up, this
+        //statement is no longer needed.
     }
 
-    public static void menuNav(int menuId){
-        switch(menuId){
-            case 0:
-                mainMenu();
-                break;
-            case 1:
-                consoleCreateAccount();
-                break;
-            case 2:
-                consoleLogin();
-                break;
-            case 3:
-                createGuest();
-                consoleScheduleChoice();
-                break;
-            case 4:
-                consoleSchedulePage();
-                break;
-            default:
-                System.out.println("Invalid Selection");
-                mainMenu();
-                break;
-        }
-    }
-
-    public static void mainMenu(){
-        int selection = -1;
+    public static int mainMenu(){
+        //int selection = -1;
         //Scanner menu = new Scanner(System.in);
         System.out.println("Welcome!");
         System.out.println("1) Create an account");
         System.out.println("2) Log into an account");
         System.out.println("3) Continue as guest");
+        return intEntry(1, 3, scn);
 
     }
     /** JOHN
@@ -338,22 +316,35 @@ public class Console extends UserInterface{
         System.out.println("5) Send current schedule via email");
         System.out.println("6) Save schedule as file");
         System.out.println("7) logout");
-
-//        int in = intEntry(1,7,scn);
-//
-//            switch (in) {
-//                case 1:
-//                    helpDescriptions(1);
-//                    break;
-//                case 2:
-//                    //save current schedule
-//                    break;
-//                case 3:
-//                    consoleAlterSchedule((CurrentSchedule) getCurrentStudent().getCurrentSchedule());
-//
-//            }
-//
-
+        int in = intEntry(1,7,scn);
+            switch (in) {
+                case 1:
+                    helpDescriptions(1);
+                    break;
+                case 2:
+                    //save current schedule
+                    break;
+                case 3:
+                    consoleAlterSchedule((CurrentSchedule) getCurrentStudent().getCurrentSchedule());
+                    break;
+                case 4:
+                    //Load another schedule
+                    break;
+                case 5:
+                    //send via email
+                    break;
+                case 6:
+                    //save as file
+                    break;
+                case 7:
+                    //if the currentStudent is an account and not a guest, log out here.
+                    //else if its a guest then just return to mainMenu
+                    pageID = 0;
+                    break;
+                default:
+                    System.out.println("Invalid selection!"); //should not trigger in practice.
+                    break;
+            }
     }
 
     public static char ynEntry(Scanner scanner) {
@@ -393,44 +384,34 @@ public class Console extends UserInterface{
     }
 
     static void consoleMain() {
-        helpDescriptions(1);
-        int pageID = 0;
-        while (true){
-            if (pageID == 0){
-                menuNav(0);
-                pageID = intEntry(1, 3, scn);
+        while (true) {
+            switch (pageID) {
+                case 0:
+                    pageID = mainMenu();
+                    break;
+                case 1:
+                    consoleCreateAccount();
+                    pageID = 4;
+                    break;
+                case 2:
+                    consoleLogin();
+                    pageID = 4;
+                    break;
+                case 3:
+                    createGuest();
+                    consoleScheduleChoice();
+                    pageID = 4;
+                    break;
+                case 4:
+                    consoleSchedulePage();
+                    break;
+                case 5:
+                    break;
+                default:
+                    System.out.println("Invalid Selection");
+                    mainMenu();
+                    break;
             }
-            else if (pageID == 1){
-                menuNav(pageID);
-                //lead to scheduling page
-            }
-            else if (pageID == 2){
-                menuNav(pageID);
-                //lead to scheduling page
-            }
-            else if (pageID == 3){
-                menuNav(pageID);
-                //lead to scheduling page
-            }
-            else if (pageID == 4){
-                menuNav(pageID);
-                int choice = intEntry(1,7,scn);
-                if (choice == 1){
-                    helpDescriptions(1);
-                    choice = intEntry(1,1,scn);
-                }
-                else if (choice == 2){
-
-                }
-                //scheduling page
-            }
-            else if (pageID == 5){
-                menuNav(pageID);
-
-
-            }
-
-
         }
 
     }
@@ -444,6 +425,7 @@ public class Console extends UserInterface{
                 System.out.println("(if you have an account), send the schedule to an email, ");
                 System.out.println("or save this schedule on your computer.");
                 System.out.println("1) Ok");
+                intEntry(1,1,scn);
                 break;
 //            case 2:
 //                System.out.println("");
