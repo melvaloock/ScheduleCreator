@@ -32,12 +32,12 @@ public class Account extends Student {
 	/** CHRISTIAN & KEVIN
 	 * adds user's currentSchedule (inherited from parent class Student) to their saved schedules
 	 */
-	public void saveCurrentSchedule(Schedule sch, String email, Database db) {
+	public void saveCurrentSchedule(String email, Database db) {
 		//TODO: add currentSchedule to scheduleMap (or however saved schedules will be stored)
 		// - this includes adding a label (key) to this schedule so that it can be accessed
 		try {
-			db.addSchedule(sch.getSemester(), sch.isCurrent(), email);
-			for (Course c : sch.getCourseList()){
+			db.addSchedule(currentSchedule.getSemester(), currentSchedule.isCurrent(), email);
+			for (Course c : currentSchedule.getCourseList()){
 				db.addCourseRef(c.getCode(), c.getTitle(), c.getSemester(), email);
 			}
 
@@ -51,7 +51,7 @@ public class Account extends Student {
 
 	public void setCurrentSchedule(Schedule currentSchedule, Database db) {
 		if (this.currentSchedule != null) {
-			saveCurrentSchedule(currentSchedule, email, db);
+			saveCurrentSchedule(email, db);
 			this.currentSchedule.setCurrent(false);
 		}
 		super.setCurrentSchedule(currentSchedule);
