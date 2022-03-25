@@ -149,8 +149,7 @@ public class UserInterface {
 
 	public static boolean loginToAccount(String userEmail, String userPassword) {
 		try {
-			Student res = db.checkLogin(userEmail, userPassword);
-			currentStudent = res;
+			currentStudent = db.checkLogin(userEmail, userPassword);
 		} catch (SQLException e){
 			System.out.println(e.getMessage());
 			return false;

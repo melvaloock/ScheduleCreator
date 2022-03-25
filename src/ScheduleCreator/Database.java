@@ -240,20 +240,19 @@ public class Database {
         rstCheck.close(); 
     }
 
-    public Student checkLogin(String userEmail, String userPassword) throws SQLException, PasswordStorage.InvalidHashException, PasswordStorage.CannotPerformOperationException {
+    public Account checkLogin(String userEmail, String userPassword) throws SQLException, PasswordStorage.InvalidHashException, PasswordStorage.CannotPerformOperationException {
         PreparedStatement userCheck = conn.prepareStatement("SELECT * FROM account WHERE UserEmail = ?");
         userCheck.setString(1, userEmail);
         ResultSet rstCheck = userCheck.executeQuery();
 
-        Student ret = null;
+        Account ret;
 
         // if an account exists with userEmail, continue
         if (rstCheck.next()) {
             String dbPass = rstCheck.getString("UserPassword");
             // check if the passwords match
             if (PasswordStorage.verifyPassword(userPassword, dbPass)){
-                //ret = getStudentInfo(userEmail);
-                ret = new Student();
+                ret = getAccount(userEmail);
             } else {
                 // wrong password
                 throw new SQLException("Incorrect email or password.");
