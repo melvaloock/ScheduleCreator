@@ -20,4 +20,7 @@ public enum Day {
                 return null;
         }
     }
+
+    //add fix for course.todaystringlist
+
 }
