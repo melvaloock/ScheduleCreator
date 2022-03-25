@@ -92,16 +92,16 @@ public class AccountCreateLoginTester {
         PreparedStatement stmnt = conn.prepareStatement("SELECT * FROM schedule WHERE UserEmail = ? AND ScheduleID = ? AND IsCurrent = ?");
         stmnt.setString(1, email);
         stmnt.setString(2, scheduleID);
-        stmnt.setString(3, "1");
+        stmnt.setInt(3, 1);
         ResultSet rstCheck = stmnt.executeQuery();
 
         // current schedule was added
         Assert.assertTrue(rstCheck.next());
 
-        stmnt = conn.prepareStatement("REMOVE FROM schedule WHERE UserEmail = ? AND ScheduleID = ? AND IsCurrent = ?");
+        stmnt = conn.prepareStatement("REMOVE FROM schedule WHERE UserEmail = ? AND ScheduleID = ?");
         stmnt.setString(1, email);
         stmnt.setString(2, scheduleID);
-        stmnt.setString(3, "1");
+        stmnt.setInt(3, 1);
         stmnt.executeUpdate();
 
         // add non current schedule
@@ -110,16 +110,16 @@ public class AccountCreateLoginTester {
         stmnt = conn.prepareStatement("SELECT * FROM schedule WHERE UserEmail = ? AND ScheduleID = ? AND IsCurrent = ?");
         stmnt.setString(1, email);
         stmnt.setString(2, scheduleID);
-        stmnt.setString(3, "0");
+        stmnt.setInt(3, 0);
         rstCheck = stmnt.executeQuery();
 
         // non current schedule was added
         Assert.assertTrue(rstCheck.next());
 
-        stmnt = conn.prepareStatement("REMOVE FROM schedule WHERE UserEmail = ? AND ScheduleID = ? AND IsCurrent = ?");
+        stmnt = conn.prepareStatement("REMOVE FROM schedule WHERE UserEmail = ? AND ScheduleID = ?");
         stmnt.setString(1, email);
         stmnt.setString(2, scheduleID);
-        stmnt.setString(3, "0");
+        stmnt.setInt(3, 0);
         stmnt.executeUpdate();
 
         stmnt = conn.prepareStatement("REMOVE FROM account WHERE UserEmail = ?");
