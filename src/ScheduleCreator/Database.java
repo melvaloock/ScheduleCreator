@@ -251,7 +251,8 @@ public class Database {
             String dbPass = rstCheck.getString("UserPassword");
             // check if the passwords match
             if (PasswordStorage.verifyPassword(userPassword, dbPass)){
-                ret = getAccount(userEmail);
+                //ret = getAccount(userEmail);
+                ret = new Account("", "", new CurrentSchedule(), "", 0);
             } else {
                 // wrong password
                 throw new SQLException("Incorrect email or password.");
