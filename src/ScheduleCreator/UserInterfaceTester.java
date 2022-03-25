@@ -8,7 +8,10 @@ import java.util.ArrayList;
 public class UserInterfaceTester {
 
     /**
-     * non functioning
+     * non functioning.
+     * maybe because everything is static. not sure.
+     * tries to use currentStudent but it isn't initialized yet.
+     * tried creating a guest to initialize it but doesn't work.
      */
     @Test
     public void addCourseTest(){
