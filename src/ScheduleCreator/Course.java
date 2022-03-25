@@ -75,7 +75,7 @@ public class Course {
 		if (referenceNum != c.referenceNum){
 			return false;
 		}
-		
+
 
 		return true;
 	}
@@ -87,7 +87,7 @@ public class Course {
 	 */
 	public ArrayList<Day> daysToEnum(String days) {
 		ArrayList<Day> dayList = new ArrayList<Day>();
-		if (days == "") {
+		if (days.equals("")) {
 			dayList.add(Day.NULL);
 			return dayList;
 		}
@@ -116,16 +116,11 @@ public class Course {
 	@Override
 	public String toString() {
 		String ds = daysToString();
-		String cs = String.format("%s (%c) | %s | %s %s - %s", code, section, title, ds, startTime, endTime);
-		return cs;
+		return String.format("%s (%c) | %s | %s %s - %s", code, section, title, ds, startTime, endTime);
 	}
 
 	public boolean isFull() {
-		if (openSeats == 0) {
-			return true;
-		} else {
-			return false;
-		}
+		return openSeats == 0;
 	}
 
 	public String getTitle() {
