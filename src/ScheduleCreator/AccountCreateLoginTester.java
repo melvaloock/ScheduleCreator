@@ -153,9 +153,6 @@ public class AccountCreateLoginTester {
         rstCheck.close();
     }
 
-    // TODO: add test to verify that schedule is saved correctly
-    //  getAccount(), getYear(), getMajor(), getCurrentSchedule() in Database class
-
     @Test
     public void getYearTest() throws SQLException, PasswordStorage.CannotPerformOperationException {
         dbSetUp();
@@ -192,6 +189,36 @@ public class AccountCreateLoginTester {
         PreparedStatement stmnt = conn.prepareStatement("DELETE FROM account WHERE UserEmail = ?");
         stmnt.setString(1, email);
         stmnt.executeUpdate();
+    }
+
+    @Test
+    public void getCourseListTest() {
+
+    }
+
+    @Test
+    public void createCourseTest() {
+
+    }
+
+    @Test
+    public void getCurrentScheduleTest() {
+
+    }
+
+    @Test
+    public void getAccountTest() {
+
+    }
+
+    @Test
+    public void searchByCodeTest() {
+
+    }
+
+    @Test
+    public void searchByKeywordTest() {
+
     }
 
 }

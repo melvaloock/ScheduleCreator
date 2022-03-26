@@ -149,6 +149,7 @@ public class Database {
         insertStmt.close();
     }
 
+    // TODO: this doesn't actually save a schedule. it only saves a scheduleID
     public void addSchedule(String scheduleID, boolean isCurrent, String userEmail) throws SQLException {
         PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM schedule WHERE UserEmail = ? AND ScheduleID = ?");
         pstmtCheck.setString(1, userEmail);
