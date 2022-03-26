@@ -80,4 +80,23 @@ public class Account extends Student {
 	public int getStudentID() {
 		return studentID;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+
+		Account acct;
+		if (obj instanceof Account){
+			acct = (Account)obj;
+		} else {
+			return false;
+		}
+
+		// TODO: finish this method once Account is set up
+
+
+		return true;
+	}
 }

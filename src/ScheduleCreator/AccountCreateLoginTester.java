@@ -28,6 +28,7 @@ public class AccountCreateLoginTester {
 
     private final ArrayList<Course> courseList = makeCourseList();
     private final Schedule currentSchedule = makeCurrentSchedule();
+    private final Account testAccount = new Account(email, password, currentSchedule, major, year);
 
     private ArrayList<Course> makeCourseList(){
         ArrayList<Course> temp = new ArrayList<>();
@@ -301,8 +302,8 @@ public class AccountCreateLoginTester {
     }
 
     @Test
-    public void getAccountTest() {
-
+    public void getAccountTest() throws SQLException {
+        Assert.assertEquals(testAccount, db.getAccount(email));
     }
 
     @Test
