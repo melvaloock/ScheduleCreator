@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Properties;
 
 
@@ -193,8 +194,52 @@ public class AccountCreateLoginTester {
     }
 
     @Test
-    public void getCourseListTest() throws SQLException {
+    public void getCourseListTest() throws SQLException, PasswordStorage.CannotPerformOperationException {
+        dbSetUp();
+        ArrayList<Course> expected = new ArrayList<>();
+        Course c1 = new Course("ACCT 202", "PRINCIPLES OF ACCOUNTING II", "8:00", "8:50", 'A', "MWF");
+        Course c2 = new Course("BIOL 102", "GENERAL BIOLOGY II", "9:00", "9:50", 'B', "MWF");
+        expected.add(c1);
+        expected.add(c2);
 
+        String email = "courseListTest@email.com";
+        String scheduleID = "SPRING2022";
+        // add account with this email for foreign keys
+        db.addAccount(email, "pass");
+
+        // add a current schedule
+        PreparedStatement stmnt = conn.prepareStatement("INSERT INTO schedule values(?, ?, ?)");
+        stmnt.setString(1, scheduleID);
+        stmnt.setString(2, "1");
+        stmnt.setString(3, email);
+
+        // add courses to courseReference
+        stmnt = conn.prepareStatement("INSERT INTO courseReference values(?, ?, ?, ?)");
+        for (Course add: expected) {
+            stmnt.setString(1, add.getCode());
+            stmnt.setString(2, add.getTitle());
+            stmnt.setString(3, scheduleID);
+            stmnt.setString(4, email);
+        }
+
+        ArrayList<Course> actual = db.getCourseList(email, scheduleID);
+
+        Assert.assertEquals(expected, actual);
+
+        // clean up
+        stmnt = conn.prepareStatement("DELETE FROM courseReference WHERE UserEmail = ?");
+        stmnt.setString(1, email);
+        stmnt.executeUpdate();
+
+        stmnt = conn.prepareStatement("DELETE FROM schedule WHERE UserEmail = ?");
+        stmnt.setString(1, email);
+        stmnt.executeUpdate();
+
+        stmnt = conn.prepareStatement("DELETE FROM account WHERE UserEmail = ?");
+        stmnt.setString(1, email);
+        stmnt.executeUpdate();
+
+        stmnt.close();
     }
 
     @Test
