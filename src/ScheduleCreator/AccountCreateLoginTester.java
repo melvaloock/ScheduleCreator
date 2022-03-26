@@ -103,6 +103,7 @@ public class AccountCreateLoginTester {
 
     @Test
     public void addScheduleTest() throws SQLException, PasswordStorage.CannotPerformOperationException {
+        // TODO: update this test when addSchedule is updated
         dbSetUp();
         String email = "scheduleTest@email.com";
         String scheduleID = "SPRING2022";
@@ -192,13 +193,25 @@ public class AccountCreateLoginTester {
     }
 
     @Test
-    public void getCourseListTest() {
+    public void getCourseListTest() throws SQLException {
 
     }
 
     @Test
-    public void createCourseTest() {
+    public void createCourseTest() throws SQLException {
+        dbSetUp();
+        Course expected = new Course("ACCT 202", "PRINCIPLES OF ACCOUNTING II", "8:00", "8:50", 'A', "MWF");
 
+        PreparedStatement stmnt = conn.prepareStatement("SELECT * FROM course WHERE CourseID = ?");
+        stmnt.setInt(1, 100001);
+        ResultSet rs = stmnt.executeQuery();
+
+        Course actual = db.createCourse(rs);
+
+        Assert.assertEquals(expected, actual);
+
+        stmnt.close();
+        rs.close();
     }
 
     @Test
