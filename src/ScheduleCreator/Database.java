@@ -79,6 +79,15 @@ public class Database {
     }
 
 
+    /**
+     * add account with the given username and password.
+     * throws SQLException if there is already an account with that email.
+     * major and year are set to null.
+     * @param userEmail String of the user's email
+     * @param userPassword String of the user's password
+     * @throws SQLException
+     * @throws PasswordStorage.CannotPerformOperationException
+     */
     public void addAccount(String userEmail, String userPassword) throws SQLException, PasswordStorage.CannotPerformOperationException {
             PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM account WHERE UserEmail = ?");
             pstmtCheck.setString(1, userEmail);
@@ -104,6 +113,16 @@ public class Database {
             insertStmt.close();
     }
 
+    /**
+     * add account with the given username and password.
+     * throws SQLException if there is already an account with that email.
+     * @param userEmail String of user's email
+     * @param userPassword String of user's password
+     * @param major String of user's major
+     * @param year int of user's year
+     * @throws SQLException
+     * @throws PasswordStorage.CannotPerformOperationException
+     */
     public void addAccount(String userEmail, String userPassword, String major, int year) throws SQLException, PasswordStorage.CannotPerformOperationException {
         PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM account WHERE UserEmail = ?");
         pstmtCheck.setString(1, userEmail);
