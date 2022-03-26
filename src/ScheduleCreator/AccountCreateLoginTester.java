@@ -307,13 +307,23 @@ public class AccountCreateLoginTester {
     }
 
     @Test
-    public void searchByCodeTest() {
+    public void searchByCodeTest() throws SQLException {
+        String searchTerm = "ASTR";
+        ArrayList<Course> expectedSearchResults = new ArrayList<>();
+        expectedSearchResults.add(new Course("ASTR 310  A", "INTRODUCTION TO ASTROPHYSICS", "10:05", "11:20", 'A', "TR", 100033));
+        expectedSearchResults.add(new Course("ASTR 207  A", "INTRO TO STARS/GALAXIES/COSMOLOGY", "13:00", "13:50", 'A', "MWF", 100032));
 
+        Assert.assertEquals(expectedSearchResults, db.searchByCode(searchTerm));
     }
 
     @Test
-    public void searchByKeywordTest() {
+    public void searchByKeywordTest() throws SQLException {
+        String searchTerm = "star";
+        ArrayList<Course> expectedSearchResults = new ArrayList<>();
+        expectedSearchResults.add(new Course("ASTR 207  A", "INTRO TO STARS/GALAXIES/COSMOLOGY", "13:00", "13:50", 'A', "MWF", 100032));
+        expectedSearchResults.add(new Course("ENTR 302  A", "SALES IN THE STARTUP", "14:00", "14:50", 'A', "MWF", 100289));
 
+        Assert.assertEquals(expectedSearchResults, db.searchByKeyword(searchTerm));
     }
 
 }
