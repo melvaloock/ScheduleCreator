@@ -167,7 +167,26 @@ public class AccountCreateLoginTester {
         int year = 2019;
         db.addAccount(email, password, major, year);
 
-        Assert.assertEquals(2019, db.getYear(email));
+        Assert.assertEquals(year, db.getYear(email));
+
+        // remove account from db
+        PreparedStatement stmnt = conn.prepareStatement("DELETE FROM account WHERE UserEmail = ?");
+        stmnt.setString(1, email);
+        stmnt.executeUpdate();
+    }
+
+    @Test
+    public void getMajorTest() throws SQLException, PasswordStorage.CannotPerformOperationException {
+        dbSetUp();
+
+        // add account
+        String email = "yearTest@email.com";
+        String password = "create";
+        String major = "Computer Science";
+        int year = 2019;
+        db.addAccount(email, password, major, year);
+
+        Assert.assertEquals(major, db.getMajor(email));
 
         // remove account from db
         PreparedStatement stmnt = conn.prepareStatement("DELETE FROM account WHERE UserEmail = ?");
