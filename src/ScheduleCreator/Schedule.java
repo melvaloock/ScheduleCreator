@@ -320,6 +320,32 @@ public class Schedule {
 		isCurrent = current;
 	}
 
+	@Override
+	public boolean equals(Object obj){
+		if (this == obj) {
+			return true;
+		}
+
+		Schedule sched;
+		if (obj instanceof Schedule){
+			sched = (Schedule) obj;
+		}else {
+			return false;
+		}
+
+		if (!this.courseList.equals(sched.courseList)){
+			return false;
+		}
+		if (this.isCurrent != sched.isCurrent){
+			return false;
+		}
+		if (!this.semester.equals(sched.semester)) {
+			return false;
+		}
+
+		return true;
+	}
+
 
 
 
