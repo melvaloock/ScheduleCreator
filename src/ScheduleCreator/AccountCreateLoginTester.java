@@ -9,7 +9,7 @@ import java.util.Properties;
 
 public class AccountCreateLoginTester {
 
-    private Database db = new Database("root", "EnuzPkHDO29J6gCH", "schedule_creator_db");
+    private final Database db = new Database("root", "EnuzPkHDO29J6gCH", "schedule_creator_db");
     private Connection conn;
 
     private void dbSetUp() throws SQLException {
@@ -157,8 +157,22 @@ public class AccountCreateLoginTester {
     //  getAccount(), getYear(), getMajor(), getCurrentSchedule() in Database class
 
     @Test
-    public void getYearTest() {
+    public void getYearTest() throws SQLException, PasswordStorage.CannotPerformOperationException {
+        dbSetUp();
 
+        // add account
+        String email = "yearTest@email.com";
+        String password = "create";
+        String major = "Computer Science";
+        int year = 2019;
+        db.addAccount(email, password, major, year);
+
+        Assert.assertEquals(2019, db.getYear(email));
+
+        // remove account from db
+        PreparedStatement stmnt = conn.prepareStatement("DELETE FROM account WHERE UserEmail = ?");
+        stmnt.setString(1, email);
+        stmnt.executeUpdate();
     }
 
 }

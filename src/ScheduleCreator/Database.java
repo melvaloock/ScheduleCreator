@@ -85,8 +85,8 @@ public class Database {
      * major and year are set to null.
      * @param userEmail String of the user's email
      * @param userPassword String of the user's password
-     * @throws SQLException
-     * @throws PasswordStorage.CannotPerformOperationException
+     * @throws SQLException throws exception if email already in user
+     * @throws PasswordStorage.CannotPerformOperationException throws exception if issue with password hashing
      */
     public void addAccount(String userEmail, String userPassword) throws SQLException, PasswordStorage.CannotPerformOperationException {
             PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM account WHERE UserEmail = ?");
@@ -120,8 +120,8 @@ public class Database {
      * @param userPassword String of user's password
      * @param major String of user's major
      * @param year int of user's year
-     * @throws SQLException
-     * @throws PasswordStorage.CannotPerformOperationException
+     * @throws SQLException throws exception if email already in user
+     * @throws PasswordStorage.CannotPerformOperationException throws exception if issue with password hashing
      */
     public void addAccount(String userEmail, String userPassword, String major, int year) throws SQLException, PasswordStorage.CannotPerformOperationException {
         PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM account WHERE UserEmail = ?");
@@ -353,7 +353,7 @@ public class Database {
         int year = 0;
 
         if (rstCheck.next()) {
-            year = rstCheck.getInt("Year");
+            year = rstCheck.getInt("GradYear");
         }
 
         pstmtCheck.close();
