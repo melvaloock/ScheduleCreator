@@ -57,6 +57,30 @@ public class AccountCreateLoginTester {
     }
 
     @Test
+    public void canCreateAccountWithMajorYear() throws SQLException, PasswordStorage.CannotPerformOperationException {
+        dbSetUp();
+
+        // add account
+        String email = "createAccountTestWithMajor@email.com";
+        String password = "create";
+        String major = "Computer Science";
+        int year = 2019;
+        db.addAccount(email, password, major, year);
+
+        PreparedStatement stmnt = conn.prepareStatement("SELECT * FROM account WHERE UserEmail = ?");
+        stmnt.setString(1, email);
+        ResultSet rstCheck = stmnt.executeQuery();
+
+        // if has next, then account exists with the info given
+        Assert.assertTrue(rstCheck.next());
+
+        // remove account from db
+        stmnt = conn.prepareStatement("DELETE FROM account WHERE UserEmail = ?");
+        stmnt.setString(1, email);
+        stmnt.executeUpdate();
+    }
+
+    @Test
     public void canLoginToAccount() throws SQLException, PasswordStorage.CannotPerformOperationException, PasswordStorage.InvalidHashException {
         dbSetUp();
 
@@ -131,5 +155,10 @@ public class AccountCreateLoginTester {
 
     // TODO: add test to verify that schedule is saved correctly
     //  getAccount(), getYear(), getMajor(), getCurrentSchedule() in Database class
+
+    @Test
+    public void getYearTest() {
+
+    }
 
 }

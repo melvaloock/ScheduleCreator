@@ -104,6 +104,32 @@ public class Database {
             insertStmt.close();
     }
 
+    public void addAccount(String userEmail, String userPassword, String major, int year) throws SQLException, PasswordStorage.CannotPerformOperationException {
+        PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM account WHERE UserEmail = ?");
+        pstmtCheck.setString(1, userEmail);
+        ResultSet rstCheck = pstmtCheck.executeQuery();
+
+        if (rstCheck.next()) {
+            throw new SQLException("An account already exists under that email.");
+        }
+
+        PreparedStatement insertStmt = conn.prepareStatement("INSERT INTO account values(?, ?, ?, ?)");
+        insertStmt.setString(1, userEmail);
+        insertStmt.setString(2, PasswordStorage.createHash(userPassword));
+        insertStmt.setString(3, major);
+        insertStmt.setInt(4, year);
+
+        int rows = insertStmt.executeUpdate();
+
+        if (rows <= 0) {
+            throw new SQLException("ERROR: Account creation failed. Please try again.");
+        }
+
+        pstmtCheck.close();
+        rstCheck.close();
+        insertStmt.close();
+    }
+
     public void addSchedule(String scheduleID, boolean isCurrent, String userEmail) throws SQLException {
         PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM schedule WHERE UserEmail = ? AND ScheduleID = ?");
         pstmtCheck.setString(1, userEmail);
