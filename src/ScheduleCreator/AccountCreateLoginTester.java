@@ -260,8 +260,58 @@ public class AccountCreateLoginTester {
     }
 
     @Test
-    public void getCurrentScheduleTest() {
+    public void getCurrentScheduleTest() throws SQLException, PasswordStorage.CannotPerformOperationException {
+        dbSetUp();
+        ArrayList<Course> courses = new ArrayList<>();
+        Course c1 = new Course("ACCT 202", "PRINCIPLES OF ACCOUNTING II", "8:00", "8:50", 'A', "MWF");
+        Course c2 = new Course("BIOL 102", "GENERAL BIOLOGY II", "9:00", "9:50", 'B', "MWF");
+        courses.add(c1);
+        courses.add(c2);
 
+
+        String email = "courseListTest@email.com";
+        String scheduleID = "SPRING2022";
+        // add account with this email for foreign keys
+        db.addAccount(email, "pass");
+
+        // make expected schedule
+        Schedule expected = new Schedule(courses, scheduleID);
+        expected.isCurrent = true;
+
+        // add a current schedule
+        PreparedStatement stmnt = conn.prepareStatement("INSERT INTO schedule values(?, ?, ?)");
+        stmnt.setString(1, scheduleID);
+        stmnt.setString(2, "1");
+        stmnt.setString(3, email);
+
+        // add courses to courseReference
+        stmnt = conn.prepareStatement("INSERT INTO courseReference values(?, ?, ?, ?)");
+        for (Course add: courses) {
+            stmnt.setString(1, add.getCode());
+            stmnt.setString(2, add.getTitle());
+            stmnt.setString(3, scheduleID);
+            stmnt.setString(4, email);
+        }
+
+
+        Assert.assertEquals(expected, db.getCurrentSchedule(email));
+
+
+
+        // clean up
+        stmnt = conn.prepareStatement("DELETE FROM courseReference WHERE UserEmail = ?");
+        stmnt.setString(1, email);
+        stmnt.executeUpdate();
+
+        stmnt = conn.prepareStatement("DELETE FROM schedule WHERE UserEmail = ?");
+        stmnt.setString(1, email);
+        stmnt.executeUpdate();
+
+        stmnt = conn.prepareStatement("DELETE FROM account WHERE UserEmail = ?");
+        stmnt.setString(1, email);
+        stmnt.executeUpdate();
+
+        stmnt.close();
     }
 
     @Test
