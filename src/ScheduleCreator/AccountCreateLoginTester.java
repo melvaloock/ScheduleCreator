@@ -11,7 +11,7 @@ import java.util.Properties;
 public class AccountCreateLoginTester {
 
     // db variables
-    private Database db = new Database("root", "EnuzPkHDO29J6gCH", "schedule_creator_db");;
+    private final Database db = new Database("root", "EnuzPkHDO29J6gCH", "schedule_creator_db");
     private Connection conn;
 
     // variables for adding test data to db
@@ -19,7 +19,7 @@ public class AccountCreateLoginTester {
     private final String password = "testPassword";
     private final String major = "Computer Science";
     private final String currentScheduleID = "SPRING2022";
-    private final String nonCurrentScheduleID = "FALL2021";
+    private final String nonCurrentScheduleID = "FALL2021"; // may be used in addScheduleTest when fixed
 
     private final int year = 2023;
 
@@ -214,7 +214,7 @@ public class AccountCreateLoginTester {
     }
 
     @Test
-    public void addScheduleTest() throws SQLException, PasswordStorage.CannotPerformOperationException {
+    public void addScheduleTest() throws SQLException {
         // TODO: update this test when addSchedule is updated
         dbSetUp();
 
@@ -266,17 +266,17 @@ public class AccountCreateLoginTester {
     }
 
     @Test
-    public void getYearTest() throws SQLException, PasswordStorage.CannotPerformOperationException {
+    public void getYearTest() throws SQLException {
         Assert.assertEquals(year, db.getYear(email));
     }
 
     @Test
-    public void getMajorTest() throws SQLException, PasswordStorage.CannotPerformOperationException {
+    public void getMajorTest() throws SQLException {
         Assert.assertEquals(major, db.getMajor(email));
     }
 
     @Test
-    public void getCourseListTest() throws SQLException, PasswordStorage.CannotPerformOperationException {
+    public void getCourseListTest() throws SQLException {
         Assert.assertEquals(courseList, db.getCourseList(email, currentScheduleID));
     }
 
@@ -296,7 +296,7 @@ public class AccountCreateLoginTester {
     }
 
     @Test
-    public void getCurrentScheduleTest() throws SQLException, PasswordStorage.CannotPerformOperationException {
+    public void getCurrentScheduleTest() throws SQLException {
         Assert.assertEquals(currentSchedule, db.getCurrentSchedule(email));
     }
 
