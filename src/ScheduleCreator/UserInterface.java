@@ -80,9 +80,9 @@ public class UserInterface {
 	public static ArrayList<Course> timeFilter(ArrayList<Course> searchResults, ArrayList<String> times) {
 		ArrayList<Course> result = new ArrayList<>();
 		for (Course c : searchResults) {
-			boolean add = true;
+			boolean add = false;
 			if (!times.contains(c.getStartTime())) {
-				add = false;
+				add = true;
 			}
 			if (add) {
 				result.add(c);
