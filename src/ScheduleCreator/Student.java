@@ -30,6 +30,7 @@ public class Student {
 	public void setCurrentSchedule(Schedule currentSchedule) {
 		currentSchedule.makeCurrent();
 		currentSchedule.setCurrent(true);
+		this.currentSchedule = (CurrentSchedule) currentSchedule;
 	}
 
 	public String getMajor() {
