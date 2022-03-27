@@ -159,61 +159,73 @@ public class Console extends UserInterface{
      */
     public static void consoleAlterSchedule(CurrentSchedule s){
         int choice;
-        String courseEntry;
-        String sectionEntry;
-        while(true) {
+        while (true) {
             viewSchedule(s);
             System.out.println("Alter Schedule Choices: ");
             System.out.println("1. Add Course\n2. Remove Course\n3. Clear Schedule \n4. Return to Previous Menu");
             choice = intEntry(1, 4, scn);
             if (choice == 1) { // add course
+                int courseEntry;
+
                 // course search
                 ArrayList<Course> searchResults = consoleSearch();
-
 
                 ArrayList<Course> results = new ArrayList<>();
                 // filter search
                 results = consoleFilter(searchResults);
 
                 // ask for course to add (option to add none and/or search again)
-                System.out.println("Which course would you like to add? (case sensitive)");
-                System.out.println("(enter the course code without the section to add; enter NONE to add none)");
-                System.out.print("Course Entry: ");
-                courseEntry = scn.next();
+                System.out.println("Which course would you like to add?");
+                System.out.print("Corresponding Integer: ");
 
-                // check if none
-                if (courseEntry.equals("NONE")) {
-                    continue;
-                }
-
-                System.out.println("Which section? ");
-                sectionEntry = scn.next();
-
-				/* find which course(s) they entered
-				(some course sections have 2 course objects if the times differ across days)
-				 */
                 ArrayList<Course> coursesToAdd = new ArrayList<>();
-                for (Course c : results) {
-                    if (c.getCode().equals(courseEntry) && c.getSection() == sectionEntry.charAt(0)) {
-                        coursesToAdd.add(c);
+
+                while (true) {
+                    if (scn.hasNextInt()) {
+                        courseEntry = intEntry(1, results.size(), scn);
+                        break;
+                    } else {
+                        System.out.println("That is not an integer choice. Please try again.");
                     }
                 }
 
-                //Refactored -- put in UserInterface
+                coursesToAdd.add(results.get(courseEntry - 1));
+
+                while (true) {
+                    System.out.println("Add another course? (y/n)");
+                    char addAnother = ynEntry(scn);
+                    if (addAnother == 'Y') {
+                        System.out.print("Corresponding Integer: ");
+                        while (true) {
+                            if (scn.hasNextInt()) {
+                                courseEntry = intEntry(1, results.size(), scn);
+                                break;
+                            } else {
+                                System.out.println("That is not an integer choice. Please try again.");
+                            }
+                        }
+                        coursesToAdd.add(results.get(courseEntry - 1));
+                    } else if (addAnother == 'N') {
+                        break;
+                    }
+                }
+
+                // Refactored -- put in UserInterface
                 boolean hasConflict = addCourses(coursesToAdd);
 
                 if (hasConflict) {
                     System.out.println("The course you selected conflicts with another course in your schedule," +
                             " so it cannot be added.");
                 } else {
-        //			for (Course c : coursesToAdd) {
-        //				cs.addCourse(c);
-        //			}
-                    System.out.println("Course Added.");
+                    // for (Course c : coursesToAdd) {
+                    // cs.addCourse(c);
+                    // }
+                    System.out.println("Course(s) added.");
                 }
 
             } else if (choice == 2) { // remove course
-                System.out.println("Which course would you like to add? (case sensitive)");
+                String courseEntry;
+                System.out.println("Which course would you like to remove? (case sensitive)");
                 System.out.println("(enter the course code without the section to remove; enter NONE to remove none)");
                 System.out.print("Course Entry: ");
                 courseEntry = scn.next();
