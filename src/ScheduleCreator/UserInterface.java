@@ -61,25 +61,23 @@ public class UserInterface {
 
 	public static ArrayList<Course> dayFilter(ArrayList<Course> searchResults, String days) {
 		ArrayList<Course> result = new ArrayList<>();
-
 		for (Course c : searchResults) {
 			boolean add = false;
 			for (char d: c.getDayList()) {
-				if (Arrays.asList(days.toCharArray()).contains(d)) {
-					add = true;
+				for (char d2: days.toCharArray()) {
+					if (d == d2) {
+						add = true;
+					}
 				}
 			}
 			if (add) {
 				result.add(c);
 			}
 		}
-
-
 		return result;
 	}
 
 	public static ArrayList<Course> timeFilter(ArrayList<Course> searchResults, ArrayList<String> times) {
-
 		ArrayList<Course> result = new ArrayList<>();
 		for (Course c : searchResults) {
 			boolean add = true;
