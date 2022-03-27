@@ -1,6 +1,7 @@
 package ScheduleCreator;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -194,7 +195,7 @@ public class UserInterface {
 		return this.userID++;
 	}
 
-	public static void main(String args[]) {
+	public static void main(String args[])throws ParseException {
 
 		//test2();
 

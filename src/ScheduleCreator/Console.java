@@ -1,5 +1,6 @@
 package ScheduleCreator;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
@@ -14,7 +15,7 @@ public class Console extends UserInterface{
      * if the user chooses 2, get the input for their major and year
      * for now, stop here
      */
-    public static void consoleScheduleChoice(){
+    public static void consoleScheduleChoice()throws ParseException{
         int yn;
         int year;
         String major;
@@ -146,7 +147,7 @@ public class Console extends UserInterface{
      * should call the displaySchedule task from Schedule class
      * @param s
      */
-    public static void viewSchedule(Schedule s) {
+    public static void viewSchedule(Schedule s) throws ParseException {
         s.displaySchedule2();
         //will alter to my method once it functions
     }
@@ -157,7 +158,7 @@ public class Console extends UserInterface{
      * implements console interaction with the schedule using methods in currentSchedule
      * @param s CurrentSchedule
      */
-    public static void consoleAlterSchedule(CurrentSchedule s){
+    public static void consoleAlterSchedule(CurrentSchedule s)throws ParseException{
         int choice;
         while (true) {
             viewSchedule(s);
@@ -278,7 +279,7 @@ public class Console extends UserInterface{
     /** JOHN
      *
      */
-    public static void consoleCreateAccount(){
+    public static void consoleCreateAccount()throws ParseException{
         //Scanner input = new Scanner(System.in);
         String userEmail;
         String userPassword;
@@ -300,7 +301,7 @@ public class Console extends UserInterface{
      * If the attempt fails, the user has the option to try to log in again or to return to the
      * main menu.
      */
-    public static void consoleLogin() {
+    public static void consoleLogin() throws ParseException{
         String userEmail, userPassword;
         char yn;
         boolean loggedIn = false;
@@ -331,7 +332,7 @@ public class Console extends UserInterface{
         }
     }
 
-    public static void consoleSchedulePage(){
+    public static void consoleSchedulePage() throws ParseException{
         viewSchedule(currentStudent.getCurrentSchedule());
         System.out.println("1) Help");
         System.out.println("2) Save current schedule");
@@ -407,7 +408,7 @@ public class Console extends UserInterface{
         return entry;
     }
 
-    static void consoleMain() {
+    static void consoleMain() throws ParseException{
         while (true) {
             switch (pageID) {
                 case 0:
