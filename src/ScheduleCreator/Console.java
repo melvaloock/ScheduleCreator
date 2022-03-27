@@ -147,7 +147,7 @@ public class Console extends UserInterface{
      * @param s
      */
     public static void viewSchedule(Schedule s) {
-        s.displaySchedule();
+        s.displaySchedule2();
         //will alter to my method once it functions
     }
 

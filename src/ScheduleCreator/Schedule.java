@@ -162,6 +162,7 @@ public class Schedule {
 				System.out.printf("%-12s", schedule[row][col]);
 			}
 		}
+		System.out.println();
 	}
 
 	public String[][] createEmptySchedule() {
@@ -230,6 +231,7 @@ public class Schedule {
 				System.out.printf("%-12s", schedule[row][col]);
 			}
 		}
+		System.out.println();
 	}
 	public int getCol(char day) {
 		if (day == 'M') {
