@@ -209,8 +209,8 @@ public class Schedule {
 			location = dat.locOfClass(c.getStartTime(), c.getEndTime(), c.getDayStringList());
 			ArrayList<Integer> rowLoc  = location.get(0);
 			ArrayList<Integer> colLoc  = location.get(1);
-			System.out.println(rowLoc);
-			System.out.println(colLoc);
+			System.out.println("rowLoc: " + rowLoc);
+			System.out.println("colLoc: " + colLoc);
 			for(int x = 0; x< rowLoc.size(); x++){
 				for(int y = 0; y<colLoc.size(); y++){
 					schedule[rowLoc.get(x)][colLoc.get(y)]= c.getCode();
@@ -369,8 +369,10 @@ public class Schedule {
 		//System.out.println(c1.getDayStringList());
 		Schedule sch = new Schedule(course, "SPRING 2022");
 
-
+		// Kevin's test
 		sch.displaySchedule2();
+
+		// Tyler's test
 		Schedule sch2 = new Schedule(course, "FALL 2022");
 		sch2.displaySchedule3();
 	}
