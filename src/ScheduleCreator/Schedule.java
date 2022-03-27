@@ -210,8 +210,8 @@ public class Schedule {
 			location = dat.locOfClass(c.getStartTime(), c.getEndTime(), c.getDayStringList());
 			ArrayList<Integer> rowLoc  = location.get(0);
 			ArrayList<Integer> colLoc  = location.get(1);
-			System.out.println("rowLoc: " + rowLoc);
-			System.out.println("colLoc: " + colLoc);
+//			System.out.println("rowLoc: " + rowLoc);
+//			System.out.println("colLoc: " + colLoc);
 			for(int x = 0; x< rowLoc.size(); x++){
 				for(int y = 0; y<colLoc.size(); y++){
 					schedule[rowLoc.get(x)][colLoc.get(y)]= c.getCode();
@@ -359,13 +359,13 @@ public class Schedule {
 		Course c1 = new Course("MUSI 102", "MUSIC HISTORY II", "9:00 AM", "9:50 AM", 'A', "MWF");
 		Course c4 = new Course("COMP 205", "INTRO TO PROGRAM", "11:00 AM", "11:50 AM", 'A', "MWF");
 		Course c5 = new Course("COMP 233", "PARALLEL COMP", "11:00 AM", "12:15 PM", 'A', "TR");
-		//Course c6 = new Course("Test 000", "TEST COURSE", "7:00 PM", "7:50 PM", 'A', "MWF");
+		Course c6 = new Course("Test 000", "TEST COURSE", "13:00 PM", "13:50 PM", 'A', "MWF");
 
 		ArrayList<Course> course = new ArrayList<Course>();
 		course.add(c1);
 		course.add(c4);
 		course.add(c5);
-		//course.add(c6);
+		course.add(c6);
 		System.out.println(course);
 
 		//System.out.println(c1.getDayStringList());
