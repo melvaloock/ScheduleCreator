@@ -1,4 +1,6 @@
 -- drop table if exists course;
+drop table if exists recommendedCourse;
+drop table if exists recommendedSchedule;
 drop table if exists courseReference;
 drop table if exists schedule;
 drop table if exists account;
@@ -20,12 +22,30 @@ create table if not exists schedule (
 	);
     
 create table if not exists courseReference (
-	CourseCode varchar(30) not null,
-    CourseName varchar(255) not null,
+-- 	CourseCode varchar(30) not null,
+--  CourseName varchar(255) not null,
+	CourseID int not null,
     ScheduleID varchar(30) not null,
     UserEmail varchar(255) not null,
-    constraint pk_courseReference primary key (CourseCode, CourseName, UserEmail),
+    constraint pk_courseReference primary key (CourseID, UserEmail),
     constraint fk_courseReference foreign key (ScheduleID, UserEmail) references schedule(ScheduleID, UserEmail)
+	);
+    
+create table if not exists recommendedSchedule (
+	Major varchar(50) not null,
+    GradYear int not null,
+    Semester varchar(30) not null,
+    constraint pk_recommendedSchedule primary key (Major, GradYear, Semester)
+	);
+    
+create table if not exists recommendedCourse (
+	Major varchar(50) not null,
+	Semester varchar(30) not null,
+    GradYear int not null,
+	CourseCode varchar(30) not null,
+    CourseName varchar(255) not null,
+    constraint pk_recommendedCourse primary key (Semester, CourseCode, CourseName), 
+    constraint fk_recommendedCourse foreign key (Major, GradYear, Semester) references recommendedSchedule(Major, GradYear, Semester)
 	);
     
 create table if not exists course (
@@ -38,18 +58,6 @@ create table if not exists course (
     Enrollment int,
     Capacity int,
     constraint pk_course primary key (CourseID)
-	);
-    
-create table if not exists recommendedSchedule (
-	Major varchar(50) not null,
-    GradYear int not null,
-    constraint pk_recommendedSchedule primary key (Major, GradYear)
-	);
-    
-create table if not exists recommendedCourse (
-	CourseCode varchar(30) not null,
-    CourseName varchar(255) not null
-    -- finish
 	);
         
 select * from course;
