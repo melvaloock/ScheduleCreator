@@ -29,6 +29,16 @@ public class Course {
 		this.days = days;
 	}
 
+	public Course(String code, String title, String startTime, String endTime, char section, String days, int referenceNum) {
+		this.code = code;
+		this.title = title;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.section = section;
+		this.days = daysToEnum(days);
+		this.referenceNum = referenceNum;
+	}
+
 	public Course(String code, String title, String startTime, String endTime, char section, String days) {
 		this.code = code;
 		this.title = title;

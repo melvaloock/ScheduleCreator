@@ -207,9 +207,13 @@ public class Schedule {
 			DateAndTime dat = new DateAndTime();
 			ArrayList<ArrayList<Integer>> location = new ArrayList<>();
 			location = dat.locOfClass(c.getStartTime(), c.getEndTime(), c.getDayStringList());
-			for(int x = 1; x< ROWS; x++){
-				for(int y = 1; y<COLS; y++){
-
+			ArrayList<Integer> rowLoc  = location.get(0);
+			ArrayList<Integer> colLoc  = location.get(1);
+			System.out.println(rowLoc);
+			System.out.println(colLoc);
+			for(int x = 0; x< rowLoc.size(); x++){
+				for(int y = 0; y<colLoc.size(); y++){
+					schedule[rowLoc.get(x)][colLoc.get(y)]= c.getCode();
 				}
 			}
 		}
@@ -320,25 +324,54 @@ public class Schedule {
 		isCurrent = current;
 	}
 
+	@Override
+	public boolean equals(Object obj){
+		if (this == obj) {
+			return true;
+		}
+
+		Schedule sched;
+		if (obj instanceof Schedule){
+			sched = (Schedule) obj;
+		}else {
+			return false;
+		}
+
+		if (!this.courseList.equals(sched.courseList)){
+			return false;
+		}
+		if (this.isCurrent != sched.isCurrent){
+			return false;
+		}
+		if (!this.semester.equals(sched.semester)) {
+			return false;
+		}
+
+		return true;
+	}
 
 
 
-	public static void main(String[] args) {
+
+	public static void main(String[] args) throws ParseException {
 		Course c1 = new Course("MUSI 102", "MUSIC HISTORY II", "9:00 AM", "9:50 AM", 'A', "MWF");
 		Course c4 = new Course("COMP 205", "INTRO TO PROGRAM", "11:00 AM", "11:50 AM", 'A', "MWF");
-		Course c5 = new Course("COMP 233", "PARALLEL COMP", "11:00 AM", "12:15 AM", 'A', "TR");
-		Course c6 = new Course("Test 000", "TEST COURSE", "20:10 PM", "21:00 PM", 'A', "MWF");
+		Course c5 = new Course("COMP 233", "PARALLEL COMP", "11:00 AM", "12:15 PM", 'A', "TR");
+		//Course c6 = new Course("Test 000", "TEST COURSE", "7:00 PM", "7:50 PM", 'A', "MWF");
 
 		ArrayList<Course> course = new ArrayList<Course>();
 		course.add(c1);
 		course.add(c4);
 		course.add(c5);
-		course.add(c6);
+		//course.add(c6);
 		System.out.println(course);
 
 		//System.out.println(c1.getDayStringList());
 		Schedule sch = new Schedule(course, "SPRING 2022");
 
+
 		sch.displaySchedule2();
+		Schedule sch2 = new Schedule(course, "FALL 2022");
+		sch2.displaySchedule3();
 	}
 }
