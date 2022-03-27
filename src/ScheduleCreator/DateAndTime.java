@@ -8,7 +8,7 @@ import java.util.Locale;
 
 public class DateAndTime {
 
-    private final String TIMEFORMAT = "k:mm a";
+    private final String TIMEFORMAT = "k:mm:ss";
     private Date time1;
     private Date time2;
     private ArrayList<Date> scheduleTime = new ArrayList<>();;
@@ -47,8 +47,8 @@ public class DateAndTime {
     public ArrayList<ArrayList<Integer>> locOfClass(String time1, String time2, ArrayList<String> daysOfWeek) throws ParseException {
         ArrayList<ArrayList<Integer>> loc = new ArrayList<>();
         ArrayList<Integer> timeLoc = new ArrayList<>();
-        String[] times = {"8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM",
-                "13:00 PM", "14:00 PM", "15:00 PM", "16:00 PM", "17:00 PM", "18:00 PM", "19:00 PM", "20:00 PM"};
+        String[] times = {"8:00:00", "9:00:00", "10:00:00", "11:00:00", "12:00:00",
+                "13:00:00", "14:00:00", "15:00:00", "16:00:00", "17:00:00", "18:00:00", "19:00:00", "20:00:00"};
 
         setTime(time1,time2);
 
