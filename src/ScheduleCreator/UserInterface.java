@@ -25,7 +25,8 @@ public class UserInterface {
 
 	//move to time and day class later
 	public static String intToTime(int i) {
-		return ((i + 7 > 12) ? (i + 7) % 12 : i + 7) + ":00 " +  ((i > 4)? "PM" : "AM");
+//		return ((i + 7 > 12) ? (i + 7) % 12 : i + 7) + ":00 " +  ((i > 4)? "PM" : "AM");
+		return ((i + 7) + ":00:00");
 	}
 
 	public static ArrayList<Course> searchCoursesByCode(String code) {
@@ -82,7 +83,7 @@ public class UserInterface {
 		ArrayList<Course> result = new ArrayList<>();
 		for (Course c : searchResults) {
 			boolean add = false;
-			if (!times.contains(c.getStartTime())) {
+			if (times.contains(c.getStartTime())) {
 				add = true;
 			}
 			if (add) {

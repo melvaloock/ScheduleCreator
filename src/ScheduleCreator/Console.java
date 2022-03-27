@@ -79,6 +79,8 @@ public class Console extends UserInterface{
             System.out.println("Would you like to search again? (y/n)");
             if (ynEntry(searchScan) == 'Y') {
                 search = true;
+            } else {
+                search = false;
             }
 
         } while (search);
@@ -147,8 +149,15 @@ public class Console extends UserInterface{
      * should call the displaySchedule task from Schedule class
      * @param s
      */
-    public static void viewSchedule(Schedule s) throws ParseException {
-        s.displaySchedule2();
+    public static void viewSchedule(Schedule s) {
+        s.displaySchedule();
+
+//
+//        try {
+//            s.displaySchedule3();
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
         //will alter to my method once it functions
     }
 
