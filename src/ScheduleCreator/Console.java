@@ -36,7 +36,7 @@ public class Console extends UserInterface{
     public static ArrayList<Course> consoleSearch() {
 
         Scanner searchScan = new Scanner(System.in); //takes user input for now
-        boolean search = true;
+        boolean search = false;
         ArrayList<Course> searchResults = new ArrayList<>();
 
         do {
@@ -69,12 +69,17 @@ public class Console extends UserInterface{
 
             if (searchResults.isEmpty()) {
                 System.out.println("You search returned no courses-- search again? (y/n)");
-                if (ynEntry(searchScan) == 'N') {
-                    search = false;
+                if (ynEntry(searchScan) == 'Y') {
+                    search = true;
                 }
             }
 
-        } while (search = true);
+            System.out.println("Would you like to search again? (y/n)");
+            if (ynEntry(searchScan) == 'Y') {
+                search = true;
+            }
+
+        } while (search);
 
         return searchResults;
     }
@@ -83,15 +88,16 @@ public class Console extends UserInterface{
 
         Scanner filterScan = new Scanner(System.in); //takes user input for now
 
-        System.out.println("Would you like to filter your search?");
-        if (ynEntry(filterScan) == 'N') {
-            return searchResults;
-        }
 
         boolean filter = false;
         ArrayList<Course> filterResults = new ArrayList<>();
 
         do {
+
+            System.out.println("Would you like to filter your search?");
+            if (ynEntry(filterScan) == 'N') {
+                return searchResults;
+            }
 
             System.out.println("Would you like to filter by day (1) or time of day (2)?");
             int filterType = intEntry(1, 2, filterScan);
@@ -101,6 +107,7 @@ public class Console extends UserInterface{
                 System.out.println("Enter all the days that you want to see results for:");
                 String filterDays = filterScan.nextLine();
                 filterResults = dayFilter(searchResults, filterDays);
+
             } else if (filterType == 2) {
                 System.out.println("Enter the numbers of all the times you want to see results for :");
                 for (int i = 1; i <= 9; i++) {
@@ -120,8 +127,8 @@ public class Console extends UserInterface{
             System.out.println("Filtered results:");
             if (filterResults.isEmpty()) {
                 System.out.println("You search returned no courses-- search again? (y/n)");
-                if (ynEntry(filterScan) == 'N') {
-                    filter = false;
+                if (ynEntry(filterScan) == 'Y') {
+                    filter = true;
                 }
             }
         } while (filter);
@@ -160,10 +167,12 @@ public class Console extends UserInterface{
             choice = intEntry(1, 4, scn);
             if (choice == 1) { // add course
                 // course search
-                ArrayList<Course> results = consoleSearch();
+                ArrayList<Course> searchResults = consoleSearch();
 
+
+                ArrayList<Course> results = new ArrayList<>();
                 // filter search
-                results = consoleFilter(results);
+                results = consoleFilter(searchResults);
 
                 // ask for course to add (option to add none and/or search again)
                 System.out.println("Which course would you like to add? (case sensitive)");

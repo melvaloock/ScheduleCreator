@@ -59,26 +59,29 @@ public class UserInterface {
 		return result;
 	}
 
-	public static ArrayList<Course> dayFilter(ArrayList<Course> courses, String days) {
+	public static ArrayList<Course> dayFilter(ArrayList<Course> searchResults, String days) {
 		ArrayList<Course> result = new ArrayList<>();
-		for (Course c : courses) {
-			boolean add = true;
+
+		for (Course c : searchResults) {
+			boolean add = false;
 			for (char d: c.getDayList()) {
-				if (!Arrays.asList(days.toCharArray()).contains(d)) {
-					add = false;
+				if (Arrays.asList(days.toCharArray()).contains(d)) {
+					add = true;
 				}
 			}
 			if (add) {
 				result.add(c);
 			}
 		}
+
+
 		return result;
 	}
 
-	public static ArrayList<Course> timeFilter(ArrayList<Course> courses, ArrayList<String> times) {
+	public static ArrayList<Course> timeFilter(ArrayList<Course> searchResults, ArrayList<String> times) {
 
 		ArrayList<Course> result = new ArrayList<>();
-		for (Course c : courses) {
+		for (Course c : searchResults) {
 			boolean add = true;
 			if (!times.contains(c.getStartTime())) {
 				add = false;
