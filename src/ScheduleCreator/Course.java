@@ -126,7 +126,7 @@ public class Course {
 	@Override
 	public String toString() {
 		String ds = daysToString();
-		return String.format("%s (%c) | %s | %s %s - %s", code, section, title, ds, startTime, endTime);
+		return String.format("%s | %s | %s %s - %s", code, title, ds, startTime, endTime);
 	}
 
 	public boolean isFull() {

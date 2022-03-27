@@ -1,6 +1,7 @@
 package ScheduleCreator;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Console extends UserInterface{
@@ -94,7 +95,7 @@ public class Console extends UserInterface{
 
         do {
 
-            System.out.println("Would you like to filter your search?");
+            System.out.println("Would you like to filter your search? (y/n)");
             if (ynEntry(filterScan) == 'N') {
                 return searchResults;
             }
@@ -105,7 +106,7 @@ public class Console extends UserInterface{
 
             if (filterType == 1) {
                 System.out.println("Enter all the days that you want to see results for:");
-                String filterDays = filterScan.nextLine();
+                String filterDays = filterScan.nextLine().toUpperCase();
                 filterResults = dayFilter(searchResults, filterDays);
 
             } else if (filterType == 2) {
