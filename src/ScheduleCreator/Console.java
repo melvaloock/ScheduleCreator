@@ -310,7 +310,7 @@ public class Console extends UserInterface{
     }
 
     public static void consoleSchedulePage(){
-        viewSchedule(UserInterface.getCurrentStudent().getCurrentSchedule());
+        viewSchedule(currentStudent.getCurrentSchedule());
         System.out.println("1) Help");
         System.out.println("2) Save current schedule");
         System.out.println("3) Alter current schedule");

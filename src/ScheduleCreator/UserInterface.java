@@ -9,7 +9,7 @@ public class UserInterface {
 	
 	private static HashMap<String, Schedule> recommendedSchedules;
 	private static ArrayList<Course> courses;
-	private static Student currentStudent;
+	protected static Student currentStudent;
 
 	// database for the current session -- will only work if you have
 	// an active db on your machine
@@ -199,9 +199,9 @@ public class UserInterface {
 		//A suggestion by Dr. Hutchins
 		//to have a while loop for navigation.
 
-		for (Course c : searchCoursesByCode("COMP")) {
-			System.out.println(c);
-		}
+//		for (Course c : searchCoursesByCode("COMP")) {
+//			System.out.println(c);
+//		}
 
 		Console.consoleMain();
 	}
