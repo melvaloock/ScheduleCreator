@@ -9,7 +9,6 @@ import java.util.Locale;
 public class DateAndTime {
 
     private final String TIMEFORMAT = "h:mm a";
-    private final String DAYOFWEEKFORMAT = "E";
     private Date time1;
     private Date time2;
     private ArrayList<Date> scheduleTime = new ArrayList<>();;
@@ -68,20 +67,6 @@ public class DateAndTime {
                     timeLoc.add(x+1);
                     timeLoc.add(x+2);
                     timeLoc.add(x+3);
-                }
-            }else if(scheduleTime.get(x).compareTo(this.time1) < 0){
-                if(timeDifference() == 50 || timeDifference() == 75){
-                    timeLoc.add(x+1);
-                    timeLoc.add(x+2);
-                }else if(timeDifference() == 120){
-                    timeLoc.add(x+1);
-                    timeLoc.add(x+2);
-                    timeLoc.add(x+3);
-                }else if(timeDifference() == 180){
-                    timeLoc.add(x+1);
-                    timeLoc.add(x+2);
-                    timeLoc.add(x+3);
-                    timeLoc.add(x+4);
                 }
             }
         }
