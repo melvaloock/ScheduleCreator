@@ -122,11 +122,18 @@ public class UserInterface {
 	}
 
 	public static boolean removeCourse(String courseEntry) {
-		CurrentSchedule cs = new CurrentSchedule(currentStudent.getCurrentSchedule().getCourseList());
-		boolean didRem = cs.removeCourse(courseEntry);
+		boolean didRemove = false;
+		ArrayList<Course> courses = currentStudent.getCurrentSchedule().getCourseList();
 
-		currentStudent.setCurrentSchedule(cs);
-		return didRem;
+		for (Course c : courses) {
+			if (c.getCode().contains(courseEntry)) {
+				courses.remove(c);
+				didRemove = true;
+			}
+		}
+
+		currentStudent.setCurrentSchedule(new CurrentSchedule(courses));
+		return didRemove;
 	}
 
 	public static void clearSchedule() {

@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Scanner;
 
-import com.mysql.cj.x.protobuf.MysqlxPrepare.Prepare;
-
 // import java.time.LocalTime;
 
 public class Database { 
@@ -21,7 +19,7 @@ public class Database {
             info.put("password", password);
             // conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + schema, info);
             conn = DriverManager.getConnection("jdbc:mysql://34.121.27.151/" + schema, info);
-            System.out.println("Connection successful!");
+            // System.out.println("Connection successful!");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } 
@@ -149,7 +147,6 @@ public class Database {
         insertStmt.close();
     }
 
-    // TODO: this doesn't actually save a schedule it only saves a scheduleID
     public void addSchedule(String scheduleID, boolean isCurrent, String userEmail) throws SQLException {
         PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM schedule WHERE UserEmail = ? AND ScheduleID = ?");
         pstmtCheck.setString(1, userEmail);
@@ -165,8 +162,6 @@ public class Database {
         insertStmt.setInt(2, (isCurrent) ? 1 : 0);
         insertStmt.setString(3, userEmail);;
         int rows = insertStmt.executeUpdate();
-
-        // TODO: put addCourseRef() somewhere here
 
         if (rows <= 0) {
             throw new SQLException("ERROR: Schedule creation failed. Please try again.");
