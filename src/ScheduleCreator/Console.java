@@ -98,11 +98,6 @@ public class Console extends UserInterface{
 
         do {
 
-            System.out.println("Would you like to filter your search? (y/n)");
-            if (ynEntry(filterScan) == 'N') {
-                return searchResults;
-            }
-
             System.out.println("Would you like to filter by day (1) or time of day (2)?");
             int filterType = intEntry(1, 2, filterScan);
             filterScan.nextLine();
@@ -128,17 +123,16 @@ public class Console extends UserInterface{
 
                 filterResults = timeFilter(searchResults, filterTimes);
             }
-            System.out.println("Filtered results:");
-            if (filterResults.isEmpty()) {
-                System.out.println("You search returned no courses-- search again? (y/n)");
-                if (ynEntry(filterScan) == 'Y') {
-                    filter = true;
-                }
-            }
+
         } while (filter);
 
-        for (int i = 1; i <= filterResults.size(); i++) {
-            System.out.println(i + ". " +filterResults.get(i - 1));
+        System.out.println("Filtered results:");
+        if (filterResults.isEmpty()) {
+            System.out.println("You search returned no courses");
+        } else {
+            for (int i = 1; i <= filterResults.size(); i++) {
+                System.out.println(i + ". " + filterResults.get(i - 1));
+            }
         }
 
         return filterResults;
@@ -150,9 +144,9 @@ public class Console extends UserInterface{
      * @param s
      */
     public static void viewSchedule(Schedule s) {
-        s.displaySchedule();
+        s.displaySchedule2();
 
-//
+
 //        try {
 //            s.displaySchedule3();
 //        } catch (ParseException e) {
@@ -181,8 +175,23 @@ public class Console extends UserInterface{
                 ArrayList<Course> searchResults = consoleSearch();
 
                 ArrayList<Course> results = new ArrayList<>();
-                // filter search
-                results = consoleFilter(searchResults);
+                System.out.println("Would you like to filter your search? (y/n)");
+                if (ynEntry(scn) == 'N') {
+                    results = searchResults;
+                } else {
+
+                    // filter search
+                    boolean filterAgain = false;
+                    do {
+                        results = consoleFilter(searchResults);
+                        System.out.println("Would you like to use another filter?");
+                        if (ynEntry(scn) == 'Y') {
+                            filterAgain = true;
+                        } else {
+                            filterAgain = false;
+                        }
+                    } while (filterAgain);
+                }
 
                 // ask for course to add (option to add none and/or search again)
                 System.out.println("Which course would you like to add?");
