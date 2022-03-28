@@ -69,7 +69,6 @@ public class AccountCreateLoginTester {
      * only run this once.
      * if the data is removed from the db, run this before running the tests
      */
-    @Test   // not actually a test (only made it a test for easy run of this code)
     public void addTestData() throws SQLException {
         dbSetUp();
         PreparedStatement stmnt;
@@ -107,7 +106,6 @@ public class AccountCreateLoginTester {
      * removes test data from the db.
      * NOTE: the tests won't work properly if the db does not have the test data
      */
-    @Test   // not actually a test (only made it a test for easy run of this code)
     public void removeTestData() throws SQLException {
         dbSetUp();
         PreparedStatement stmnt;
@@ -325,6 +323,19 @@ public class AccountCreateLoginTester {
         expectedSearchResults.add(new Course("ENTR 302  A", "SALES IN THE STARTUP", "14:00", "14:50", 'A', "MWF", 100289));
 
         Assert.assertEquals(expectedSearchResults, db.searchByKeyword(searchTerm));
+    }
+
+
+
+    public static void main(String[] args) throws SQLException {
+        int choice = -1;
+
+        AccountCreateLoginTester obj = new AccountCreateLoginTester();
+        if (choice == 0) {
+            obj.addTestData();
+        }else if (choice == 1){
+            obj.removeTestData();
+        }
     }
 
 }
