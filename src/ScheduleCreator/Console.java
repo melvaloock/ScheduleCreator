@@ -197,14 +197,8 @@ public class Console extends UserInterface{
 
                 ArrayList<Course> coursesToAdd = new ArrayList<>();
 
-                while (true) {
-                    if (scn.hasNextInt()) {
-                        courseEntry = intEntry(1, results.size(), scn);
-                        break;
-                    } else {
-                        System.out.println("That is not an integer choice. Please try again.");
-                    }
-                }
+                courseEntry = intEntry(1, results.size(), scn);
+
 
                 coursesToAdd.add(results.get(courseEntry - 1));
 
@@ -213,14 +207,8 @@ public class Console extends UserInterface{
                     char addAnother = ynEntry(scn);
                     if (addAnother == 'Y') {
                         System.out.print("Corresponding Integer: ");
-                        while (true) {
-                            if (scn.hasNextInt()) {
-                                courseEntry = intEntry(1, results.size(), scn);
-                                break;
-                            } else {
-                                System.out.println("That is not an integer choice. Please try again.");
-                            }
-                        }
+                        courseEntry = intEntry(1, results.size(), scn);
+
                         coursesToAdd.add(results.get(courseEntry - 1));
                     } else if (addAnother == 'N') {
                         break;
