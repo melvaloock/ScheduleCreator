@@ -145,7 +145,7 @@ public class Console extends UserInterface{
      */
     public static void viewSchedule(Schedule s) throws ParseException {
         s.displaySchedule3();
-
+//should work
 
 //        try {
 //            s.displaySchedule3();
