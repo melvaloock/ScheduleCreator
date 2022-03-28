@@ -106,7 +106,7 @@ public class UserInterface {
 	public void addRecommendedSchedule(RecommendedSchedule r) {}
 
 	/**
-	 *
+	 * adds courses to schedule if they do not have conflicts
 	 * @param coursesToAdd Arraylist of courses needing to be added
 	 */
 	static boolean addCourses(ArrayList<Course> coursesToAdd) {
@@ -129,21 +129,11 @@ public class UserInterface {
 		return hasConflict;
 	}
 
-	public static boolean removeCourse(String courseEntry) {
-		boolean didRemove = false;
-		ArrayList<Course> courses = currentStudent.currentSchedule.courseList;
 
-		for (Course c : courses) {
-			if (c.getCode().contains(courseEntry)) {
-				courses.remove(c);
-				didRemove = true;
-			}
-		}
 
-		currentStudent.setCurrentSchedule(new CurrentSchedule(courses));
-		return didRemove;
-	}
-
+	/**
+	 * clears the current Student's current schedule
+	 */
 	public static void clearSchedule() {
 		currentStudent.currentSchedule.clearSchedule();
 	}
