@@ -44,7 +44,7 @@ create table if not exists recommendedCourse (
     GradYear int not null,
 	CourseCode varchar(30) not null,
     CourseName varchar(255) not null,
-    constraint pk_recommendedCourse primary key (Semester, CourseCode, CourseName), 
+    constraint pk_recommendedCourse primary key (Major, GradYear, Semester, CourseCode, CourseName), 
     constraint fk_recommendedCourse foreign key (Major, GradYear, Semester) references recommendedSchedule(Major, GradYear, Semester)
 	);
     
@@ -87,9 +87,20 @@ select * from course where coursecode like "%comp%";
 -- for melva
 select * from course where CourseName like "%music%";
 
-insert into recommendedSchedule values("Computer Science (BS)", 2023, "Fall 2022");
-insert into recommendedCourse values("Computer Science (BS)", "Fall 2022", 2023, "COMP 252 A", "COMPUTER ARCHITECTURE/ORG");
-insert into recommendedCourse values("Computer Science (BS)", "Fall 2022", 2023, "COMP 222 A", "INTRO TO DATA STRUCT & ALGORITHMS");
-insert into recommendedCourse values("Computer Science (BS)", "Fall 2022", 2023, "HUMA 301 A", "CIV/THE ARTS");
+insert into recommendedSchedule values("Computer Science (BS)", 2024, "Fall 2022");
+insert into recommendedCourse values("Computer Science (BS)", "Fall 2022", 2024, "COMP 252  A", "COMPUTER ARCHITECTURE/ORG");
+insert into recommendedCourse values("Computer Science (BS)", "Fall 2022", 2024, "COMP 222  A", "INTRO TO DATA STRUCT & ALGORITHMS");
+insert into recommendedCourse values("Computer Science (BS)", "Fall 2022", 2024, "HUMA 301  A", "CIV/THE ARTS");
+
+insert into recommendedSchedule values("Computer Science (BA)", 2025, "Fall 2022");
+insert into recommendedCourse values("Computer Science (BA)", "Fall 2022", 2025, "MATH 117  A", "FINITE MATH");
+insert into recommendedCourse values("Computer Science (BA)", "Fall 2022", 2025, "COMP 222  A", "INTRO TO DATA STRUCT & ALGORITHMS");
+
+
+select * from recommendedCourse where major = "Computer Science (BS)" and gradyear = 2023 and semester = "Fall 2022";
+
+select * from course where coursecode = "COMP 222  A" and CourseName = "INTRO TO DATA STRUCT & ALGORITHMS";
+select * from course where coursecode = "COMP 252  A" and CourseName = "COMPUTER ARCHITECTURE/ORG";
+select * from course where coursecode = "HUMA 301  A" and CourseName = "CIV/THE ARTS";
 
 
