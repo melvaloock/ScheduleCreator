@@ -523,6 +523,15 @@ public class Database {
         }
     }
 
+    //Implement a method to get the reference number of each class -Tyler
+    public int getReferenceNum(Course c) throws SQLException {
+        PreparedStatement selectStmt = conn.prepareStatement("SELECT * FROM course WHERE CourseCode = ? and CourseName = ?");
+        selectStmt.setString(1, c.getCode());
+        selectStmt.setString(2, c.getTitle());
+        ResultSet resultSet = selectStmt.executeQuery();
+        return resultSet.getInt("CourseID");
+    }
+
     // TODO: Kevin -> sprint 2
     public void updateYear(){};
     public void updateMajor(){};
