@@ -68,6 +68,10 @@ select * from schedule;
 
 select * from courseReference;
 
+select * from recommendedSchedule;
+
+select * from recommendedCourse;
+
 -- insert into account values("hambykr19@gcc.edu", "somepasswordhash");
 
 insert into schedule values("SPRING2022", 1, "hambykr19@gcc.edi");
@@ -78,5 +82,20 @@ insert into courseReference values("courseCode", "courseName", "SPRING2022", "ha
 
 delete from courseReference where UserEmail = "hambykr19@gcc.edu" and CourseCode = "courseCode" and ScheduleID = "SPRING2022";
 
+select * from course where coursecode like "%comp%";
+
 -- for melva
 select * from course where CourseName like "%music%";
+
+insert into recommendedSchedule values("Computer Science (BS)", 2023, "Fall 2021");
+insert into recommendedCourse values("Computer Science (BS)", "Fall 2021", 2023, "COMP 252 A", "COMPUTER ARCHITECTURE/ORG");
+insert into recommendedCourse values("Computer Science (BS)", "Fall 2021", 2023, "COMP 222 A", "INTRO TO DATA STRUCT & ALGORITHMS");
+insert into recommendedCourse values("Computer Science (BS)", "Fall 2021", 2023, "COMP 222 B", "INTRO TO DATA STRUCT & ALGORITHMS");
+insert into recommendedCourse values("Computer Science (BS)", "Fall 2021", 2023, "HUMA 301 A", "CIV/THE ARTS");
+insert into recommendedCourse values("Computer Science (BS)", "Fall 2021", 2023, "HUMA 301 B", "CIV/THE ARTS");
+insert into recommendedCourse values("Computer Science (BS)", "Fall 2021", 2023, "HUMA 301 C", "CIV/THE ARTS");
+insert into recommendedCourse values("Computer Science (BS)", "Fall 2021", 2023, "HUMA 301 D", "CIV/THE ARTS");
+insert into recommendedCourse values("Computer Science (BS)", "Fall 2021", 2023, "HUMA 301 E", "CIV/THE ARTS");
+insert into recommendedCourse values("Computer Science (BS)", "Fall 2021", 2023, "HUMA 301 F", "CIV/THE ARTS");
+insert into recommendedCourse values("Computer Science (BS)", "Fall 2021", 2023, "HUMA 301 G", "CIV/THE ARTS");
+

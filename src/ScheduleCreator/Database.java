@@ -470,19 +470,15 @@ public class Database {
     }
 
     public Course createCourse(ResultSet rst) throws SQLException {
-        if (rst.next()) {
-            ArrayList<Day> days = new ArrayList<Day>();
-            String daysString = rst.getString("Weekday");
-            for (char c : daysString.toCharArray()) {
-                days.add(Day.getDay(c));
-            }
-            String code = rst.getString("CourseCode");
-            return new Course(rst.getInt("CourseID"), rst.getString("CourseCode"), rst.getString("CourseName"),
-                rst.getString("StartTime"), rst.getString("EndTime"), code.charAt(code.length() - 1),
-                days);
-        } else {
-            throw new SQLException("No course found with that code.");
+        ArrayList<Day> days = new ArrayList<Day>();
+        String daysString = rst.getString("Weekday");
+        for (char c : daysString.toCharArray()) {
+            days.add(Day.getDay(c));
         }
+        String code = rst.getString("CourseCode");
+        return new Course(rst.getInt("CourseID"), rst.getString("CourseCode"), rst.getString("CourseName"),
+            rst.getString("StartTime"), rst.getString("EndTime"), code.charAt(code.length() - 1),
+            days);
     }
     
     public void updateCourseRefs(String scheduleID, String userEmail, ArrayList<Course> courses) {
