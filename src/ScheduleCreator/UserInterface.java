@@ -40,6 +40,7 @@ public class UserInterface {
 		try {
 			result = db.searchByCode(code);
 		} catch (SQLException e) {
+			System.out.println("Error!");
 			//e.printStackTrace();
 		}
 
@@ -59,6 +60,7 @@ public class UserInterface {
 		try {
 			result = db.searchByKeyword(keyword);
 		} catch (SQLException e) {
+			System.out.println("Error!");
 			e.printStackTrace();
 		}
 
@@ -197,29 +199,6 @@ public class UserInterface {
 	}
 
 	public static void main(String args[])throws ParseException {
-
-		//test2();
-
-
-
-//		menuNav(0);
-//		Schedule tests = new Schedule(courses, "Spring 2023");
-//		tests.displaySchedule();
-//		testMenu();
-		//A suggestion by Dr. Hutchins
-		//to have a while loop for navigation.
-
-//		for (Course c : searchCoursesByCode("COMP")) {
-//			System.out.println(c);
-//		}
-
-
-		try {
-			db.getRecommendedCourses("Computer Science (BS)", 2023, "Fall 2022");
-			System.out.println("attempt");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 
 		Console.consoleMain();
 	}

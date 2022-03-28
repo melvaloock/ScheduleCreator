@@ -33,6 +33,9 @@ public class Console extends UserInterface{
         }
     }
 
+    /**
+     * Melva
+     */
     public static void consoleRecommendedSchedule() {
         int year;
         String major;
@@ -40,10 +43,9 @@ public class Console extends UserInterface{
         for (int i = 0; i < recMajors.size(); i++) {
             System.out.println(i + 1 +": " + recMajors.get(i));
         }
-
         major = recMajors.get(intEntry(1, recMajors.size(), scn) - 1);
-//        major = "Computer Science (BS)";
-        System.out.println("What is your year ?");
+
+        System.out.println("What is your graduation year?");
         year = intEntry(2000, 2030, scn);
 
         RecommendedSchedule rs = new RecommendedSchedule(major, year, db);
@@ -51,6 +53,10 @@ public class Console extends UserInterface{
         consoleSchedulePage();
     }
 
+    /**
+     * Melva
+     * @return
+     */
     public static ArrayList<Course> consoleSearch() {
 
         Scanner searchScan = new Scanner(System.in); //takes user input for now
@@ -69,20 +75,17 @@ public class Console extends UserInterface{
                 String code = searchScan.nextLine().toUpperCase(); //matches all to the format in the database
                 //check for valid user input
                 searchResults = searchCoursesByCode(code);
-                System.out.println("Search results:");
-                for (int i = 1; i <= searchResults.size(); i++) {
-                    System.out.println(i + ". " + searchResults.get(i - 1));
-                }
             } else if (searchType == 2) {
                 System.out.println("Searching by keyword \nEnter the keyword you would like to search for");
 
                 String keyword = searchScan.nextLine().toUpperCase(); //matches all to the format in the database
                 //check for valid user input
                 searchResults = searchCoursesByKeyword(keyword);
-                System.out.println("Search results:");
-                for (int i = 1; i <= searchResults.size(); i++) {
-                    System.out.println(i + ". " + searchResults.get(i - 1));
-                }
+            }
+
+            System.out.println("Search results:");
+            for (int i = 1; i <= searchResults.size(); i++) {
+                System.out.println(i + ". " + searchResults.get(i - 1));
             }
 
             if (searchResults.isEmpty()) {
@@ -101,6 +104,11 @@ public class Console extends UserInterface{
         return searchResults;
     }
 
+    /**
+     * Melva
+     * @param searchResults
+     * @return
+     */
     public static ArrayList<Course> consoleFilter(ArrayList<Course> searchResults) {
 
         Scanner filterScan = new Scanner(System.in); //takes user input for now
@@ -121,12 +129,12 @@ public class Console extends UserInterface{
                 filterResults = dayFilter(searchResults, filterDays);
 
             } else if (filterType == 2) {
-                System.out.println("Enter the numbers of all the times you want to see results for :");
-                for (int i = 1; i <= 9; i++) {
+                System.out.println("Enter the numbers of all the times you want to see results for (separated by commas):");
+                for (int i = 1; i <= 13; i++) {
                     System.out.printf("%d) %s \n", i, intToTime(i));
                 }
 
-                filterScan.useDelimiter("");
+                filterScan.useDelimiter(",");
                 ArrayList<String> filterTimes = new ArrayList<>();
 
                 while (filterScan.hasNextInt()) {

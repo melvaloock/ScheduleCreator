@@ -37,6 +37,10 @@ public class Account extends Student {
 	public void saveCurrentSchedule(Database db) {
 		//TODO: add currentSchedule to scheduleMap (or however saved schedules will be stored)
 		// - this includes adding a label (key) to this schedule so that it can be accessed
+		if (getEmail() == null) {
+			System.out.println("\n You must have an account to save a Schedule");
+			return;
+		}
 		try {
 			Schedule checkSch = db.getCurrentSchedule(getEmail());
 			if (checkSch == null) {
