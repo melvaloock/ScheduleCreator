@@ -290,7 +290,7 @@ public class Database {
             // check if the passwords match
             if (PasswordStorage.verifyPassword(userPassword, dbPass)){
                 //ret = getAccount(userEmail);
-                ret = new Account(userEmail, "", new CurrentSchedule(), "", 0);
+                ret = new Account(userEmail, "", getCurrentSchedule(userEmail), "", 0);
             } else {
                 // wrong password
                 throw new SQLException("Incorrect email or password.");
@@ -316,7 +316,7 @@ public class Database {
         ResultSet rstCheck = pstmtCheck.executeQuery();
 
         // get schedule if it exists
-        Schedule currentSchedule = new Schedule();
+        CurrentSchedule currentSchedule = new CurrentSchedule();
         if (rstCheck.next()) {
             currentSchedule = getCurrentSchedule(userEmail);
         }
@@ -371,7 +371,7 @@ public class Database {
         return major;
     }
 
-    public Schedule getCurrentSchedule(String userEmail) throws SQLException {
+    public CurrentSchedule getCurrentSchedule(String userEmail) throws SQLException {
         PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM schedule WHERE UserEmail = ?");
         pstmtCheck.setString(1, userEmail);
         ResultSet rstCheck = pstmtCheck.executeQuery();
@@ -386,7 +386,7 @@ public class Database {
             String scheduleID = rstSelect.getString("ScheduleID");
             ArrayList<Course> courses = getCoursesFromRefs(userEmail, scheduleID);
 
-            return new Schedule(courses, scheduleID);
+            return new CurrentSchedule(courses, scheduleID);
         } else {
             // returns null if no current schedule
             return null;
@@ -438,9 +438,8 @@ public class Database {
         ArrayList<Course> courses = new ArrayList<Course>();
         while (rstCheck.next()) {
             PreparedStatement selectStmt = conn
-                .prepareStatement("SELECT * FROM course WHERE CourseCode = ? AND CourseName = ?");
-            selectStmt.setString(1, rstCheck.getString("CourseCode"));
-            selectStmt.setString(2, rstCheck.getString("CourseName"));
+                .prepareStatement("SELECT * FROM course WHERE CourseID = ?");
+            selectStmt.setString(1, rstCheck.getString("CourseID"));
             ResultSet rstSelect = selectStmt.executeQuery();
 
             while (rstSelect.next()) {

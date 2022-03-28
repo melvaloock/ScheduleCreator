@@ -13,7 +13,7 @@ public class Account extends Student {
 	private String advisorEmail;
 
 
-	public Account(String username, String passwordHash, Schedule currentSchedule, String major, int year) {
+	public Account(String username, String passwordHash, CurrentSchedule currentSchedule, String major, int year) {
 		//see if they are in the database
 		//load hashmap from database
 

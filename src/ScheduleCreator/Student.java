@@ -8,8 +8,8 @@ public class Student {
 
 	public Student() {}
 
-	public Student(Schedule currentSchedule, String major, int year) {
-		this.currentSchedule = (CurrentSchedule) currentSchedule;
+	public Student(CurrentSchedule currentSchedule, String major, int year) {
+		this.currentSchedule = currentSchedule;
 		this.major = major;
 		this.year = year;
 	}

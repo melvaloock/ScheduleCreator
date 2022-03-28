@@ -27,7 +27,7 @@ public class AccountCreateLoginTester {
     private final Course testCourse2 = new Course("BIOL 102 B", "GENERAL BIOLOGY II", "9:00", "9:50", 'B', "MWF", 100035);
 
     private final ArrayList<Course> courseList = makeCourseList();
-    private final Schedule currentSchedule = makeCurrentSchedule();
+    private final CurrentSchedule currentSchedule = makeCurrentSchedule();
     private final Account testAccount = new Account(email, password, currentSchedule, major, year);
 
     private ArrayList<Course> makeCourseList(){
@@ -37,8 +37,8 @@ public class AccountCreateLoginTester {
         return temp;
     }
 
-    private Schedule makeCurrentSchedule() {
-        Schedule temp = new Schedule(courseList, currentScheduleID);
+    private CurrentSchedule makeCurrentSchedule() {
+        CurrentSchedule temp = new CurrentSchedule(courseList, currentScheduleID);
         temp.isCurrent = true;
         return temp;
     }

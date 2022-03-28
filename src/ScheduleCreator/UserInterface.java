@@ -173,7 +173,7 @@ public class UserInterface {
 	public static boolean loginToAccount(String userEmail, String userPassword) {
 		try {
 			currentStudent = db.checkLogin(userEmail, userPassword);
-		} catch (SQLException e){
+		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 			return false;
 		}catch (PasswordStorage.InvalidHashException | PasswordStorage.CannotPerformOperationException e) {
@@ -183,8 +183,6 @@ public class UserInterface {
 
 		return true;
 	}
-
-
 
 	public int getUserID() {
 		return this.userID;
