@@ -173,6 +173,7 @@ public class Console extends UserInterface{
 
                 // course search
                 ArrayList<Course> searchResults = consoleSearch();
+                if (searchResults.isEmpty()) continue;
 
                 ArrayList<Course> results = new ArrayList<>();
                 System.out.println("Would you like to filter your search? (y/n)");
