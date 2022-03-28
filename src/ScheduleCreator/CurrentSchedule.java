@@ -41,7 +41,7 @@ public class CurrentSchedule extends Schedule {
 		boolean didRem = false;
 
 		for (int i = 0; i < courseList.size(); i++){
-			if (courseList.get(i).getCode().equals(remCode)){
+			if (courseList.get(i).getCode().contains(remCode)){
 				courseList.remove(i);
 				didRem = true;
 				i--;
