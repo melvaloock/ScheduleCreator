@@ -55,7 +55,6 @@ public class DateAndTime {
         for (String time : times) {
             setTime(time);
         }
-        System.out.println(timeDifference());
         for(int x = 0; x < times.length; x++){
             if(scheduleTime.get(x).compareTo(this.time1) == 0){
                 if(timeDifference() == 50){
