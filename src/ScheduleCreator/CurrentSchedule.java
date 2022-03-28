@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class CurrentSchedule extends Schedule {
 
+
 	public CurrentSchedule(ArrayList<Course> courses) {
 		super.setCourseList(courses);
 	}
