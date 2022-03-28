@@ -233,6 +233,27 @@ public class Schedule {
 		}
 		System.out.println();
 	}
+
+	@Override
+	public String toString() {
+		String[][] schedule = createEmptySchedule();
+		try {
+			schedule = populateSchedule2(schedule);
+		} catch (ParseException e) {}
+
+		StringBuilder sb = new StringBuilder();
+		sb.append("*********************** " + getSemester() + " GCC Schedule " + "***********************");
+		for (int row = 0; row < ROWS; row++) {
+			sb.append("\n");
+			for (int col = 0; col < COLS; col++) {
+				String str = String.format("%-12s", schedule[row][col]);
+				sb.append(str);
+			}
+		}
+		sb.append("\n");
+		return sb.toString();
+	}
+
 	public int getCol(char day) {
 		if (day == 'M') {
 			return 1;

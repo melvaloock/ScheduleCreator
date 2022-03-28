@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 
+import java.io.*;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.*;
+
 public class Console extends UserInterface{
 
     private static Scanner scn = new Scanner(System.in);
@@ -377,6 +381,7 @@ public class Console extends UserInterface{
                     break;
                 case 6:
                     //save as file
+                    chooseFileType();
                     break;
                 case 7:
                     //if the currentStudent is an account and not a guest, log out here.
@@ -483,6 +488,50 @@ public class Console extends UserInterface{
 //                break;
 
 
+        }
+    }
+
+    public static void chooseFileType() {
+        System.out.println("1) .txt");
+        System.out.println("2) .pdf");
+        int in = intEntry(1, 2, scn);
+        switch (in) {
+            case 1:
+                saveScheduleAsFile(".txt");
+                break;
+            case 2:
+                saveScheduleAsFile(".pdf");
+                break;
+            default:
+                // error checking (even though intEntry takes care of it)
+                System.out.println("Invalid selection!");
+                break;
+        }
+    }
+
+    public static void saveScheduleAsFile(String fileType) {
+        System.out.println("Enter the name of the file you would like to save to: ");
+        String fileName = scn.next();
+        
+        switch (fileType) {
+            case ".txt":
+                break;
+            case ".pdf":
+                generatePDF(fileName);
+                break;
+        }
+    }
+
+    public static void generatePDF(String filename) {
+        Document doc = new Document();
+        try {
+            PdfWriter writer = PdfWriter.getInstance(doc, new FileOutputStream("./" + filename + ".pdf"));
+            doc.open();
+            doc.add(new Paragraph(currentStudent.getCurrentSchedule().toString()));
+            doc.close();
+            writer.close();
+        } catch (Exception e) {
+            System.out.println("Error generating PDF");
         }
     }
 

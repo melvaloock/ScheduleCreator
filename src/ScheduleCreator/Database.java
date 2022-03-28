@@ -469,6 +469,7 @@ public class Database {
         return courseIDs;
     }
 
+    // this COULD throw an eror, so make sure it's handled
     public Course createCourse(ResultSet rst) throws SQLException {
         ArrayList<Day> days = new ArrayList<Day>();
         String daysString = rst.getString("Weekday");

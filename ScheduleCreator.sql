@@ -87,15 +87,9 @@ select * from course where coursecode like "%comp%";
 -- for melva
 select * from course where CourseName like "%music%";
 
-insert into recommendedSchedule values("Computer Science (BS)", 2023, "Fall 2021");
-insert into recommendedCourse values("Computer Science (BS)", "Fall 2021", 2023, "COMP 252 A", "COMPUTER ARCHITECTURE/ORG");
-insert into recommendedCourse values("Computer Science (BS)", "Fall 2021", 2023, "COMP 222 A", "INTRO TO DATA STRUCT & ALGORITHMS");
-insert into recommendedCourse values("Computer Science (BS)", "Fall 2021", 2023, "COMP 222 B", "INTRO TO DATA STRUCT & ALGORITHMS");
-insert into recommendedCourse values("Computer Science (BS)", "Fall 2021", 2023, "HUMA 301 A", "CIV/THE ARTS");
-insert into recommendedCourse values("Computer Science (BS)", "Fall 2021", 2023, "HUMA 301 B", "CIV/THE ARTS");
-insert into recommendedCourse values("Computer Science (BS)", "Fall 2021", 2023, "HUMA 301 C", "CIV/THE ARTS");
-insert into recommendedCourse values("Computer Science (BS)", "Fall 2021", 2023, "HUMA 301 D", "CIV/THE ARTS");
-insert into recommendedCourse values("Computer Science (BS)", "Fall 2021", 2023, "HUMA 301 E", "CIV/THE ARTS");
-insert into recommendedCourse values("Computer Science (BS)", "Fall 2021", 2023, "HUMA 301 F", "CIV/THE ARTS");
-insert into recommendedCourse values("Computer Science (BS)", "Fall 2021", 2023, "HUMA 301 G", "CIV/THE ARTS");
+insert into recommendedSchedule values("Computer Science (BS)", 2023, "Fall 2022");
+insert into recommendedCourse values("Computer Science (BS)", "Fall 2022", 2023, "COMP 252 A", "COMPUTER ARCHITECTURE/ORG");
+insert into recommendedCourse values("Computer Science (BS)", "Fall 2022", 2023, "COMP 222 A", "INTRO TO DATA STRUCT & ALGORITHMS");
+insert into recommendedCourse values("Computer Science (BS)", "Fall 2022", 2023, "HUMA 301 A", "CIV/THE ARTS");
+
 
