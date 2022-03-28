@@ -1,8 +1,6 @@
 package ScheduleCreator;
 
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Scanner;
 
 import java.io.*;
@@ -184,8 +182,9 @@ public class Console extends UserInterface{
 
 
     /**
-     * John's Task --
-     * implements console interaction with the schedule using methods in currentSchedule
+     * gives the user a selection of actions to take to alter their schedule.
+     * the user can add and remove courses.
+     * the user can clear all courses from their schedule.
      * @param s CurrentSchedule
      */
     public static void consoleAlterSchedule(CurrentSchedule s) {
@@ -234,6 +233,7 @@ public class Console extends UserInterface{
 
                 coursesToAdd.add(results.get(courseEntry - 1));
 
+                // see if the user wants to add any other courses from the list
                 while (true) {
                     System.out.println("Add another course? (y/n)");
                     char addAnother = ynEntry(scn);
@@ -249,16 +249,17 @@ public class Console extends UserInterface{
                     }
                 }
 
-                // Refactored -- put in UserInterface
+                // check if there are any conflicts
                 boolean hasConflict = addCourses(coursesToAdd);
 
+                /*
+                 * if there are conflicts, the courses not added and the user is told,
+                 * otherwise the courses are added and they user is told that they are added
+                 */
                 if (hasConflict) {
                     System.out.println("The course you selected conflicts with another course in your schedule," +
                             " so it cannot be added.");
                 } else {
-                    // for (Course c : coursesToAdd) {
-                    // cs.addCourse(c);
-                    // }
                     System.out.println("Course(s) added.");
                 }
 
@@ -300,8 +301,6 @@ public class Console extends UserInterface{
             }
         }
 
-        //consoleSchedulePage(); due to how consoleSchedule page is set up, this
-        //statement is no longer needed.
     }
 
     public static int mainMenu(){
@@ -314,11 +313,13 @@ public class Console extends UserInterface{
         return intEntry(1, 3, scn);
 
     }
-    /** JOHN
-     *
+    /**
+     * gets email and password information from user.
+     * if an account does not already exist using that email, an account is created;
+     * otherwise, the user is told that an account already exists using that email
+     * and is prompted to enter different information.
      */
     public static void consoleCreateAccount() {
-        //Scanner input = new Scanner(System.in);
         String userEmail;
         String userPassword;
 
@@ -412,6 +413,11 @@ public class Console extends UserInterface{
             }
     }
 
+    /**
+     * gets a char entry from the user
+     * @param scanner
+     * @return char of either 'Y' or 'N'
+     */
     public static char ynEntry(Scanner scanner) {
         char yn;
         while(true){
@@ -430,6 +436,13 @@ public class Console extends UserInterface{
         return yn;
     }
 
+    /**
+     * gets an int entry from the user
+     * @param min
+     * @param max
+     * @param scanner
+     * @return an int between min and max
+     */
     public static int intEntry(int min, int max, Scanner scanner) {
         int entry;
         while(true){
