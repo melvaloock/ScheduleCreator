@@ -1,6 +1,7 @@
 package ScheduleCreator;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -24,7 +25,8 @@ public class UserInterface {
 
 	//move to time and day class later
 	public static String intToTime(int i) {
-		return ((i + 7 > 12) ? (i + 7) % 12 : i + 7) + ":00 " +  ((i > 4)? "PM" : "AM");
+//		return ((i + 7 > 12) ? (i + 7) % 12 : i + 7) + ":00 " +  ((i > 4)? "PM" : "AM");
+		return ((i + 7) + ":00:00");
 	}
 
 	public static ArrayList<Course> searchCoursesByCode(String code) {
@@ -81,7 +83,7 @@ public class UserInterface {
 		ArrayList<Course> result = new ArrayList<>();
 		for (Course c : searchResults) {
 			boolean add = false;
-			if (!times.contains(c.getStartTime())) {
+			if (times.contains(c.getStartTime())) {
 				add = true;
 			}
 			if (add) {
@@ -194,7 +196,7 @@ public class UserInterface {
 		return this.userID++;
 	}
 
-	public static void main(String args[]) {
+	public static void main(String args[])throws ParseException {
 
 		//test2();
 

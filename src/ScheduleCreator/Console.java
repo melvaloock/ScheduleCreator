@@ -1,5 +1,6 @@
 package ScheduleCreator;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
@@ -14,7 +15,7 @@ public class Console extends UserInterface{
      * if the user chooses 2, get the input for their major and year
      * for now, stop here
      */
-    public static void consoleScheduleChoice(){
+    public static void consoleScheduleChoice()throws ParseException{
         int yn;
         int year;
         String major;
@@ -78,6 +79,8 @@ public class Console extends UserInterface{
             System.out.println("Would you like to search again? (y/n)");
             if (ynEntry(searchScan) == 'Y') {
                 search = true;
+            } else {
+                search = false;
             }
 
         } while (search);
@@ -94,11 +97,6 @@ public class Console extends UserInterface{
         ArrayList<Course> filterResults = new ArrayList<>();
 
         do {
-
-            System.out.println("Would you like to filter your search? (y/n)");
-            if (ynEntry(filterScan) == 'N') {
-                return searchResults;
-            }
 
             System.out.println("Would you like to filter by day (1) or time of day (2)?");
             int filterType = intEntry(1, 2, filterScan);
@@ -125,17 +123,16 @@ public class Console extends UserInterface{
 
                 filterResults = timeFilter(searchResults, filterTimes);
             }
-            System.out.println("Filtered results:");
-            if (filterResults.isEmpty()) {
-                System.out.println("You search returned no courses-- search again? (y/n)");
-                if (ynEntry(filterScan) == 'Y') {
-                    filter = true;
-                }
-            }
+
         } while (filter);
 
-        for (int i = 1; i <= filterResults.size(); i++) {
-            System.out.println(i + ". " +filterResults.get(i - 1));
+        System.out.println("Filtered results:");
+        if (filterResults.isEmpty()) {
+            System.out.println("You search returned no courses");
+        } else {
+            for (int i = 1; i <= filterResults.size(); i++) {
+                System.out.println(i + ". " + filterResults.get(i - 1));
+            }
         }
 
         return filterResults;
@@ -146,8 +143,15 @@ public class Console extends UserInterface{
      * should call the displaySchedule task from Schedule class
      * @param s
      */
-    public static void viewSchedule(Schedule s) {
-        s.displaySchedule2();
+    public static void viewSchedule(Schedule s) throws ParseException {
+        s.displaySchedule3();
+//should work
+
+//        try {
+//            s.displaySchedule3();
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
         //will alter to my method once it functions
     }
 
@@ -157,7 +161,7 @@ public class Console extends UserInterface{
      * implements console interaction with the schedule using methods in currentSchedule
      * @param s CurrentSchedule
      */
-    public static void consoleAlterSchedule(CurrentSchedule s){
+    public static void consoleAlterSchedule(CurrentSchedule s)throws ParseException{
         int choice;
         while (true) {
             viewSchedule(s);
@@ -171,8 +175,23 @@ public class Console extends UserInterface{
                 ArrayList<Course> searchResults = consoleSearch();
 
                 ArrayList<Course> results = new ArrayList<>();
-                // filter search
-                results = consoleFilter(searchResults);
+                System.out.println("Would you like to filter your search? (y/n)");
+                if (ynEntry(scn) == 'N') {
+                    results = searchResults;
+                } else {
+
+                    // filter search
+                    boolean filterAgain = false;
+                    do {
+                        results = consoleFilter(searchResults);
+                        System.out.println("Would you like to use another filter?");
+                        if (ynEntry(scn) == 'Y') {
+                            filterAgain = true;
+                        } else {
+                            filterAgain = false;
+                        }
+                    } while (filterAgain);
+                }
 
                 // ask for course to add (option to add none and/or search again)
                 System.out.println("Which course would you like to add?");
@@ -278,7 +297,7 @@ public class Console extends UserInterface{
     /** JOHN
      *
      */
-    public static void consoleCreateAccount(){
+    public static void consoleCreateAccount()throws ParseException{
         //Scanner input = new Scanner(System.in);
         String userEmail;
         String userPassword;
@@ -300,7 +319,7 @@ public class Console extends UserInterface{
      * If the attempt fails, the user has the option to try to log in again or to return to the
      * main menu.
      */
-    public static void consoleLogin() {
+    public static void consoleLogin() throws ParseException{
         String userEmail, userPassword;
         char yn;
         boolean loggedIn = false;
@@ -331,7 +350,7 @@ public class Console extends UserInterface{
         }
     }
 
-    public static void consoleSchedulePage(){
+    public static void consoleSchedulePage() throws ParseException{
         viewSchedule(currentStudent.getCurrentSchedule());
         System.out.println("1) Help");
         System.out.println("2) Save current schedule");
@@ -408,7 +427,7 @@ public class Console extends UserInterface{
         return entry;
     }
 
-    static void consoleMain() {
+    static void consoleMain() throws ParseException{
         while (true) {
             switch (pageID) {
                 case 0:
