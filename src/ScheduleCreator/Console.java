@@ -70,10 +70,7 @@ public class Console extends UserInterface{
             }
 
             if (searchResults.isEmpty()) {
-                System.out.println("You search returned no courses-- search again? (y/n)");
-                if (ynEntry(searchScan) == 'Y') {
-                    search = true;
-                }
+                System.out.println("You search returned no courses.");
             }
 
             System.out.println("Would you like to search again? (y/n)");

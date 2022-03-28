@@ -36,7 +36,7 @@ public class UserInterface {
 		try {
 			result = db.searchByCode(code);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 		return result;
