@@ -39,18 +39,24 @@ public class Console extends UserInterface{
     public static void consoleRecommendedSchedule() {
         int year;
         String major;
-        System.out.println("What is your major?");
+        System.out.println("What is your major? If none listed, we do not have a recommended schedule available");
+        System.out.println("0) None Listed");
         for (int i = 0; i < recMajors.size(); i++) {
-            System.out.println(i + 1 +": " + recMajors.get(i));
+            System.out.println(i + 1 +") " + recMajors.get(i));
         }
-        major = recMajors.get(intEntry(1, recMajors.size(), scn) - 1);
+        int mEntry = intEntry(0, recMajors.size(), scn);
+        if (mEntry == 0) {
+            consoleSchedulePage();
+        } else {
+            major = recMajors.get((mEntry) - 1);
 
-        System.out.println("What is your graduation year?");
-        year = intEntry(2000, 2030, scn);
+            System.out.println("What is your graduation year?");
+            year = intEntry(2000, 2030, scn);
 
-        RecommendedSchedule rs = new RecommendedSchedule(major, year, db);
-        currentStudent.setCurrentSchedule(rs.makeCurrentSchedule());
-        consoleSchedulePage();
+            RecommendedSchedule rs = new RecommendedSchedule(major, year, db);
+            currentStudent.setCurrentSchedule(rs.makeCurrentSchedule());
+            consoleSchedulePage();
+        }
     }
 
     /**
