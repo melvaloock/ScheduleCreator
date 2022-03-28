@@ -164,7 +164,7 @@ public class Console extends UserInterface{
     public static void consoleAlterSchedule(CurrentSchedule s)throws ParseException{
         int choice;
         while (true) {
-            viewSchedule(s);
+            viewSchedule(currentStudent.currentSchedule);
             System.out.println("Alter Schedule Choices: ");
             System.out.println("1. Add Course\n2. Remove Course\n3. Clear Schedule \n4. Return to Previous Menu");
             choice = intEntry(1, 4, scn);

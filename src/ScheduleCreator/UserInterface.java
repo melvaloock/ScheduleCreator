@@ -125,7 +125,7 @@ public class UserInterface {
 
 	public static boolean removeCourse(String courseEntry) {
 		boolean didRemove = false;
-		ArrayList<Course> courses = currentStudent.getCurrentSchedule().getCourseList();
+		ArrayList<Course> courses = currentStudent.currentSchedule.courseList;
 
 		for (Course c : courses) {
 			if (c.getCode().contains(courseEntry)) {
@@ -139,9 +139,7 @@ public class UserInterface {
 	}
 
 	public static void clearSchedule() {
-		CurrentSchedule cs = new CurrentSchedule(currentStudent.getCurrentSchedule().getCourseList());
-		cs.clearSchedule();
-		currentStudent.setCurrentSchedule(cs);
+		currentStudent.currentSchedule.clearSchedule();
 	}
 
 	/**
