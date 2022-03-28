@@ -159,7 +159,12 @@ public class Schedule {
 				System.out.printf("%-12s", schedule[row][col]);
 			}
 		}
-		System.out.println();
+		//display courses not yet implemeneted reference numbers - Tyler
+		System.out.println("\n");
+		for (Course c: getCourseList()) {
+			System.out.println(c);
+			//System.out.println(c.getReferenceNum() + " " + c);
+		}
 	}
 
 	public String[][] createEmptySchedule() {
@@ -228,7 +233,11 @@ public class Schedule {
 				System.out.printf("%-12s", schedule[row][col]);
 			}
 		}
-		System.out.println();
+		System.out.println("\n");
+		for (Course c: getCourseList()) {
+			System.out.println(c);
+			//System.out.println(c.getReferenceNum() + " " + c);
+		}
 	}
 
 	@Override
@@ -372,12 +381,11 @@ public class Schedule {
 
 
 
-
 	public static void main(String[] args) throws ParseException {
-		Course c1 = new Course("MUSI 102", "MUSIC HISTORY II", "9:00 AM", "9:50 AM", 'A', "MWF");
-		Course c4 = new Course("COMP 205", "INTRO TO PROGRAM", "11:00 AM", "11:50 AM", 'A', "MWF");
-		Course c5 = new Course("COMP 233", "PARALLEL COMP", "11:00 AM", "12:15 PM", 'A', "TR");
-		Course c6 = new Course("Test 000", "TEST COURSE", "13:00 PM", "13:50 PM", 'A', "MWF");
+		Course c1 = new Course("MUSI 102", "MUSIC HISTORY II", "9:00:00", "9:50:00", 'A', "MWF");
+		Course c4 = new Course("COMP 205", "INTRO TO PROGRAM", "11:00:00", "11:50:00", 'A', "MWF");
+		Course c5 = new Course("COMP 233", "PARALLEL COMP", "11:00:00", "12:15:00", 'A', "TR");
+		Course c6 = new Course("Test 000", "TEST COURSE", "13:00:00", "13:50:00", 'A', "MWF");
 
 		ArrayList<Course> course = new ArrayList<Course>();
 		course.add(c1);
