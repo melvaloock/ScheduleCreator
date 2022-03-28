@@ -469,6 +469,30 @@ public class Database {
         return courseIDs;
     }
 
+    public ArrayList<Course> getRecommendedCourses(String major, int year, String semester) throws SQLException {
+        PreparedStatement pstmtCheck = conn
+                .prepareStatement("SELECT * FROM recommendedCourse WHERE Major = ? AND GradYear = ? and Semester = ?");
+        pstmtCheck.setString(1, major);
+        pstmtCheck.setInt(2, year);
+        pstmtCheck.setString(3, semester);
+        ResultSet rstCheck = pstmtCheck.executeQuery();
+
+        ArrayList<Course> courses = new ArrayList<Course>();
+        while (rstCheck.next()) {
+            PreparedStatement selectStmt = conn
+                    .prepareStatement("SELECT * FROM course WHERE CourseCode = ? AND CourseName = ?");
+            selectStmt.setString(1, rstCheck.getString("CourseCode"));
+            selectStmt.setString(2, rstCheck.getString("CourseName"));
+            ResultSet rstSelect = selectStmt.executeQuery();
+
+            while (rstSelect.next()) {
+                courses.add(createCourse(rstSelect));
+            }
+        }
+
+        return courses;
+    }
+
     // this COULD throw an eror, so make sure it's handled
     public Course createCourse(ResultSet rst) throws SQLException {
         ArrayList<Day> days = new ArrayList<Day>();

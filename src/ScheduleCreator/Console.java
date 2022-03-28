@@ -19,10 +19,8 @@ public class Console extends UserInterface{
      * if the user chooses 2, get the input for their major and year
      * for now, stop here
      */
-    public static void consoleScheduleChoice()throws ParseException{
+    public static void consoleScheduleChoice() {
         int yn;
-        int year;
-        String major;
         System.out.println("Do you want automatic scheduling?");
         System.out.println("1) No, I want to manually set up my schedule.");
         System.out.println("2) Yes, set up my schedule for me.");
@@ -31,12 +29,26 @@ public class Console extends UserInterface{
             consoleSchedulePage();
         }
         else {
-            System.out.print("What is your major: ");
-            major = scn.next();
-            System.out.print("\nWhat is your year: ");
-            year = intEntry(2000, 2030, scn);
+            consoleRecommendedSchedule();
+        }
+    }
+
+    public static void consoleRecommendedSchedule() {
+        int year;
+        String major;
+        System.out.println("What is your major?");
+        for (int i = 0; i < recMajors.size(); i++) {
+            System.out.println(i + 1 +": " + recMajors.get(i));
         }
 
+        major = recMajors.get(intEntry(1, recMajors.size(), scn) - 1);
+//        major = "Computer Science (BS)";
+        System.out.println("What is your year ?");
+        year = intEntry(2000, 2030, scn);
+
+        RecommendedSchedule rs = new RecommendedSchedule(major, year, db);
+        currentStudent.setCurrentSchedule(rs.makeCurrentSchedule());
+        consoleSchedulePage();
     }
 
     public static ArrayList<Course> consoleSearch() {
@@ -144,9 +156,9 @@ public class Console extends UserInterface{
      * should call the displaySchedule task from Schedule class
      * @param s
      */
-    public static void viewSchedule(Schedule s) throws ParseException {
-        s.displaySchedule3();
-//should work
+    public static void viewSchedule(Schedule s) {
+        s.displaySchedule2();
+
 
 //        try {
 //            s.displaySchedule3();
@@ -162,10 +174,10 @@ public class Console extends UserInterface{
      * implements console interaction with the schedule using methods in currentSchedule
      * @param s CurrentSchedule
      */
-    public static void consoleAlterSchedule(CurrentSchedule s)throws ParseException{
+    public static void consoleAlterSchedule(CurrentSchedule s) {
         int choice;
         while (true) {
-            viewSchedule(currentStudent.currentSchedule);
+            viewSchedule(currentStudent.getCurrentSchedule());
             System.out.println("Alter Schedule Choices: ");
             System.out.println("1. Add Course\n2. Remove Course\n3. Clear Schedule \n4. Return to Previous Menu");
             choice = intEntry(1, 4, scn);
@@ -291,7 +303,7 @@ public class Console extends UserInterface{
     /** JOHN
      *
      */
-    public static void consoleCreateAccount()throws ParseException{
+    public static void consoleCreateAccount() {
         //Scanner input = new Scanner(System.in);
         String userEmail;
         String userPassword;
@@ -313,7 +325,7 @@ public class Console extends UserInterface{
      * If the attempt fails, the user has the option to try to log in again or to return to the
      * main menu.
      */
-    public static void consoleLogin() throws ParseException{
+    public static void consoleLogin() {
         String userEmail, userPassword;
         char yn;
         boolean loggedIn = false;
@@ -344,7 +356,7 @@ public class Console extends UserInterface{
         }
     }
 
-    public static void consoleSchedulePage() throws ParseException{
+    public static void consoleSchedulePage() {
         viewSchedule(currentStudent.getCurrentSchedule());
         System.out.println("1) Help");
         System.out.println("2) Save current schedule");
@@ -422,7 +434,7 @@ public class Console extends UserInterface{
         return entry;
     }
 
-    static void consoleMain() throws ParseException{
+    static void consoleMain() {
         while (true) {
             switch (pageID) {
                 case 0:
@@ -504,7 +516,7 @@ public class Console extends UserInterface{
     public static void saveScheduleAsFile(String fileType) {
         System.out.println("Enter the name of the file you would like to save to: ");
         String fileName = scn.next();
-        
+
         switch (fileType) {
             case ".txt":
                 break;

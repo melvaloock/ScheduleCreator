@@ -5,8 +5,11 @@ import java.util.ArrayList;
 public class CurrentSchedule extends Schedule {
 
 	public CurrentSchedule(ArrayList<Course> courses) {
-
 		super.setCourseList(courses);
+	}
+
+	public CurrentSchedule(ArrayList<Course> courses, String semester) {
+		super(courses, semester);
 	}
 
 	public CurrentSchedule() {

@@ -8,8 +8,12 @@ import java.util.HashMap;
 
 public class UserInterface {
 	
-	private static HashMap<String, Schedule> recommendedSchedules;
-	private static ArrayList<Course> courses;
+	protected static ArrayList<String> recMajors = new ArrayList<String>() {
+		{
+			add("Computer Science (BS)");
+		}
+	};
+	static ArrayList<Course> courses;
 	protected static Account currentStudent;
 
 	// database for the current session -- will only work if you have
@@ -210,6 +214,14 @@ public class UserInterface {
 //		for (Course c : searchCoursesByCode("COMP")) {
 //			System.out.println(c);
 //		}
+
+
+		try {
+			db.getRecommendedCourses("Computer Science (BS)", 2023, "Fall 2022");
+			System.out.println("attempt");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 		Console.consoleMain();
 	}

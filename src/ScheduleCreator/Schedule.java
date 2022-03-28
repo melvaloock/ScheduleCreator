@@ -7,11 +7,10 @@ import java.io.*;
 public class Schedule {
 
 	protected ArrayList<Course> courseList;
-	protected String semester;
+	protected String semester = "Fall 2022";
 	protected String outFile;
 	protected FileWriter export;
 	protected boolean isCurrent;
-	protected static String defaultSemester = "Fall 2023";
 
 	// used to create a schedule matrix; there may be a better solution, idk
 	private static final int ROWS = 14;
@@ -22,8 +21,6 @@ public class Schedule {
 	 */
 	public Schedule() {
 		this.courseList = new ArrayList<Course>();
-		this.semester = defaultSemester;
-
 	}
 
 	public Schedule(ArrayList<Course> courseList, String semester) {
@@ -272,31 +269,31 @@ public class Schedule {
 
 	// yes, I know this is less than desirable--I am trying to just get it done
 	public int getRow(String startTime) {
-		if ((startTime.compareTo("8:00 AM") > 0 && startTime.compareTo("9:00 AM") < 0) || startTime.compareTo("8:00 AM") == 0) {
+		if ((startTime.compareTo("8:00 AM") > 0 && startTime.compareTo("9:00 AM") < 0) || startTime.compareTo("8:00:00") == 0) {
 			return 1;
-		} else if ((startTime.compareTo("9:00 AM") > 0 && startTime.compareTo("10:00 AM") < 0) || startTime.compareTo("9:00 AM") == 0) {
+		} else if ((startTime.compareTo("9:00 AM") > 0 && startTime.compareTo("10:00 AM") < 0) || startTime.compareTo("9:00:00") == 0) {
 			return 2;
-		} else if ((startTime.compareTo("10:00 AM") > 0 && startTime.compareTo("11:00 AM") < 0) || startTime.compareTo("10:00 AM") == 0) {
+		} else if ((startTime.compareTo("10:00 AM") > 0 && startTime.compareTo("11:00 AM") < 0) || startTime.compareTo("10:00:00") == 0) {
 			return 3;
-		} else if ((startTime.compareTo("11:00 AM") > 0 && startTime.compareTo("12:00 AM") < 0) || startTime.compareTo("11:00 AM") == 0) {
+		} else if ((startTime.compareTo("11:00 AM") > 0 && startTime.compareTo("12:00 AM") < 0) || startTime.compareTo("11:00:00") == 0) {
 			return 4;
-		} else if ((startTime.compareTo("12:00 PM") > 0 && startTime.compareTo("13:00 PM") < 0) || startTime.compareTo("12:00 PM") == 0) {
+		} else if ((startTime.compareTo("12:00 PM") > 0 && startTime.compareTo("13:00 PM") < 0) || startTime.compareTo("12:00:00") == 0) {
 			return 5;
-		} else if ((startTime.compareTo("13:00 PM") > 0 && startTime.compareTo("14:00 PM") < 0) || startTime.compareTo("13:00 PM") == 0) {
+		} else if ((startTime.compareTo("13:00 PM") > 0 && startTime.compareTo("14:00 PM") < 0) || startTime.compareTo("13:00:00") == 0) {
 			return 6;
-		} else if ((startTime.compareTo("14:00 PM") > 0 && startTime.compareTo("15:00 PM") < 0) || startTime.compareTo("14:00 PM") == 0) {
+		} else if ((startTime.compareTo("14:00 PM") > 0 && startTime.compareTo("15:00 PM") < 0) || startTime.compareTo("14:00:00") == 0) {
 			return 7;
-		} else if ((startTime.compareTo("15:00 PM") > 0 && startTime.compareTo("16:00 PM") < 0) || startTime.compareTo("15:00 PM") == 0) {
+		} else if ((startTime.compareTo("15:00 PM") > 0 && startTime.compareTo("16:00 PM") < 0) || startTime.compareTo("15:00:00") == 0) {
 			return 8;
-		} else if ((startTime.compareTo("16:00 PM") > 0 && startTime.compareTo("17:00 PM") < 0) || startTime.compareTo("16:00 PM") == 0) {
+		} else if ((startTime.compareTo("16:00 PM") > 0 && startTime.compareTo("17:00 PM") < 0) || startTime.compareTo("16:00:00") == 0) {
 			return 9;
-		} else if ((startTime.compareTo("17:00 PM") > 0 && startTime.compareTo("18:00 PM") < 0) || startTime.compareTo("17:00 PM") == 0) {
+		} else if ((startTime.compareTo("17:00 PM") > 0 && startTime.compareTo("18:00 PM") < 0) || startTime.compareTo("17:00:00") == 0) {
 			return 10;
-		} else if ((startTime.compareTo("18:00 PM") > 0 && startTime.compareTo("19:00 PM") < 0) || startTime.compareTo("18:00 PM") == 0) {
+		} else if ((startTime.compareTo("18:00 PM") > 0 && startTime.compareTo("19:00 PM") < 0) || startTime.compareTo("18:00:00") == 0) {
 			return 11;
-		} else if ((startTime.compareTo("19:00 PM") > 0 && startTime.compareTo("20:00 PM") < 0) || startTime.compareTo("19:00 PM") == 0) {
+		} else if ((startTime.compareTo("19:00 PM") > 0 && startTime.compareTo("20:00 PM") < 0) || startTime.compareTo("19:00:00") == 0) {
 			return 12;
-		} else if ((startTime.compareTo("20:00 PM") > 0 && startTime.compareTo("21:00 PM") < 0) || startTime.compareTo("20:00 PM") == 0) {
+		} else if ((startTime.compareTo("20:00 PM") > 0 && startTime.compareTo("21:00 PM") < 0) || startTime.compareTo("20:00:00") == 0) {
 			return 13;
 		} else {
 			return -1;
