@@ -196,19 +196,15 @@ public class Console extends UserInterface{
                 }
 
                 // ask for course to add (option to add none and/or search again)
-                System.out.println("Which course would you like to add?");
-                System.out.print("Corresponding Integer: ");
+                System.out.println("Which course would you like to add? ");
+                System.out.print("Corresponding Integer (enter 0 to add none): ");
 
                 ArrayList<Course> coursesToAdd = new ArrayList<>();
 
-                while (true) {
-                    if (scn.hasNextInt()) {
-                        courseEntry = intEntry(1, results.size(), scn);
-                        break;
-                    } else {
-                        System.out.println("That is not an integer choice. Please try again.");
-                    }
-                }
+                courseEntry = intEntry(0, results.size(), scn);
+
+                // add none
+                if (courseEntry == 0) continue;
 
                 coursesToAdd.add(results.get(courseEntry - 1));
 
@@ -216,15 +212,11 @@ public class Console extends UserInterface{
                     System.out.println("Add another course? (y/n)");
                     char addAnother = ynEntry(scn);
                     if (addAnother == 'Y') {
-                        System.out.print("Corresponding Integer: ");
-                        while (true) {
-                            if (scn.hasNextInt()) {
-                                courseEntry = intEntry(1, results.size(), scn);
-                                break;
-                            } else {
-                                System.out.println("That is not an integer choice. Please try again.");
-                            }
-                        }
+                        System.out.print("Corresponding Integer (enter 0 to add none): ");
+                        courseEntry = intEntry(0, results.size(), scn);
+
+                        // add none
+                        if (courseEntry == 0) break;
                         coursesToAdd.add(results.get(courseEntry - 1));
                     } else if (addAnother == 'N') {
                         break;
