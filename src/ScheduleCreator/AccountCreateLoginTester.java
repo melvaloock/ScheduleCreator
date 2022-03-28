@@ -23,8 +23,8 @@ public class AccountCreateLoginTester {
 
     private final int year = 2023;
 
-    private final Course testCourse1 = new Course("ACCT 202", "PRINCIPLES OF ACCOUNTING II", "8:00", "8:50", 'A', "MWF", 100001);
-    private final Course testCourse2 = new Course("BIOL 102", "GENERAL BIOLOGY II", "9:00", "9:50", 'B', "MWF", 100035);
+    private final Course testCourse1 = new Course("ACCT 202 A", "PRINCIPLES OF ACCOUNTING II", "8:00", "8:50", 'A', "MWF", 100001);
+    private final Course testCourse2 = new Course("BIOL 102 B", "GENERAL BIOLOGY II", "9:00", "9:50", 'B', "MWF", 100035);
 
     private final ArrayList<Course> courseList = makeCourseList();
     private final Schedule currentSchedule = makeCurrentSchedule();
