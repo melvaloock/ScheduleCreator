@@ -12,6 +12,12 @@ import java.util.Scanner;
 public class Database { 
     private Connection conn;
 
+    /**
+     * Constructor for the Database class.
+     * @param username username of database user
+     * @param password password of database user
+     * @param schema db schema name
+     */
     public Database(String username, String password, String schema) { 
         try {
             Properties info = new Properties();
@@ -25,6 +31,17 @@ public class Database {
         } 
     }
 
+    /**
+     * Adds a course to the database.
+     * @param courseID 6-digit course ID
+     * @param courseCode course code (e.g., COMP 141)
+     * @param courseName course name (e.g., COMP PROGRAMMING I )
+     * @param startTime start time of course (e.g, 8:00 AM)
+     * @param endTime end time of course (e.g, 8:50 AM)
+     * @param weekday abbreviated weekday (e.g., MWF)
+     * @param enrollment enrollment capacity
+     * @param capacity maximum capacity
+     */
     public void addCourse(int courseID, String courseCode, String courseName, String startTime, String endTime, String weekday, int enrollment, int capacity) {
         try {
             PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM course WHERE CourseID = ?");
@@ -58,7 +75,10 @@ public class Database {
         }
     }
 
-    // this is only used in db population
+    /**
+     * Parses the csv database file and adds the courses to the database.
+     * @param csvFilename name of csv file
+     */
     public void processCourses(String csvFilename) {
         try {
             Scanner csvScanner = new Scanner(new File(csvFilename));
@@ -147,6 +167,13 @@ public class Database {
         insertStmt.close();
     }
 
+    /**
+     * Adds an empty schedule to the database
+     * @param scheduleID semester and year of schedule (e.g., "Fall 2022")
+     * @param isCurrent true if the schedule is the current schedule, false otherwise
+     * @param userEmail String of the user's email
+     * @throws SQLException
+     */
     public void addSchedule(String scheduleID, boolean isCurrent, String userEmail) throws SQLException {
         PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM schedule WHERE UserEmail = ? AND ScheduleID = ?");
         pstmtCheck.setString(1, userEmail);
@@ -172,6 +199,13 @@ public class Database {
         insertStmt.close();
     }
 
+    /**
+     * Adds a course reference to the specified schedule
+     * @param courseID 6-digit course ID
+     * @param scheduleID semester and year of schedule (e.g., "Fall 2022")
+     * @param userEmail String of the user's email
+     * @throws SQLException
+     */
     public void addCourseRef(int courseID, String scheduleID, String userEmail) throws SQLException {
         PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM courseReference WHERE CourseID = ? AND UserEmail = ?");
         pstmtCheck.setInt(1, courseID);
@@ -197,6 +231,15 @@ public class Database {
         insertStmt.close();
     }
 
+    // TODO: update with courseID
+    /**
+     * Deletes a course reference from the specified schedule
+     * @param courseCode 6-digit course code
+     * @param courseName course name (e.g., COMP PROGRAMMING I)
+     * @param scheduleID semester and year of schedule (e.g., "Fall 2022")
+     * @param userEmail String of the user's email
+     * @throws SQLException
+     */
     public void deleteCourseRef(String courseCode, String courseName, String scheduleID, String userEmail) throws SQLException {
         PreparedStatement pstmtCheck = conn
             .prepareStatement("SELECT * FROM courseReference WHERE CourseCode = ? AND CourseName = ? AND ScheduleID = ? AND UserEmail = ?");
@@ -227,6 +270,12 @@ public class Database {
         rstCheck.close(); 
     }
 
+    /**
+     * Deletes all course references from the specified schedule
+     * @param scheduleID semester and year of schedule (e.g., "Fall 2022")
+     * @param userEmail String of the user's email
+     * @throws SQLException
+     */
     public void deleteAllCourseRefs(String scheduleID, String userEmail) throws SQLException {
         PreparedStatement pstmtCheck = conn
             .prepareStatement("SELECT * FROM courseReference WHERE ScheduleID = ? AND UserEmail = ?");
@@ -250,6 +299,13 @@ public class Database {
         rstCheck.close(); 
     }
 
+    /**
+     * Deletes a schedule from the database.
+     * Note: This will also delete all course references associated with the schedule.
+     * @param scheduleID semester and year of schedule (e.g., "Fall 2022")
+     * @param userEmail String of the user's email
+     * @throws SQLException
+     */
     public void deleteSchedule(String scheduleID, String userEmail) throws SQLException {
         PreparedStatement pstmtCheck = conn
             .prepareStatement("SELECT * FROM schedule WHERE ScheduleID = ? AND UserEmail = ?");
@@ -277,6 +333,15 @@ public class Database {
         rstCheck.close(); 
     }
 
+    /**
+     * Checks the login credentials with the database
+     * @param userEmail String of the user's email
+     * @param userPassword String of the user's password
+     * @return A valid user account, or throws an exception if the user does not exist
+     * @throws SQLException
+     * @throws PasswordStorage.InvalidHashException
+     * @throws PasswordStorage.CannotPerformOperationException
+     */
     public Account checkLogin(String userEmail, String userPassword) throws SQLException, PasswordStorage.InvalidHashException, PasswordStorage.CannotPerformOperationException {
         PreparedStatement userCheck = conn.prepareStatement("SELECT * FROM account WHERE UserEmail = ?");
         userCheck.setString(1, userEmail);
@@ -337,7 +402,13 @@ public class Database {
         return new Account(userEmail, passwordHash, currentSchedule, major, year);
     }
 
-    // needs error checking somewhere
+    // TODO: needs error checking somewhere
+    /**
+     * Gets the graduation year of the user
+     * @param userEmail String of the user's email
+     * @return int of the user's graduation year
+     * @throws SQLException
+     */
     public int getYear(String userEmail) throws SQLException {
         PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM account WHERE UserEmail = ?");
         pstmtCheck.setString(1, userEmail);
@@ -354,7 +425,13 @@ public class Database {
         return year;
     }
 
-    // needs error checking somewhere
+    // TODO: needs error checking somewhere
+    /**
+     * Gets the major of the user
+     * @param userEmail String of the user's email
+     * @return String of the user's major
+     * @throws SQLException
+     */
     public String getMajor(String userEmail) throws SQLException {
         PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM account WHERE UserEmail = ?");
         pstmtCheck.setString(1, userEmail);
@@ -371,6 +448,12 @@ public class Database {
         return major;
     }
 
+    /**
+     * Gets the current schedule of the user
+     * @param userEmail String of the user's email
+     * @return CurrentSchedule object of the user's current schedule
+     * @throws SQLException
+     */
     public CurrentSchedule getCurrentSchedule(String userEmail) throws SQLException {
         PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM schedule WHERE UserEmail = ?");
         pstmtCheck.setString(1, userEmail);
@@ -394,7 +477,6 @@ public class Database {
     }
 
     /**
-     *
      * @param searchCode
      * @return
      * @throws SQLException
@@ -413,6 +495,11 @@ public class Database {
         return searchResults;
     }
 
+    /**
+     * @param searchKeyword
+     * @return ArrayList of course objects that match the search keyword
+     * @throws SQLException
+     */
     public ArrayList<Course> searchByKeyword(String searchKeyword) throws SQLException {
         PreparedStatement pstmtCheck = conn
                 .prepareStatement("SELECT * FROM course WHERE CourseName LIKE ?");
@@ -427,7 +514,13 @@ public class Database {
         return searchResults;
     }
 
-    // TODO: update to work with CourseID
+    /**
+     * Gets an ArrayList of course objects from the user's course references
+     * @param userEmail String of the user's email 
+     * @param scheduleID semester and year of the schedule
+     * @return ArrayList of course objects
+     * @throws SQLException
+     */
     public ArrayList<Course> getCoursesFromRefs(String userEmail, String scheduleID) throws SQLException {
         PreparedStatement pstmtCheck = conn
             .prepareStatement("SELECT * FROM courseReference WHERE UserEmail = ? AND ScheduleID = ?");
@@ -450,6 +543,12 @@ public class Database {
     }
 
     // TODO: add proper error checking
+    /**
+     * Gets an ArrayList of course IDs from an ArrayList of course objects
+     * @param courses ArrayList of course objects
+     * @return ArrayList of course IDs
+     * @throws SQLException
+     */
     public ArrayList<Integer> getCourseIDs(ArrayList<Course> courses) throws SQLException {
         ArrayList<Integer> courseIDs = new ArrayList<Integer>();
 
@@ -468,6 +567,14 @@ public class Database {
         return courseIDs;
     }
 
+    /**
+     * Gets an ArrayList of courses from the recommended courses of a recommended schedule
+     * @param major String of the user's major
+     * @param year int of the user's graduation year
+     * @param semester semester and year of the schedule
+     * @return ArrayList of course objects
+     * @throws SQLException
+     */
     public ArrayList<Course> getRecommendedCourses(String major, int year, String semester) throws SQLException {
         PreparedStatement pstmtCheck = conn
                 .prepareStatement("SELECT * FROM recommendedCourse WHERE Major = ? AND GradYear = ? and Semester = ?");
@@ -493,6 +600,12 @@ public class Database {
     }
 
     // this COULD throw an eror, so make sure it's handled
+    /**
+     * Creates a course object from a ResultSet
+     * @param rst ResultSet of course(s)
+     * @return Course object
+     * @throws SQLException
+     */
     public Course createCourse(ResultSet rst) throws SQLException {
         ArrayList<Day> days = new ArrayList<Day>();
         String daysString = rst.getString("Weekday");
@@ -505,6 +618,13 @@ public class Database {
             days);
     }
     
+    /**
+     * Updates the course references for a schedule
+     * Note: deletes and replaces all course references for the specified schedule
+     * @param scheduleID semester and year of the schedule
+     * @param userEmail String of the user's email
+     * @param courses ArrayList of course objects
+     */
     public void updateCourseRefs(String scheduleID, String userEmail, ArrayList<Course> courses) {
         try {
             if (courses.isEmpty()) {
@@ -547,7 +667,7 @@ public class Database {
     public static void main(String args[]) {
         // Database db = new Database("root", "password", "sys");
         Database db = new Database("root", "EnuzPkHDO29J6gCH", "schedule_creator_db");
-//        db.processCourses("CourseDB_WithFictionalCapacities.csv");
+        //db.processCourses("CourseDB_WithFictionalCapacities.csv");
 
         try {
             db.addAccount("test", "testPass");

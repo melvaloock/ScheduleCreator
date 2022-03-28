@@ -1,0 +1,23 @@
+Before you can run this software, you must include a couple 
+extra libraries:
+    1) mysql-connector-java-8.0.28.jar (Connector/J 8.0.28)
+        a) You can get this by downloading the MySQL Installer
+           from the following link: https://dev.mysql.com/downloads/connector/j/
+        b) In the installer application, find the connector with the
+           title in the above lines and follow the process to install it.
+        c) Add it to the external libraries folder of your project
+    2)  itextpdf-5.5.12.2.jar
+        a) Download the jar file from the following link:
+           http://www.java2s.com/example/jar/i/download-itextpdf5512jar-file.html
+        b) Add the jar file to the external libraries folder of your
+           project
+
+Now that you have the libraries installed, you should be able to run
+the application from the main in the UserInterface class.
+
+It is possible that you may run into some issues when trying to
+connect to the cloud database because of permissions issues. If
+this is the case, please notify one of the developers so they can
+whitelist your IP (although this should be taken care of).
+
+           
