@@ -9,13 +9,13 @@ public class UserInterface {
 	
 	private static HashMap<String, Schedule> recommendedSchedules;
 	private static ArrayList<Course> courses;
-	protected static Student currentStudent;
+	protected static Account currentStudent;
 
 	// database for the current session -- will only work if you have
 	// an active db on your machine
 
 	// FORGET THAT COMMENT CUZ IT DO BE A CLOUD DATABASE
-	private static Database db = new Database("root", "EnuzPkHDO29J6gCH", "schedule_creator_db");
+	protected static Database db = new Database("root", "EnuzPkHDO29J6gCH", "schedule_creator_db");
 	private int userID;
 
 	public static Student getCurrentStudent() {
@@ -148,7 +148,7 @@ public class UserInterface {
 	 * Should create blank schedule and set that schedule to currentStudent's currentSchedule
 	 */
 	public static void createGuest() {
-		currentStudent = new Guest(); //Guest class inherits from Student class
+		currentStudent = new Guest(); //Guest class inherits from Account class
 		CurrentSchedule newSchedule = new CurrentSchedule();
 		currentStudent.setCurrentSchedule(newSchedule);
 

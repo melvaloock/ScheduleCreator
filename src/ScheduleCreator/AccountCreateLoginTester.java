@@ -276,9 +276,10 @@ public class AccountCreateLoginTester {
         Assert.assertEquals(major, db.getMajor(email));
     }
 
+    // this test may be broken due to changes
     @Test
-    public void getCourseListTest() throws SQLException {
-        Assert.assertEquals(courseList, db.getCourseList(email, currentScheduleID));
+    public void getCoursesFromRefsTest() throws SQLException {
+        Assert.assertEquals(courseList, db.getCoursesFromRefs(email, currentScheduleID));
     }
 
     @Test

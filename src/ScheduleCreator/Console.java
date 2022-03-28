@@ -347,6 +347,7 @@ public class Console extends UserInterface{
                     break;
                 case 2:
                     //save current schedule
+                    currentStudent.saveCurrentSchedule(db);
                     break;
                 case 3:
                     consoleAlterSchedule((CurrentSchedule) getCurrentStudent().getCurrentSchedule());

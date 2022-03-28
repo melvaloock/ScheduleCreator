@@ -68,9 +68,11 @@ select * from schedule;
 
 select * from courseReference;
 
-insert into account values("hambykr19@gcc.edu", "somepasswordhash");
+-- insert into account values("hambykr19@gcc.edu", "somepasswordhash");
 
-insert into schedule values("SPRING2022", 1, "hambykr19@gcc.edu");
+insert into schedule values("SPRING2022", 1, "hambykr19@gcc.edi");
+
+select * from schedule where scheduleid = "SPRING2022" and useremail = "hambykr19@gcc.edu";
 
 insert into courseReference values("courseCode", "courseName", "SPRING2022", "hambykr19@gcc.edu");
 

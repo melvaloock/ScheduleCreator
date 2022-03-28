@@ -160,7 +160,7 @@ public class Database {
         PreparedStatement insertStmt = conn.prepareStatement("INSERT INTO schedule values(?, ?, ?)");
         insertStmt.setString(1, scheduleID);
         insertStmt.setInt(2, (isCurrent) ? 1 : 0);
-        insertStmt.setString(3, userEmail);;
+        insertStmt.setString(3, userEmail);
         int rows = insertStmt.executeUpdate();
 
         if (rows <= 0) {
@@ -172,22 +172,20 @@ public class Database {
         insertStmt.close();
     }
 
-    public void addCourseRef(String courseCode, String courseName, String scheduleID, String userEmail) throws SQLException {
-        PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM courseReference WHERE CourseCode = ? AND CourseName = ? AND UserEmail = ?");
-        pstmtCheck.setString(1, courseCode);
-        pstmtCheck.setString(2, courseName);
-        pstmtCheck.setString(3, scheduleID);
+    public void addCourseRef(int courseID, String scheduleID, String userEmail) throws SQLException {
+        PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM courseReference WHERE CourseID = ? AND UserEmail = ?");
+        pstmtCheck.setInt(1, courseID);
+        pstmtCheck.setString(2, userEmail);
         ResultSet rstCheck = pstmtCheck.executeQuery();
 
         if (rstCheck.next()) { 
             throw new SQLException("This course already exists in your " + scheduleID + " semester");
         }
 
-        PreparedStatement insertStmt = conn.prepareStatement("INSERT INTO courseReference values(?, ?, ?, ?)");
-        insertStmt.setString(1, courseCode);
-        insertStmt.setString(2, courseName);
-        insertStmt.setString(3, scheduleID);
-        insertStmt.setString(4, userEmail);
+        PreparedStatement insertStmt = conn.prepareStatement("INSERT INTO courseReference values(?, ?, ?)");
+        insertStmt.setInt(1, courseID);
+        insertStmt.setString(2, scheduleID);
+        insertStmt.setString(3, userEmail);
         int rows = insertStmt.executeUpdate();
 
         if (rows <= 0) {
@@ -229,7 +227,7 @@ public class Database {
         rstCheck.close(); 
     }
 
-    public void deleteAllCourses(String scheduleID, String userEmail) throws SQLException {
+    public void deleteAllCourseRefs(String scheduleID, String userEmail) throws SQLException {
         PreparedStatement pstmtCheck = conn
             .prepareStatement("SELECT * FROM courseReference WHERE ScheduleID = ? AND UserEmail = ?");
         pstmtCheck.setString(1, scheduleID);
@@ -247,10 +245,7 @@ public class Database {
             if (rows > 0) {
                 throw new SQLException("ERROR: Course deletion failed. Please try again.");
             }
-        } else {
-            throw new SQLException("No courses found for that schedule.");
         }
-
         pstmtCheck.close();
         rstCheck.close(); 
     }
@@ -263,9 +258,9 @@ public class Database {
         ResultSet rstCheck = pstmtCheck.executeQuery();
 
         if (rstCheck.next()) {
-            deleteAllCourses(scheduleID, userEmail);
+            deleteAllCourseRefs(scheduleID, userEmail);
             PreparedStatement deleteStmt = conn
-                .prepareStatement("DELETE FROM schedule WHERE ScheduleID = ? AND UserEmail = ?");
+                .prepareStatement("DELETE * FROM schedule WHERE ScheduleID = ? AND UserEmail = ?");
             deleteStmt.setString(1, scheduleID);
             deleteStmt.setString(2, userEmail);
             int rows = deleteStmt.executeUpdate();
@@ -295,7 +290,7 @@ public class Database {
             // check if the passwords match
             if (PasswordStorage.verifyPassword(userPassword, dbPass)){
                 //ret = getAccount(userEmail);
-                ret = new Account("", "", new CurrentSchedule(), "", 0);
+                ret = new Account(userEmail, "", new CurrentSchedule(), "", 0);
             } else {
                 // wrong password
                 throw new SQLException("Incorrect email or password.");
@@ -387,12 +382,14 @@ public class Database {
             selectStmt.setString(1, userEmail);
             ResultSet rstSelect = selectStmt.executeQuery();
 
+            rstSelect.next();
             String scheduleID = rstSelect.getString("ScheduleID");
-            ArrayList<Course> courses = getCourseList(userEmail, scheduleID);
+            ArrayList<Course> courses = getCoursesFromRefs(userEmail, scheduleID);
 
             return new Schedule(courses, scheduleID);
         } else {
-            throw new SQLException("No schedule found for that user.");
+            // returns null if no current schedule
+            return null;
         }
     }
 
@@ -402,7 +399,6 @@ public class Database {
      * @return
      * @throws SQLException
      */
-
     public ArrayList<Course> searchByCode(String searchCode) throws SQLException {
         PreparedStatement pstmtCheck = conn
                 .prepareStatement("SELECT * FROM course WHERE CourseCode LIKE ?");
@@ -431,7 +427,8 @@ public class Database {
         return searchResults;
     }
 
-    public ArrayList<Course> getCourseList(String userEmail, String scheduleID) throws SQLException {
+    // TODO: update to work with CourseID
+    public ArrayList<Course> getCoursesFromRefs(String userEmail, String scheduleID) throws SQLException {
         PreparedStatement pstmtCheck = conn
             .prepareStatement("SELECT * FROM courseReference WHERE UserEmail = ? AND ScheduleID = ?");
         pstmtCheck.setString(1, userEmail);
@@ -453,6 +450,25 @@ public class Database {
         return courses;
     }
 
+    // TODO: add proper error checking
+    public ArrayList<Integer> getCourseIDs(ArrayList<Course> courses) throws SQLException {
+        ArrayList<Integer> courseIDs = new ArrayList<Integer>();
+
+        for (Course c : courses) {
+            PreparedStatement pstmtCheck = conn
+                    .prepareStatement("SELECT * FROM course WHERE CourseCode = ? AND CourseName = ? AND StartTime = ?");
+            pstmtCheck.setString(1, c.getCode());
+            pstmtCheck.setString(2, c.getTitle());
+            pstmtCheck.setString(3, c.getStartTime());
+            ResultSet rstCheck = pstmtCheck.executeQuery();
+
+            if (rstCheck.next()) {
+                courseIDs.add(rstCheck.getInt("CourseID"));
+            }
+        }
+        return courseIDs;
+    }
+
     public Course createCourse(ResultSet rst) throws SQLException {
         if (rst.next()) {
             ArrayList<Day> days = new ArrayList<Day>();
@@ -468,12 +484,30 @@ public class Database {
             throw new SQLException("No course found with that code.");
         }
     }
+    
+    public void updateCourseRefs(String scheduleID, String userEmail, ArrayList<Course> courses) {
+        try {
+            if (courses.isEmpty()) {
+                deleteAllCourseRefs(scheduleID, userEmail);
+                return;
+            }
+
+            deleteAllCourseRefs(scheduleID, userEmail);
+
+            ArrayList<Integer> courseIDs = getCourseIDs(courses);
+            for (int courseID : courseIDs) {
+                addCourseRef(courseID, scheduleID, userEmail);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     // TODO: Kevin -> sprint 2
     public void updateYear(){};
     public void updateMajor(){};
     public void updateEmail(){};
-    
+
     /**
 	 * This method implements the functionality necessary to exit the application:
 	 * this should allow the user to cleanly exit the application properly. This

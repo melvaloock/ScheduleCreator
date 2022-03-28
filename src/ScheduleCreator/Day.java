@@ -13,7 +13,7 @@ public enum Day {
             case 'W':
                 return Day.W;
             case 'R':
-                return Day.T;
+                return Day.R;
             case 'F':
                 return Day.F;
             default:

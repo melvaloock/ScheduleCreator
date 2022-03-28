@@ -1,6 +1,10 @@
 package ScheduleCreator;
 
-public class Guest extends Student {
+public class Guest extends Account {
 	
+	public Guest() {
+		super(null, null);
+	}
+
 	public static Account createAccount(String username, String passwordHash) {return null;};
 }

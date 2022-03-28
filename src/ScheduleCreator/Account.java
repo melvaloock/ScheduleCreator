@@ -29,21 +29,27 @@ public class Account extends Student {
 		this.passwordHash = passwordHash;
 	}
 
-	/** CHRISTIAN & KEVIN
-	 * adds user's currentSchedule (inherited from parent class Student) to their saved schedules
-	 */
-	public void saveCurrentSchedule(String email, Database db) {
+	// TODO: fix in sprint 2 --> this is a temporary default constructor for Account
+	// so a guest can be created (it may or may not be needed, idk)
+	public Account() {};
+
+
+	public void saveCurrentSchedule(Database db) {
 		//TODO: add currentSchedule to scheduleMap (or however saved schedules will be stored)
 		// - this includes adding a label (key) to this schedule so that it can be accessed
 		try {
-			db.addSchedule(currentSchedule.getSemester(), currentSchedule.isCurrent(), email);
-			for (Course c : currentSchedule.getCourseList()){
-				db.addCourseRef(c.getCode(), c.getTitle(), c.getSemester(), email);
+			Schedule checkSch = db.getCurrentSchedule(getEmail());
+			if (checkSch == null) {
+				// add a current schedule to the database if it isn't already there
+				db.addSchedule(getCurrentSchedule().semester, true, getEmail());
+				db.updateCourseRefs(getCurrentSchedule().semester, getEmail(), getCurrentSchedule().getCourseList());
+			} else {
+				// update the current schedule in the database
+				db.updateCourseRefs(getCurrentSchedule().semester, getEmail(), getCurrentSchedule().getCourseList());
 			}
-
 		}
 		catch (Exception e){
-
+			System.out.println(e.getMessage());
 		}
 
 		
@@ -51,7 +57,7 @@ public class Account extends Student {
 
 	public void setCurrentSchedule(Schedule currentSchedule, Database db) {
 		if (this.currentSchedule != null) {
-			saveCurrentSchedule(email, db);
+			saveCurrentSchedule(db);
 			this.currentSchedule.setCurrent(false);
 		}
 		super.setCurrentSchedule(currentSchedule);
