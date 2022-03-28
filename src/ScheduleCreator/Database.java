@@ -285,13 +285,14 @@ public class Database {
 
         if (rstCheck.next()) {
             PreparedStatement deleteStmt = conn
-                .prepareStatement("DELETE * FROM courseReference WHERE ScheduleID = ? AND UserEmail = ?");
+                .prepareStatement("DELETE FROM courseReference WHERE ScheduleID = ? AND UserEmail = ?");
             deleteStmt.setString(1, scheduleID);
             deleteStmt.setString(2, userEmail);
             int rows = deleteStmt.executeUpdate();
             deleteStmt.close();
 
-            if (rows > 0) {
+            // TODO: fix this pls -_-
+            if (rows == 0) {
                 throw new SQLException("ERROR: Course deletion failed. Please try again.");
             }
         }
@@ -316,7 +317,7 @@ public class Database {
         if (rstCheck.next()) {
             deleteAllCourseRefs(scheduleID, userEmail);
             PreparedStatement deleteStmt = conn
-                .prepareStatement("DELETE * FROM schedule WHERE ScheduleID = ? AND UserEmail = ?");
+                .prepareStatement("DELETE FROM schedule WHERE ScheduleID = ? AND UserEmail = ?");
             deleteStmt.setString(1, scheduleID);
             deleteStmt.setString(2, userEmail);
             int rows = deleteStmt.executeUpdate();
