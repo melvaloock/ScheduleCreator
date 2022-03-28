@@ -244,7 +244,7 @@ public class Console extends UserInterface{
 
             } else if (choice == 2) { // remove course
                 String courseEntry;
-                System.out.println("Which course would you like to remove? (case sensitive)");
+                System.out.println("Which course would you like to remove? ");
                 System.out.println("(enter the course code without the section to remove; enter NONE to remove none)");
                 System.out.print("Course Entry: ");
                 courseEntry = scn.next();
@@ -255,7 +255,7 @@ public class Console extends UserInterface{
                 }
 
                 // remove course
-                boolean didRem = removeCourse(courseEntry);
+                boolean didRem = currentStudent.currentSchedule.removeCourse(courseEntry);
 
                 // give result
                 if (didRem) {
