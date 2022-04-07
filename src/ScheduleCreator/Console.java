@@ -344,12 +344,19 @@ public class Console extends UserInterface{
     public static void consoleCreateAccount() {
         String userEmail;
         String userPassword;
+        boolean validPass = false;
 
         while (true) {
             System.out.println("Email: ");
             userEmail = scn.next();
-            System.out.println("Password: ");
-            userPassword = scn.next();
+            while (!validPass){
+                System.out.println("Password: ");
+                userPassword = scn.next();
+                for (int i = 0; i < userPassword.length(); i++){
+                    if (userPassword.charAt(i))
+                }
+            }
+
 
             if (createAccount(userEmail, userPassword)) break;
         }
