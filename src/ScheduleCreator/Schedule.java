@@ -209,9 +209,12 @@ public class Schedule {
 		for (Course c: getCourseList()) {
 			DateAndTime dat = new DateAndTime();
 			ArrayList<ArrayList<Integer>> location = new ArrayList<>();
+//			c.getDayStringList();
 			location = dat.locOfClass(c.getStartTime(), c.getEndTime(), c.getDayStringList());
+//			System.out.println(c.getDayStringList());
 			ArrayList<Integer> rowLoc  = location.get(0);
 			ArrayList<Integer> colLoc  = location.get(1);
+//			System.out.println(location);
 //			System.out.println("rowLoc: " + rowLoc);
 //			System.out.println("colLoc: " + colLoc);
 			for(int x = 0; x< rowLoc.size(); x++){

@@ -1,8 +1,9 @@
 package ScheduleCreator;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
-
+import java.util.*;
 import java.io.*;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
