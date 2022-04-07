@@ -1,4 +1,4 @@
-package ScheduleCreator;
+package main.java.sleeplessdevelopers.schedulecreator;
 
 import java.util.*;
 

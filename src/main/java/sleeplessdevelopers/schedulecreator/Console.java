@@ -1,4 +1,4 @@
-package ScheduleCreator;
+package main.java.sleeplessdevelopers.schedulecreator;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -354,15 +354,15 @@ public class Console extends UserInterface{
                 System.out.println("Password: ");
                 userPassword = scn.next();
                 for (int i = 0; i < userPassword.length(); i++){
-                    if (userPassword.charAt(i))
+                    // if (userPassword.charAt(i))
                 }
             }
 
 
-            if (createAccount(userEmail, userPassword)) break;
+            // if (createAccount(userEmail, userPassword)) break;
         }
 
-        consoleScheduleChoice();
+        // consoleScheduleChoice();
     }
 
     /**
