@@ -138,13 +138,33 @@ public class Console extends UserInterface{
                     System.out.printf("%d) %s \n", i, intToTime(i));
                 }
 
-                filterScan.useDelimiter(",");
+                String filterTimesString = filterScan.nextLine().replaceAll(" ", "");
+
+                Scanner timeScan = new Scanner(filterTimesString);
+                timeScan.useDelimiter(",");
                 ArrayList<String> filterTimes = new ArrayList<>();
 
-                while (filterScan.hasNextInt()) {
-                    int i = filterScan.nextInt();
-                    filterTimes.add(intToTime(i));
+                while (timeScan.hasNext()) {
+                    if (timeScan.hasNextInt()) {
+                        int i = timeScan.nextInt();
+                        filterTimes.add(intToTime(i));
+                    }
+                    else timeScan.next();
                 }
+
+                for (String time: filterTimes) {
+                    System.out.println(time);
+                }
+//                System.out.println(filterTimes);
+
+
+//                while (filterScan.hasNextInt()) {
+//                    int i = intEntry(1, 13, filterScan);
+//                    filterTimes.add(intToTime(i));
+//                }
+
+//                filterScan.reset();
+//                filterScan.nextLine();
 
                 filterResults = timeFilter(searchResults, filterTimes);
             }
