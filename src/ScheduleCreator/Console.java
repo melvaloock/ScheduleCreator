@@ -189,13 +189,13 @@ public class Console extends UserInterface{
      */
     public static void consoleAlterSchedule(CurrentSchedule s) {
         int choice;
+        int courseEntry;
         while (true) {
             viewSchedule(currentStudent.getCurrentSchedule());
             System.out.println("Alter Schedule Choices: ");
             System.out.println("1. Add Course\n2. Remove Course\n3. Clear Schedule \n4. Return to Previous Menu");
             choice = intEntry(1, 4, scn);
             if (choice == 1) { // add course
-                int courseEntry;
 
                 // course search
                 ArrayList<Course> searchResults = consoleSearch();
@@ -264,26 +264,28 @@ public class Console extends UserInterface{
                 }
 
             } else if (choice == 2) { // remove course
-                String courseEntry;
+                ArrayList<Course> courses = currentStudent.getCurrentSchedule().getCourseList();
+                System.out.println("These are your current courses: ");
+
+                for (int i = 1; i <= courses.size(); i++) {
+                    System.out.println(i + ". " + courses.get(i-1));
+                }
+
                 System.out.println("Which course would you like to remove? ");
-                System.out.println("(enter the course code without the section to remove; enter NONE to remove none)");
-                System.out.print("Course Entry: ");
-                courseEntry = scn.next();
+                System.out.print("Corresponding Integer (enter 0 to add none): ");
+                courseEntry = intEntry(0, courses.size(), scn);
 
                 // check if none
-                if (courseEntry.equals("NONE")) {
+                if (courseEntry == 0) {
+                    System.out.println("You entered 0, so nothing was removed.");
                     continue;
                 }
 
                 // remove course
-                boolean didRem = currentStudent.currentSchedule.removeCourse(courseEntry);
+                currentStudent.currentSchedule.removeCourse(courses.get(courseEntry-1));
 
                 // give result
-                if (didRem) {
-                    System.out.println("Course Removed.");
-                } else {
-                    System.out.println("Course not found in your current schedule, so nothing was removed.");
-                }
+                System.out.println("Course Removed.");
 
             }else if (choice == 3){	// clear schedule
 

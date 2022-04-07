@@ -36,23 +36,11 @@ public class CurrentSchedule extends Schedule {
 	/**
 	 * Removes course of the given course code from schedule.
 	 * Returns false if the given course is not in the schedule.
-	 * @param remCode code of Course to remove
+	 * @param remCourse code of Course to remove
 	 * @return boolean
 	 */
-	public boolean removeCourse(String remCode) {
-		// removes multiples because some courses have 2 course objects for different times
-		remCode = remCode.toUpperCase();
-		boolean didRem = false;
-
-		for (int i = 0; i < courseList.size(); i++){
-			if (courseList.get(i).getCode().contains(remCode)){
-				courseList.remove(i);
-				didRem = true;
-				i--;
-			}
-		}
-
-		return didRem;
+	public void removeCourse(Course remCourse) {
+		courseList.remove(remCourse);
 	}
 
 	/**
