@@ -353,9 +353,16 @@ public class Console extends UserInterface{
             while (!validPass){
                 System.out.println("Password: ");
                 userPassword = scn.next();
-                for (int i = 0; i < userPassword.length(); i++){
-                    // if (userPassword.charAt(i))
+                if (passwordCheck(userPassword) == true){
+                    validPass = true;
+                    break;
                 }
+                else{
+                    System.out.println("Password invalid, must have: uppercase letter, " +
+                            "number, symbol, no spaces,");
+                    System.out.println("and be at least eight characters long");
+                }
+
             }
 
 
@@ -363,6 +370,41 @@ public class Console extends UserInterface{
         }
 
         // consoleScheduleChoice();
+    }
+
+    /**
+     * Method used to check if the password meets the acceptable
+     * requirements: A symbol, an uppercase letter, a number, no spaces,
+     * and be at least eight characters long.
+     *
+     */
+    public static boolean passwordCheck(String pw){
+        boolean hasNum = false;
+        boolean hasUpper = false;
+        boolean hasSym = false;
+        if (pw.length() < 8){
+            return false;
+        }
+        char[] pwArray = pw.toCharArray();
+        for (int i = 0; i < pwArray.length; i++){
+            if (Character.isSpaceChar(i)){
+                return false;
+            }
+            else if (Character.isDigit(i)){
+                hasNum = true;
+            }
+            else if(Character.isUpperCase(i)){
+                hasUpper = true;
+            }
+//            else if (Character.is){ //symbols
+//                hasNum = true;
+//            }
+        }
+        if (hasNum == true && hasSym == true && hasUpper == true){
+            return true;
+        }
+
+        return false;
     }
 
     /**
