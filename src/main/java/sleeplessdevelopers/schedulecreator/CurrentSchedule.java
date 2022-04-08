@@ -34,13 +34,23 @@ public class CurrentSchedule extends Schedule {
 	}
 
 	/**
-	 * Removes course of the given course code from schedule.
-	 * Returns false if the given course is not in the schedule.
+	 * Removes given course from schedule.
 	 * @param remCourse code of Course to remove
-	 * @return boolean
 	 */
 	public void removeCourse(Course remCourse) {
-		courseList.remove(remCourse);
+		String remCode = remCourse.getCode();
+		/*
+		 * some courses have 2 Course objects but are just one course because they have different
+		 * times on different days (like 10-10:50 on MWF and 12-1:15 on T).
+		 * This loops through and checks if there are multiple courses with the same code.
+		 * If there are, then it is the same course and they all need removed.
+		 */
+		for (int i = 0; i < courseList.size(); i++){
+			if (courseList.get(i).getCode().equals(remCode)){
+				courseList.remove(i);
+				i--;
+			}
+		}
 	}
 
 	/**
