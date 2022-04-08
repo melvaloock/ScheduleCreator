@@ -1,4 +1,4 @@
-package main.java.sleeplessdevelopers.schedulecreator;
+package sleeplessdevelopers.schedulecreator;
 
 import org.junit.Test;
 import org.junit.Assert;

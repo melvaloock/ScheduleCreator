@@ -1,4 +1,4 @@
-package main.java.sleeplessdevelopers.schedulecreator;
+package sleeplessdevelopers.schedulecreator;
 
 /*
  * PBKDF2 Salted Password Hashing

@@ -1,4 +1,4 @@
-package main.java.sleeplessdevelopers.schedulecreator;
+package sleeplessdevelopers.schedulecreator;
 
 import java.text.ParseException;
 import java.util.ArrayList;

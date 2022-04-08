@@ -1,4 +1,4 @@
-package main.java.sleeplessdevelopers.schedulecreator;
+package sleeplessdevelopers.schedulecreator;
 
 import java.sql.SQLException;
 import java.text.ParseException;
