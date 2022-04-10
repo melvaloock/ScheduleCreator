@@ -1,12 +1,11 @@
 package sleeplessdevelopers.schedulecreator;
 
-import java.text.ParseException;
+import com.itextpdf.text;
+import com.itextpdf.text.pdf;
+
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.*;
-import java.io.*;
-import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.*;
 
 public class Console extends UserInterface{
 
@@ -379,6 +378,10 @@ public class Console extends UserInterface{
      *
      */
     public static boolean passwordCheck(String pw){
+        String symbols = "!@#$%&*()'+,-./:;<=>?[]^_`{|}";
+        //string of symbols and else if for checking for said symbols
+        //provided by
+        // https://codingface.com/how-to-check-string-contains-special-characters-in-java/#What_is_a_Special_Character
         boolean hasNum = false;
         boolean hasUpper = false;
         boolean hasSym = false;
@@ -390,16 +393,17 @@ public class Console extends UserInterface{
             if (Character.isSpaceChar(i)){
                 return false;
             }
-            else if (Character.isDigit(i)){
+            else if (Character.isDigit(i)){ //numbers
                 hasNum = true;
             }
-            else if(Character.isUpperCase(i)){
+            else if(Character.isUpperCase(i)){ //uppercase letters
                 hasUpper = true;
             }
-//            else if (Character.is){ //symbols
-//                hasNum = true;
-//            }
         }
+        if (symbols.contains(pw)){ //symbols, ascii range or list of symbols to check
+            hasSym = true;
+        }
+
         if (hasNum == true && hasSym == true && hasUpper == true){
             return true;
         }
