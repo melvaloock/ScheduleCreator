@@ -654,12 +654,34 @@ public class Database {
     public void updateMajor(){}
     
     
-    public void updateEmail() {
-        
+    public void updateEmail(String oldEmail, String newEmail) throws SQLException {
+        PreparedStatement stmnt;
+
+        // update email in courseReference table
+        stmnt = conn.prepareStatement("UPDATE courseReference SET UserEmail = ? WHERE UserEmail = ?");
+        stmnt.setString(1, newEmail);
+        stmnt.setString(2, oldEmail);
+
+        // update email in Schedule table
+        stmnt = conn.prepareStatement("UPDATE schedule SET UserEmail = ? WHERE UserEmail = ?");
+        stmnt.setString(1, newEmail);
+        stmnt.setString(2, oldEmail);
+
+        // update email in Account table
+        stmnt = conn.prepareStatement("UPDATE account SET UserEmail = ? WHERE UserEmail = ?");
+        stmnt.setString(1, newEmail);
+        stmnt.setString(2, oldEmail);
+
+
+        stmnt.close();
     }
     
-    public void updatePassword() {
-        
+    public void updatePassword(String email, String newPassword) throws SQLException, PasswordStorage.CannotPerformOperationException {
+        PreparedStatement stmnt = conn.prepareStatement("UPDATE account SET UserPassword = ? WHERE UserEmail = ?");
+        stmnt.setString(1, PasswordStorage.createHash(newPassword));
+        stmnt.setString(2, email);
+
+        stmnt.close();
     }
 
     /**
