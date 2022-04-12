@@ -13,10 +13,15 @@ repositories {
 }
 
 dependencies {
+
+
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.testng:testng:7.5'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation(files('lib/itextpdf-5.5.13.3.jar'))
 }
+
 
 tasks.named('test') {
 	useJUnitPlatform()
