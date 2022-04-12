@@ -1,11 +1,13 @@
 package sleeplessdevelopers.schedulecreator;
 
-import org.junit.Assert;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Properties;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class AccountCreateLoginTester {
@@ -132,8 +134,8 @@ public class AccountCreateLoginTester {
     @Test
     public void passwordHashWorks() throws PasswordStorage.CannotPerformOperationException, PasswordStorage.InvalidHashException {
         String hash = PasswordStorage.createHash(password);
-        Assert.assertTrue(PasswordStorage.verifyPassword(password, hash));
-        Assert.assertFalse(PasswordStorage.verifyPassword("wrong", hash));
+        assertTrue(PasswordStorage.verifyPassword(password, hash));
+        assertFalse(PasswordStorage.verifyPassword("wrong", hash));
     }
 
 
@@ -150,14 +152,14 @@ public class AccountCreateLoginTester {
         db.addAccount(addAccountEmail, addAccountPassword);
 
         // should throw exception if account already exists
-        Assert.assertThrows(SQLException.class, () -> db.addAccount(addAccountEmail, addAccountPassword));
+        assertThrows(SQLException.class, () -> db.addAccount(addAccountEmail, addAccountPassword));
 
         PreparedStatement stmnt = conn.prepareStatement("SELECT * FROM account WHERE UserEmail = ?");
         stmnt.setString(1, addAccountEmail);
         ResultSet rstCheck = stmnt.executeQuery();
 
         // if has next, then account exists with the info given
-        Assert.assertTrue(rstCheck.next());
+        assertTrue(rstCheck.next());
 
         // remove account from db
         stmnt = conn.prepareStatement("DELETE FROM account WHERE UserEmail = ?");
@@ -188,7 +190,7 @@ public class AccountCreateLoginTester {
         ResultSet rstCheck = stmnt.executeQuery();
 
         // if has next, then account exists with the info given
-        Assert.assertTrue(rstCheck.next());
+        assertTrue(rstCheck.next());
 
         // remove account from db
         stmnt = conn.prepareStatement("DELETE FROM account WHERE UserEmail = ?");
@@ -204,10 +206,10 @@ public class AccountCreateLoginTester {
     public void canLoginToAccount() throws SQLException, PasswordStorage.CannotPerformOperationException, PasswordStorage.InvalidHashException {
 
         // check that a student object was returned
-        Assert.assertNotNull(db.checkLogin(email, password));
+        assertNotNull(db.checkLogin(email, password));
 
         // wrong password throws exception
-        Assert.assertThrows(SQLException.class, () -> db.checkLogin(email, "wrong"));
+        assertThrows(SQLException.class, () -> db.checkLogin(email, "wrong"));
 
 
     }
@@ -230,7 +232,7 @@ public class AccountCreateLoginTester {
         ResultSet rstCheck = stmnt.executeQuery();
 
         // current schedule was added
-        Assert.assertTrue(rstCheck.next());
+        assertTrue(rstCheck.next());
 
         stmnt = conn.prepareStatement("DELETE FROM schedule WHERE UserEmail = ? AND ScheduleID = ? AND IsCurrent = ?");
         stmnt.setString(1, addSchedEmail);
@@ -248,7 +250,7 @@ public class AccountCreateLoginTester {
         rstCheck = stmnt.executeQuery();
 
         // non current schedule was added
-        Assert.assertTrue(rstCheck.next());
+        assertTrue(rstCheck.next());
 
         stmnt = conn.prepareStatement("DELETE FROM schedule WHERE UserEmail = ? AND ScheduleID = ? AND IsCurrent = ?");
         stmnt.setString(1, addSchedEmail);
@@ -266,18 +268,18 @@ public class AccountCreateLoginTester {
 
     @Test
     public void getYearTest() throws SQLException {
-        Assert.assertEquals(year, db.getYear(email));
+        assertEquals(year, db.getYear(email));
     }
 
     @Test
     public void getMajorTest() throws SQLException {
-        Assert.assertEquals(major, db.getMajor(email));
+        assertEquals(major, db.getMajor(email));
     }
 
     // this test may be broken due to changes
     @Test
     public void getCoursesFromRefsTest() throws SQLException {
-        Assert.assertEquals(courseList, db.getCoursesFromRefs(email, currentScheduleID));
+        assertEquals(courseList, db.getCoursesFromRefs(email, currentScheduleID));
     }
 
     @Test
@@ -289,7 +291,7 @@ public class AccountCreateLoginTester {
 
         Course actual = db.createCourse(rs);
 
-        Assert.assertEquals(testCourse1, actual);
+        assertEquals(testCourse1, actual);
 
         stmnt.close();
         rs.close();
@@ -297,12 +299,12 @@ public class AccountCreateLoginTester {
 
     @Test
     public void getCurrentScheduleTest() throws SQLException {
-        Assert.assertEquals(currentSchedule, db.getCurrentSchedule(email));
+        assertEquals(currentSchedule, db.getCurrentSchedule(email));
     }
 
     @Test
     public void getAccountTest() throws SQLException {
-        Assert.assertEquals(testAccount, db.getAccount(email));
+        assertEquals(testAccount, db.getAccount(email));
     }
 
     @Test
@@ -312,7 +314,7 @@ public class AccountCreateLoginTester {
         expectedSearchResults.add(new Course("ASTR 310  A", "INTRODUCTION TO ASTROPHYSICS", "10:05", "11:20", 'A', "TR", 100033));
         expectedSearchResults.add(new Course("ASTR 207  A", "INTRO TO STARS/GALAXIES/COSMOLOGY", "13:00", "13:50", 'A', "MWF", 100032));
 
-        Assert.assertEquals(expectedSearchResults, db.searchByCode(searchTerm));
+        assertEquals(expectedSearchResults, db.searchByCode(searchTerm));
     }
 
     @Test
@@ -322,7 +324,7 @@ public class AccountCreateLoginTester {
         expectedSearchResults.add(new Course("ASTR 207  A", "INTRO TO STARS/GALAXIES/COSMOLOGY", "13:00", "13:50", 'A', "MWF", 100032));
         expectedSearchResults.add(new Course("ENTR 302  A", "SALES IN THE STARTUP", "14:00", "14:50", 'A', "MWF", 100289));
 
-        Assert.assertEquals(expectedSearchResults, db.searchByKeyword(searchTerm));
+        assertEquals(expectedSearchResults, db.searchByKeyword(searchTerm));
     }
 
 

@@ -1,9 +1,10 @@
 package sleeplessdevelopers.schedulecreator;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class UserInterfaceTester {
 
@@ -24,17 +25,17 @@ public class UserInterfaceTester {
 
         // no problems adding course to empty schedule
         list.add(c1);
-        Assert.assertFalse(UserInterface.addCourses(list));
+        assertFalse(UserInterface.addCourses(list));
 
         // add non conflicting course
         list = new ArrayList<>();
         list.add(c2);
-        Assert.assertFalse(UserInterface.addCourses(list));
+        assertFalse(UserInterface.addCourses(list));
 
         // add conflicting course
         list = new ArrayList<>();
         list.add(c3);
-        Assert.assertFalse(UserInterface.addCourses(list));
+        assertFalse(UserInterface.addCourses(list));
 
     }
 

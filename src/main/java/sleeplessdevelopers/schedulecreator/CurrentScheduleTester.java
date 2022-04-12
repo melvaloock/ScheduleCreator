@@ -1,9 +1,10 @@
 package sleeplessdevelopers.schedulecreator;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CurrentScheduleTester {
 
@@ -16,10 +17,10 @@ public class CurrentScheduleTester {
         ArrayList<Course> courseList = cs.getCourseList();
 
         // should have 1 course
-        Assert.assertEquals(1, courseList.size());
+        assertEquals(1, courseList.size());
 
         // should be the same course
-        Assert.assertEquals(c1, courseList.get(0));
+        assertEquals(c1, courseList.get(0));
     }
 
     @Test
@@ -32,7 +33,7 @@ public class CurrentScheduleTester {
 
         ArrayList<Course> courseList = cs.getCourseList();
         //should be removed
-        Assert.assertEquals(0, courseList.size());
+        assertEquals(0, courseList.size());
     }
 
     // remove function no longer provides this functionality
@@ -48,8 +49,8 @@ public class CurrentScheduleTester {
 //
 //        ArrayList<Course> courseList = cs.getCourseList();
 //        // both should be removed
-//        Assert.assertTrue(didRem);
-//        Assert.assertEquals(0, courseList.size());
+//        assertTrue(didRem);
+//        assertEquals(0, courseList.size());
 //    }
 
     // remove function no longer provides this functionality
@@ -63,8 +64,8 @@ public class CurrentScheduleTester {
 //
 //        ArrayList<Course> courseList = cs.getCourseList();
 //        //should not be removed
-//        Assert.assertFalse(didRem);
-//        Assert.assertEquals(1, courseList.size());
+//        assertFalse(didRem);
+//        assertEquals(1, courseList.size());
 //    }
 
     @Test
@@ -74,14 +75,14 @@ public class CurrentScheduleTester {
         Course c1 = new Course("MUSI 102", "MUSIC HISTORY II", "9:00", "9:50", 'A', "MWF");
         Course c2 = new Course("ACCT 202", "PRIN OF ACCOUNT", "8:00", "8:50", 'A', "MWF");
         cs.addCourse(c1);
-        Assert.assertFalse(cs.conflictsWith(c2));
+        assertFalse(cs.conflictsWith(c2));
 
         // different days, same time
         cs.clearSchedule();
         c1 = new Course("MUSI 102", "MUSIC HISTORY II", "9:00", "9:50", 'A', "MWF");
         c2 = new Course("ACCT 202", "PRIN OF ACCOUNT", "9:00", "9:50", 'A', "TR");
         cs.addCourse(c1);
-        Assert.assertFalse(cs.conflictsWith(c2));
+        assertFalse(cs.conflictsWith(c2));
     }
 
     @Test
@@ -90,7 +91,7 @@ public class CurrentScheduleTester {
         Course c1 = new Course("MUSI 102", "MUSIC HISTORY II", "9:00", "9:50", 'A', "MWF");
         Course c2 = new Course("ACCT 202", "PRIN OF ACCOUNT", "9:00", "9:50", 'A', "MWF");
         cs.addCourse(c1);
-        Assert.assertTrue(cs.conflictsWith(c2));
+        assertTrue(cs.conflictsWith(c2));
     }
 
 

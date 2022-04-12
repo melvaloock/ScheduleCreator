@@ -1,7 +1,8 @@
 package sleeplessdevelopers.schedulecreator;
 
-import org.junit.Test;
-import org.junit.Assert;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CourseTester {
 
@@ -11,9 +12,9 @@ public class CourseTester {
         Course c2 = new Course("", "", "", "", ' ', "T");
         Course c3 = new Course("", "", "", "", ' ', "");
 
-        Assert.assertEquals("MWF", c1.daysToString());
-        Assert.assertEquals("T", c2.daysToString());
-        Assert.assertEquals("", c3.daysToString());
+        assertEquals("MWF", c1.daysToString());
+        assertEquals("T", c2.daysToString());
+        assertEquals("", c3.daysToString());
 
     }
 
