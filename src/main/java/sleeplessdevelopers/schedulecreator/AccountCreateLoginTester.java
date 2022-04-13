@@ -206,7 +206,7 @@ public class AccountCreateLoginTester {
     public void canLoginToAccount() throws SQLException, PasswordStorage.CannotPerformOperationException, PasswordStorage.InvalidHashException {
 
         // check that a student object was returned
-        assertNotNull(db.checkLogin(email, password));
+        assertDoesNotThrow(() -> db.checkLogin(email, password));
 
         // wrong password throws exception
         assertThrows(SQLException.class, () -> db.checkLogin(email, "wrong"));
@@ -303,8 +303,8 @@ public class AccountCreateLoginTester {
     }
 
     @Test
-    public void getAccountTest() throws SQLException {
-        assertEquals(testAccount, db.getAccount(email));
+    public void getAccountTest() throws SQLException, PasswordStorage.InvalidHashException, PasswordStorage.CannotPerformOperationException {
+        assertEquals(testAccount, db.getAccount(email, password));
     }
 
     @Test

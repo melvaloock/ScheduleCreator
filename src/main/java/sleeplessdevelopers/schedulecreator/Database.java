@@ -338,26 +338,20 @@ public class Database {
      * Checks the login credentials with the database
      * @param userEmail String of the user's email
      * @param userPassword String of the user's password
-     * @return A valid user account, or throws an exception if the user does not exist
      * @throws SQLException
      * @throws PasswordStorage.InvalidHashException
      * @throws PasswordStorage.CannotPerformOperationException
      */
-    public Account checkLogin(String userEmail, String userPassword) throws SQLException, PasswordStorage.InvalidHashException, PasswordStorage.CannotPerformOperationException {
+    public void checkLogin(String userEmail, String userPassword) throws SQLException, PasswordStorage.InvalidHashException, PasswordStorage.CannotPerformOperationException {
         PreparedStatement userCheck = conn.prepareStatement("SELECT * FROM account WHERE UserEmail = ?");
         userCheck.setString(1, userEmail);
         ResultSet rstCheck = userCheck.executeQuery();
 
-        Account ret;
-
         // if an account exists with userEmail, continue
         if (rstCheck.next()) {
             String dbPass = rstCheck.getString("UserPassword");
-            // check if the passwords match
-            if (PasswordStorage.verifyPassword(userPassword, dbPass)){
-                //ret = getAccount(userEmail);
-                ret = new Account(userEmail, "", getCurrentSchedule(userEmail), "", 0);
-            } else {
+            // check if the passwords don't match
+            if (!PasswordStorage.verifyPassword(userPassword, dbPass)){
                 // wrong password
                 throw new SQLException("Incorrect email or password.");
             }
@@ -368,7 +362,6 @@ public class Database {
 
         userCheck.close();
         rstCheck.close();
-        return ret;
     }
 
     /**
@@ -376,7 +369,10 @@ public class Database {
      * @param userEmail
      * @return
      */
-    public Account getAccount(String userEmail) throws SQLException {
+    public Account getAccount(String userEmail, String userPassword) throws SQLException, PasswordStorage.InvalidHashException, PasswordStorage.CannotPerformOperationException {
+        // verify user login
+        checkLogin(userEmail, userPassword);
+
         PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM schedule WHERE UserEmail = ?");
         pstmtCheck.setString(1, userEmail);
         ResultSet rstCheck = pstmtCheck.executeQuery();
@@ -654,9 +650,39 @@ public class Database {
     }
 
     // TODO: Kevin -> sprint 2
-    public void updateYear(){};
-    public void updateMajor(){};
-    public void updateEmail(){};
+    public void updateYear(){}
+    public void updateMajor(){}
+    
+    
+    public void updateEmail(String oldEmail, String newEmail) throws SQLException {
+        PreparedStatement stmnt;
+
+        // update email in courseReference table
+        stmnt = conn.prepareStatement("UPDATE courseReference SET UserEmail = ? WHERE UserEmail = ?");
+        stmnt.setString(1, newEmail);
+        stmnt.setString(2, oldEmail);
+
+        // update email in Schedule table
+        stmnt = conn.prepareStatement("UPDATE schedule SET UserEmail = ? WHERE UserEmail = ?");
+        stmnt.setString(1, newEmail);
+        stmnt.setString(2, oldEmail);
+
+        // update email in Account table
+        stmnt = conn.prepareStatement("UPDATE account SET UserEmail = ? WHERE UserEmail = ?");
+        stmnt.setString(1, newEmail);
+        stmnt.setString(2, oldEmail);
+
+
+        stmnt.close();
+    }
+    
+    public void updatePassword(String email, String newPassword) throws SQLException, PasswordStorage.CannotPerformOperationException {
+        PreparedStatement stmnt = conn.prepareStatement("UPDATE account SET UserPassword = ? WHERE UserEmail = ?");
+        stmnt.setString(1, PasswordStorage.createHash(newPassword));
+        stmnt.setString(2, email);
+
+        stmnt.close();
+    }
 
     /**
 	 * This method implements the functionality necessary to exit the application:
