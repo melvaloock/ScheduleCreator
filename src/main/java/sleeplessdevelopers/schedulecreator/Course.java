@@ -229,25 +229,13 @@ public class Course {
 
 	//temp method
 	public ArrayList<String> getDayStringList(){
+
 		ArrayList<String> stringList = new ArrayList<>();
+		if (days.size() == 0) {
+			return stringList;
+		}
 		for(int x = 0; x<days.size(); x++){
-			stringList.add(String.valueOf((daysToString().charAt(x))));
-			if(stringList.get(x).equalsIgnoreCase("M")){
-				stringList.remove(x);
-				stringList.add(x,"Mon");
-			}else if(stringList.get(x).equalsIgnoreCase("T")){
-				stringList.remove(x);
-				stringList.add(x,"Tue");
-			}else if(stringList.get(x).equalsIgnoreCase("W")){
-				stringList.remove(x);
-				stringList.add(x,"Wed");
-			}else if(stringList.get(x).equalsIgnoreCase("R")){
-				stringList.remove(x);
-				stringList.add(x,"Thu");
-			}else if(stringList.get(x).equalsIgnoreCase("F")){
-				stringList.remove(x);
-				stringList.add(x,"Fri");
-			}
+			stringList.add(x, Day.toDayString(days.get(x)));
 		}
 		return stringList;
 	}
