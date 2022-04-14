@@ -607,7 +607,7 @@ public class Database {
         ArrayList<Day> days = new ArrayList<Day>();
         String daysString = rst.getString("Weekday");
         for (char c : daysString.toCharArray()) {
-            days.add(Day.getDay(c));
+            days.add(Day.Day(c));
         }
         String code = rst.getString("CourseCode");
         return new Course(rst.getInt("CourseID"), rst.getString("CourseCode"), rst.getString("CourseName"),
