@@ -71,14 +71,14 @@ public class AccountCreateLoginTester {
      * only run this once.
      * if the data is removed from the db, run this before running the tests
      */
-    public void addTestData() throws SQLException {
+    public void addTestData() throws SQLException, PasswordStorage.CannotPerformOperationException {
         dbSetUp();
         PreparedStatement stmnt;
 
         // add account
         stmnt = conn.prepareStatement("INSERT INTO account values(?, ?, ?, ?)");
         stmnt.setString(1, email);
-        stmnt.setString(2, password);   // not hashing the password for test data
+        stmnt.setString(2, PasswordStorage.createHash(password));
         stmnt.setString(3, major);
         stmnt.setInt(4, year);
         stmnt.executeUpdate();
@@ -205,7 +205,7 @@ public class AccountCreateLoginTester {
     @Test
     public void canLoginToAccount() throws SQLException, PasswordStorage.CannotPerformOperationException, PasswordStorage.InvalidHashException {
 
-        // check that a student object was returned
+        // check that an exception was not thrown. login is successful when no exception is thrown
         assertDoesNotThrow(() -> db.checkLogin(email, password));
 
         // wrong password throws exception
@@ -329,7 +329,7 @@ public class AccountCreateLoginTester {
 
 
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, PasswordStorage.CannotPerformOperationException {
         int choice = -1;
 
         AccountCreateLoginTester obj = new AccountCreateLoginTester();
