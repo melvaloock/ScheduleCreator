@@ -382,7 +382,65 @@ public class Schedule {
 		return true;
 	}
 
+	public void exportAsJSON(String fileName) throws FileNotFoundException {
+		if (!fileName.endsWith(".json")) {
+			fileName += ".json";
+		}
 
+		PrintWriter pw = new PrintWriter(fileName);
+
+		StringBuilder sb = new StringBuilder();
+		// starting bracket
+		sb.append("{");
+
+		// add schedule info
+		sb.append("\"semester\":\"").append(semester).append("\",");
+		sb.append("\"isCurrent\":\"").append(isCurrent).append("\",");
+
+		// add courses
+		sb.append("\"courseList\":[");
+
+		int i = 0;	// keeps track of where we are in courseList
+		for (Course current: courseList) {
+			// start bracket
+			sb.append("{");
+
+			// add course info
+			sb.append("\"title\":\"").append(current.getTitle()).append("\",");
+			sb.append("\"code\":\"").append(current.getCode()).append("\",");
+			sb.append("\"semester\":\"").append(current.getSemester()).append("\",");
+			sb.append("\"color\":\"").append(current.getColor()).append("\",");
+			sb.append("\"referenceNum\":\"").append(current.getReferenceNum()).append("\",");
+			sb.append("\"startTime\":\"").append(current.getStartTime()).append("\",");
+			sb.append("\"endTime\":\"").append(current.getEndTime()).append("\",");
+			sb.append("\"days\":\"").append(current.getDays()).append("\",");
+			sb.append("\"professor\":\"").append(current.getProfessor()).append("\",");
+			sb.append("\"section\":\"").append(current.getSection()).append("\",");
+			sb.append("\"totalSeats\":\"").append(current.getTotalSeats()).append("\",");
+			sb.append("\"openSeats\":\"").append(current.getOpenSeats()).append("\"");
+
+			// end bracket
+			sb.append("}");
+
+			// if not the last course, add a comma
+			if (i != courseList.size()-1) {
+				sb.append(",");
+			}
+			// increment our counter
+			i++;
+		}
+
+		sb.append("],");
+
+		// error message and ending bracket
+		sb.append("\"errorMessage\":\"\"}");
+
+		// print to file
+		pw.print(sb);
+
+		pw.flush();
+		pw.close();
+	}
 
 	public static void main(String[] args) throws ParseException {
 		Course c1 = new Course("MUSI 102", "MUSIC HISTORY II", "9:00:00", "9:50:00", 'A', "MWF");
