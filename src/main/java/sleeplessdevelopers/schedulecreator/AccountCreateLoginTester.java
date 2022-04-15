@@ -90,12 +90,11 @@ public class AccountCreateLoginTester {
         stmnt.setString(3, email);
         stmnt.executeUpdate();
 
-        stmnt = conn.prepareStatement("INSERT INTO courseReference values(?, ?, ?, ?)");
+        stmnt = conn.prepareStatement("INSERT INTO courseReference values(?, ?, ?)");
         for (Course add: courseList) {
-            stmnt.setString(1, add.getCode());
-            stmnt.setString(2, add.getTitle());
-            stmnt.setString(3, currentScheduleID);
-            stmnt.setString(4, email);
+            stmnt.setInt(1, add.getReferenceNum());
+            stmnt.setString(2, currentScheduleID);
+            stmnt.setString(3, email);
             stmnt.executeUpdate();
         }
 

@@ -661,36 +661,36 @@ public class Database {
      * @throws SQLException
      */
     public void updateEmail(String oldEmail, String newEmail) throws SQLException {
-        PreparedStatement stmnt = conn.prepareStatement("SELECT * FROM account WHERE UserEmail = ?");
-        stmnt.setString(1, oldEmail);
-        ResultSet rst = stmnt.executeQuery();
-
-        if (!rst.next()) {
-            throw new SQLException("Account does not exist using the old email.");
-        }
+        PreparedStatement stmnt;
 
         /*
-         * insert new row into account
-         * it has the same data as the account we are changing, except the email is the new email
+         * turn off foreign key checks.
+         * since we are updating the foreign key in multiple tables, the checks for the
+         * constraints need to be turned off.
          */
-        stmnt = conn.prepareStatement("INSERT INTO account values(?, ?, ?, ?)");
+        stmnt = conn.prepareStatement("SET FOREIGN_KEY_CHECKS = 0");
+        stmnt.executeUpdate();
+
+        // change email in each table to the new email
+        stmnt = conn.prepareStatement("UPDATE account SET UserEmail = ? where UserEmail = ?");
         stmnt.setString(1, newEmail);
-        stmnt.setString(2, rst.getString("UserPassword"));
-        stmnt.setString(3, rst.getString("Major"));
-        stmnt.setString(4, rst.getString("GradYear"));
+        stmnt.setString(2, oldEmail);
         stmnt.executeUpdate();
 
-        // update the other tables to reference the new row
+        stmnt = conn.prepareStatement("UPDATE schedule SET UserEmail = ? where UserEmail = ?");
+        stmnt.setString(1, newEmail);
+        stmnt.setString(2, oldEmail);
+        stmnt.executeUpdate();
 
-        //stmnt = conn.prepareStatement("UPDATE ")
-
-        // remove the old email row
-        stmnt = conn.prepareStatement("DELETE FROM account WHERE UserEmail = ?");
-        stmnt.setString(1, oldEmail);
+        stmnt = conn.prepareStatement("UPDATE courseReference SET UserEmail = ? where UserEmail = ?");
+        stmnt.setString(1, newEmail);
+        stmnt.setString(2, oldEmail);
         stmnt.executeUpdate();
 
 
-
+        // turn checks back on
+        stmnt = conn.prepareStatement("SET FOREIGN_KEY_CHECKS = 1");
+        stmnt.executeUpdate();
 
         stmnt.close();
     }
