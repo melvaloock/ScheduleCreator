@@ -652,34 +652,62 @@ public class Database {
     // TODO: Kevin -> sprint 2
     public void updateYear(){}
     public void updateMajor(){}
-    
-    
+
+    /**
+     * updates the oldEmail everywhere in the database to the new email.
+     * the user should be asked to enter their login information before changing their email
+     * @param oldEmail
+     * @param newEmail
+     * @throws SQLException
+     */
     public void updateEmail(String oldEmail, String newEmail) throws SQLException {
-        PreparedStatement stmnt;
+        PreparedStatement stmnt = conn.prepareStatement("SELECT * FROM account WHERE UserEmail = ?");
+        stmnt.setString(1, oldEmail);
+        ResultSet rst = stmnt.executeQuery();
 
-        // update email in courseReference table
-        stmnt = conn.prepareStatement("UPDATE courseReference SET UserEmail = ? WHERE UserEmail = ?");
-        stmnt.setString(1, newEmail);
-        stmnt.setString(2, oldEmail);
+        if (!rst.next()) {
+            throw new SQLException("Account does not exist using the old email.");
+        }
 
-        // update email in Schedule table
-        stmnt = conn.prepareStatement("UPDATE schedule SET UserEmail = ? WHERE UserEmail = ?");
+        /*
+         * insert new row into account
+         * it has the same data as the account we are changing, except the email is the new email
+         */
+        stmnt = conn.prepareStatement("INSERT INTO account values(?, ?, ?, ?)");
         stmnt.setString(1, newEmail);
-        stmnt.setString(2, oldEmail);
+        stmnt.setString(2, rst.getString("UserPassword"));
+        stmnt.setString(3, rst.getString("Major"));
+        stmnt.setString(4, rst.getString("GradYear"));
+        stmnt.executeUpdate();
 
-        // update email in Account table
-        stmnt = conn.prepareStatement("UPDATE account SET UserEmail = ? WHERE UserEmail = ?");
-        stmnt.setString(1, newEmail);
-        stmnt.setString(2, oldEmail);
+        // update the other tables to reference the new row
+
+        //stmnt = conn.prepareStatement("UPDATE ")
+
+        // remove the old email row
+        stmnt = conn.prepareStatement("DELETE FROM account WHERE UserEmail = ?");
+        stmnt.setString(1, oldEmail);
+        stmnt.executeUpdate();
+
+
 
 
         stmnt.close();
     }
-    
+
+    /**
+     * updates the user's password to the new password
+     * the user should be asked to enter their login information before changing their email
+     * @param email
+     * @param newPassword
+     * @throws SQLException
+     * @throws PasswordStorage.CannotPerformOperationException
+     */
     public void updatePassword(String email, String newPassword) throws SQLException, PasswordStorage.CannotPerformOperationException {
         PreparedStatement stmnt = conn.prepareStatement("UPDATE account SET UserPassword = ? WHERE UserEmail = ?");
         stmnt.setString(1, PasswordStorage.createHash(newPassword));
         stmnt.setString(2, email);
+        stmnt.executeUpdate();
 
         stmnt.close();
     }
