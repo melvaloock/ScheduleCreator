@@ -1,5 +1,7 @@
 package sleeplessdevelopers.schedulecreator;
 
+import com.google.gson.Gson;
+
 import java.text.ParseException;
 import java.util.*;
 import java.io.*;
@@ -365,36 +367,8 @@ public class Schedule {
 	}
 
 	public String toJSON() {
-
-		StringBuilder sb = new StringBuilder();
-		// starting bracket
-		sb.append("{");
-
-		// add schedule info
-		sb.append("\"semester\":\"").append(semester).append("\",");
-		sb.append("\"isCurrent\":\"").append(isCurrent).append("\",");
-
-		// add courses
-		sb.append("\"courseList\":[");
-
-		int i = 0;	// keeps track of where we are in courseList
-		for (Course current: courseList) {
-			sb.append(current.toJSON());
-
-			// if not the last course, add a comma
-			if (i != courseList.size()-1) {
-				sb.append(",");
-			}
-			// increment our counter
-			i++;
-		}
-
-		sb.append("]");
-
-		// ending bracket
-		sb.append("}");
-
-		return sb.toString();
+		Gson gson = new Gson();
+		return gson.toJson(this);
 	}
 
 	public Schedule fromJSON(String jsonString) {
