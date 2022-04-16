@@ -371,12 +371,9 @@ public class Schedule {
 		return gson.toJson(this);
 	}
 
-	public Schedule fromJSON(String jsonString) {
-
-
-
-
-		return this;
+	public static Schedule fromJSON(String jsonString) {
+		Gson gson = new Gson();
+		return gson.fromJson(jsonString, Schedule.class);
 	}
 
 	public static void main(String[] args) throws ParseException {
