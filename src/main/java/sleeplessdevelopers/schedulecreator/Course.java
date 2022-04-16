@@ -251,4 +251,31 @@ public class Course {
 	public void setDays(String days) {
 		this.days = daysToEnum(days);
 	}
+
+	public String toJSON() {
+		StringBuilder sb = new StringBuilder();
+
+		// start bracket
+		sb.append("{");
+
+		// add course info
+		sb.append("\"title\":\"").append(title).append("\",");
+		sb.append("\"code\":\"").append(code).append("\",");
+		sb.append("\"semester\":\"").append(semester).append("\",");
+		sb.append("\"color\":\"").append(color).append("\",");
+		sb.append("\"referenceNum\":").append(referenceNum).append(",");
+		sb.append("\"startTime\":\"").append(startTime).append("\",");
+		sb.append("\"endTime\":\"").append(endTime).append("\",");
+		sb.append("\"days\":\"").append(getDays()).append("\",");
+		sb.append("\"professor\":\"").append(professor).append("\",");
+		sb.append("\"section\":\"").append(section).append("\",");
+		sb.append("\"totalSeats\":").append(totalSeats).append(",");
+		sb.append("\"openSeats\":").append(openSeats);
+
+		// end bracket
+		sb.append("}");
+
+		return sb.toString();
+	}
+
 }

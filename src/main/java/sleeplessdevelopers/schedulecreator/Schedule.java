@@ -364,12 +364,7 @@ public class Schedule {
 		return true;
 	}
 
-	public void exportAsJSON(String fileName) throws FileNotFoundException {
-		if (!fileName.endsWith(".json")) {
-			fileName += ".json";
-		}
-
-		PrintWriter pw = new PrintWriter(fileName);
+	public String toJSON() {
 
 		StringBuilder sb = new StringBuilder();
 		// starting bracket
@@ -384,25 +379,7 @@ public class Schedule {
 
 		int i = 0;	// keeps track of where we are in courseList
 		for (Course current: courseList) {
-			// start bracket
-			sb.append("{");
-
-			// add course info
-			sb.append("\"title\":\"").append(current.getTitle()).append("\",");
-			sb.append("\"code\":\"").append(current.getCode()).append("\",");
-			sb.append("\"semester\":\"").append(current.getSemester()).append("\",");
-			sb.append("\"color\":\"").append(current.getColor()).append("\",");
-			sb.append("\"referenceNum\":\"").append(current.getReferenceNum()).append("\",");
-			sb.append("\"startTime\":\"").append(current.getStartTime()).append("\",");
-			sb.append("\"endTime\":\"").append(current.getEndTime()).append("\",");
-			sb.append("\"days\":\"").append(current.getDays()).append("\",");
-			sb.append("\"professor\":\"").append(current.getProfessor()).append("\",");
-			sb.append("\"section\":\"").append(current.getSection()).append("\",");
-			sb.append("\"totalSeats\":\"").append(current.getTotalSeats()).append("\",");
-			sb.append("\"openSeats\":\"").append(current.getOpenSeats()).append("\"");
-
-			// end bracket
-			sb.append("}");
+			sb.append(current.toJSON());
 
 			// if not the last course, add a comma
 			if (i != courseList.size()-1) {
@@ -412,16 +389,20 @@ public class Schedule {
 			i++;
 		}
 
-		sb.append("],");
+		sb.append("]");
 
-		// error message and ending bracket
-		sb.append("\"errorMessage\":\"\"}");
+		// ending bracket
+		sb.append("}");
 
-		// print to file
-		pw.print(sb);
+		return sb.toString();
+	}
 
-		pw.flush();
-		pw.close();
+	public Schedule fromJSON(String jsonString) {
+
+
+
+
+		return this;
 	}
 
 	public static void main(String[] args) throws ParseException {
