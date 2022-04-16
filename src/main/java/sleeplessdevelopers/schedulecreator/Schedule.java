@@ -8,8 +8,6 @@ public class Schedule {
 
 	protected ArrayList<Course> courseList;
 	protected String semester = "Fall 2022";
-	protected String outFile;
-	protected FileWriter export;
 	protected boolean isCurrent;
 
 	// used to create a schedule matrix; there may be a better solution, idk
@@ -330,22 +328,6 @@ public class Schedule {
 
 	public void setSemester(String semester) {
 		this.semester = semester;
-	}
-
-	public String getOutFile() {
-		return outFile;
-	}
-
-	public void setOutFile(String outFile) {
-		this.outFile = outFile;
-	}
-
-	public FileWriter getExport() {
-		return export;
-	}
-
-	public void setExport(FileWriter export) {
-		this.export = export;
 	}
 
 	public boolean isCurrent() {
