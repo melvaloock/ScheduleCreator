@@ -1,19 +1,16 @@
 package sleeplessdevelopers.schedulecreator;
 
 import javax.mail.*;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-import java.io.File;
+import javax.mail.internet.*;
+import java.io.*;
 import java.util.Properties;
 public class Email {
-    private final File SCHEDULE;
+    private final File FILE;
     private final InternetAddress ADVISOREMAIL;
     private final String STUDENTID;
 
-    public Email(File schedule, String advisorEmail, int studentID) throws AddressException {
-        SCHEDULE=schedule;
+    public Email(String file, String advisorEmail, int studentID) throws AddressException {
+        FILE= new File(file);
         ADVISOREMAIL = new InternetAddress(advisorEmail);
         STUDENTID = Integer.toString(studentID);
     }
@@ -38,19 +35,21 @@ public class Email {
         Message mes = new MimeMessage(session);
         try{
             mes.setSubject("Newly Generated Schedule for Student: " + STUDENTID);
-            mes.setContent("<h2>The following student is seeking approval for their schedule</h2> <p>Attached" +
-                    " to this email is a pdf version of the student's schedule</p> <p> --Created with Schedule Creator--</p>"
+//            mes.setContent("<h2>The following student is seeking approval for their schedule</h2> <p>Attached" +
+//                    " to this email is a pdf version of the student's schedule</p> <p> --Created with Schedule Creator--</p>"
+//                    ,"text/html");
+            mes.setRecipient(Message.RecipientType.TO,ADVISOREMAIL);
+            MimeBodyPart messageBodyPart = new MimeBodyPart();
+            messageBodyPart.setContent("<h2>The following student is seeking approval for their schedule</h2> <p>Attached" +
+                            " to this email is a pdf version of the student's schedule</p> <p> --Created with Schedule Creator--</p>"
                     ,"text/html");
-            Address addressTo = ADVISOREMAIL;
-            mes.setRecipient(Message.RecipientType.TO,addressTo);
-            // MimeBodyPart messageBodyPart = new MimeBodyPart();
-            // messageBodyPart.setContent(
-//            MimeBodyPart attachment = new MimeBodyPart("<h1>Test Email</h1>","text/html");
-//            attachment.attachFile(new File("static/somename.pdf"));
-//            MimeMultipart multipart = new MimeMultipart();
-//            multipart.addBodyPart(messageBodyPart);
-//            multipart.addBodyPart(attachment);
-//            mes.setContent(multipart);
+            MimeBodyPart attachment = new MimeBodyPart();
+            attachment.attachFile(FILE);
+
+            MimeMultipart multipart = new MimeMultipart();
+            multipart.addBodyPart(messageBodyPart);
+            multipart.addBodyPart(attachment);
+            mes.setContent(multipart);
             Transport.send(mes);
 
         }catch(Exception e){
@@ -78,11 +77,12 @@ public class Email {
     }
 
     public static void main(String [] args) {
+        String f = "test.pdf";
         Email e = null;
         try {
-            e = new Email(null, "No.Reply.Schedule.Creator@gmail.com", 111111);
+            e = new Email(f, "No.Reply.Schedule.Creator@gmail.com", 111111);
             e.sendMail();
-        } catch (AddressException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
