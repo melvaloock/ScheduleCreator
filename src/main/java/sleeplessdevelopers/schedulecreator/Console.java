@@ -3,15 +3,20 @@ package sleeplessdevelopers.schedulecreator;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.sun.net.httpserver.Authenticator;
 
+import javax.mail.internet.AddressException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class Console extends UserInterface{
 
     private static Scanner scn = new Scanner(System.in);
     private static int pageID;
+    private static String fileName;
 
     /** - provides the user with a menu to choose between manual creation (1) or recommended schedule (2)
      * if the user chooses 1, call the consoleSearch method
@@ -474,6 +479,7 @@ public class Console extends UserInterface{
                     break;
                 case 5:
                     //send via email
+                    enterAdvisorEmail();
                     break;
                 case 6:
                     //save as file
@@ -483,11 +489,75 @@ public class Console extends UserInterface{
                     //if the currentStudent is an account and not a guest, log out here.
                     //else if its a guest then just return to mainMenu
                     pageID = 0;
+                    System.exit(0);//REMOVE
                     break;
                 default:
                     System.out.println("Invalid selection!"); //should not trigger in practice.
                     break;
             }
+    }
+
+    public static void enterAdvisorEmail(){
+        System.out.println("Please enter the advisor's email: ");
+        String advisorEmail = scn.next();
+        if (isValidEmail(advisorEmail)){
+            currentStudent.setAdvisorEmail(advisorEmail);
+            sendEmail();
+        }else{
+            System.out.println("Sorry, the email you entered is invalid");
+        }
+    }
+
+    public static void enterId(){
+        System.out.println("Please enter your student ID: ");
+        String id = scn.next();
+        if(isValidID(id)){
+            currentStudent.setStudentID(Integer.parseInt(id));
+        }else{
+            System.out.println("Sorry, the id you entered is invalid");
+        }
+    }
+
+    public static boolean isValidID(String id){
+        return id != null && id.matches("[0-9]+") && id.length() == 6;
+    }
+    public static boolean isValidEmail(String email)
+    {
+        String validEmailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
+        Pattern pat = Pattern.compile(validEmailRegex);
+        if (email == null){
+            return false;
+        }else {
+            return pat.matcher(email).matches();
+        }
+    }
+
+    public static void sendEmail(){
+        try {
+            if(fileName == null || currentStudent.getStudentID() == 0){
+                if(fileName == null && currentStudent.getStudentID() !=0){
+                    chooseFileType();
+                    Email e = new Email(fileName, currentStudent.getAdvisorEmail(), currentStudent.getStudentID());
+                }else if(fileName != null && currentStudent.getStudentID() == 0){
+                    enterId();
+                    Email e = new Email(fileName, currentStudent.getAdvisorEmail(), currentStudent.getStudentID());
+                }else{
+                    chooseFileType();
+                    enterId();
+                    Email e = new Email(fileName, currentStudent.getAdvisorEmail(), currentStudent.getStudentID());
+                }
+                System.out.println(fileName);
+                System.out.println(currentStudent.getAdvisorEmail());
+                System.out.println(currentStudent.getStudentID());
+            }else{
+                Email e = new Email(fileName, currentStudent.getAdvisorEmail(), currentStudent.getStudentID());
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**
@@ -619,13 +689,14 @@ public class Console extends UserInterface{
 
     public static void saveScheduleAsFile(String fileType) {
         System.out.println("Enter the name of the file you would like to save to: ");
-        String fileName = scn.next();
-
+        fileName = scn.next();
         switch (fileType) {
             case ".txt":
+                fileName+=".txt";
                 break;
             case ".pdf":
                 generatePDF(fileName);
+                fileName+=".pdf";
                 break;
         }
     }
@@ -642,8 +713,6 @@ public class Console extends UserInterface{
             System.out.println("Error generating PDF");
         }
     }
-
-
 }
 
 

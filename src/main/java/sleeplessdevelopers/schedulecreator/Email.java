@@ -58,7 +58,7 @@ public class Email {
         }
     }
 
-    private static String serverMailPassword(){
+    private String serverMailPassword(){
         // encrypted with https://www.stringencrypt.com (v1.4.0) [Java]
         String Password = "";
 
