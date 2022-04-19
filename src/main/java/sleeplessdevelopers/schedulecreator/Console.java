@@ -489,7 +489,6 @@ public class Console extends UserInterface{
                     //if the currentStudent is an account and not a guest, log out here.
                     //else if its a guest then just return to mainMenu
                     pageID = 0;
-                    System.exit(0);//REMOVE
                     break;
                 default:
                     System.out.println("Invalid selection!"); //should not trigger in practice.
