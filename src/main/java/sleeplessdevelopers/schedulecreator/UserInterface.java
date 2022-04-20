@@ -3,8 +3,8 @@ package sleeplessdevelopers.schedulecreator;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class UserInterface {
 	
@@ -164,6 +164,49 @@ public class UserInterface {
 		currentStudent.setCurrentSchedule(newSchedule);
 
 		return true;
+	}
+
+	/**
+	 * Method used to check if the password meets the acceptable
+	 * requirements: A symbol, an uppercase letter, a number, no spaces,
+	 * and be at least eight characters long.
+	 *
+	 */
+	public static boolean passwordCheck(String pw){
+		Pattern symbolReg = Pattern.compile("[^a-zA-Z0-9]");
+		Matcher symMatch = symbolReg.matcher(pw);
+		boolean checkTrue = symMatch.find();
+		//string of symbols and else if for checking for said symbols
+		//provided by
+		// https://codingface.com/how-to-check-string-contains-special-characters-in-java/#What_is_a_Special_Character
+		boolean hasNum = false;
+		boolean hasUpper = false;
+		boolean hasSym = false;
+		if (pw.length() < 8){
+			return false;
+		}
+		char[] pwArray = pw.toCharArray();
+		for (int i = 0; i < pwArray.length; i++){
+			if (Character.isSpaceChar(i)){
+				return false;
+			}
+			else if (Character.isDigit(pw.charAt(i))){ //numbers
+				hasNum = true;
+			}
+			else if(Character.isUpperCase(pw.charAt(i))) { //uppercase letters
+				hasUpper = true;
+			}
+		}
+
+		if (checkTrue){ //symbols, ascii range or list of symbols to check
+			hasSym = true;
+		}
+
+		if (hasNum == true && hasSym == true && hasUpper == true){
+			return true;
+		}
+
+		return false;
 	}
 
 	public static boolean loginToAccount(String userEmail, String userPassword) {
