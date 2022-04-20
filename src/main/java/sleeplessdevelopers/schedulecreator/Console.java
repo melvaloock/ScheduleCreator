@@ -3,14 +3,12 @@ package sleeplessdevelopers.schedulecreator;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.sun.net.httpserver.Authenticator;
 
-import javax.mail.internet.AddressException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Console extends UserInterface{
 
@@ -358,8 +356,8 @@ public class Console extends UserInterface{
             while (!validPass){
                 System.out.println("Password: ");
                 userPassword = scn.next();
-                if (passwordCheck(userPassword) == true){
-                    validPass = true;
+                validPass = passwordCheck(userPassword);
+                if (validPass){
                     break;
                 }
                 else{
@@ -370,11 +368,8 @@ public class Console extends UserInterface{
 
             }
 
-
             // if (createAccount(userEmail, userPassword)) break;
         }
-
-        // consoleScheduleChoice();
     }
 
     /**
@@ -384,7 +379,9 @@ public class Console extends UserInterface{
      *
      */
     public static boolean passwordCheck(String pw){
-        String symbols = "!@#$%&*()'+,-./:;<=>?[]^_`{|}";
+        Pattern symbolReg = Pattern.compile("[^a-zA-Z0-9]");
+        Matcher symMatch = symbolReg.matcher(pw);
+        boolean checkTrue = symMatch.find();
         //string of symbols and else if for checking for said symbols
         //provided by
         // https://codingface.com/how-to-check-string-contains-special-characters-in-java/#What_is_a_Special_Character
@@ -399,14 +396,15 @@ public class Console extends UserInterface{
             if (Character.isSpaceChar(i)){
                 return false;
             }
-            else if (Character.isDigit(i)){ //numbers
+            else if (Character.isDigit(pw.charAt(i))){ //numbers
                 hasNum = true;
             }
-            else if(Character.isUpperCase(i)){ //uppercase letters
+            else if(Character.isUpperCase(pw.charAt(i))) { //uppercase letters
                 hasUpper = true;
             }
         }
-        if (symbols.contains(pw)){ //symbols, ascii range or list of symbols to check
+
+        if (checkTrue){ //symbols, ascii range or list of symbols to check
             hasSym = true;
         }
 
@@ -489,6 +487,7 @@ public class Console extends UserInterface{
                     //if the currentStudent is an account and not a guest, log out here.
                     //else if its a guest then just return to mainMenu
                     pageID = 0;
+                    currentStudent = null;
                     break;
                 default:
                     System.out.println("Invalid selection!"); //should not trigger in practice.
