@@ -414,15 +414,22 @@ public class Console extends UserInterface{
         System.out.println("4) Load another schedule");
         System.out.println("5) Send current schedule via email");
         System.out.println("6) Save schedule as file");
-        System.out.println("7) logout");
-        int in = intEntry(1,7,scn);
+        System.out.println("7) Change major");
+        System.out.println("8) Change year");
+        System.out.println("9) Logout");
+        int in = intEntry(1,9,scn);
             switch (in) {
                 case 1:
                     helpDescriptions(1);
                     break;
                 case 2:
                     //save current schedule
-                    currentStudent.saveCurrentSchedule(db);
+                    if(currentStudent instanceof Guest){
+                        System.out.println("You cannot save a schedule as a guest");
+                    }
+                    else {
+                        currentStudent.saveCurrentSchedule(db);
+                    }
                     break;
                 case 3:
                     consoleAlterSchedule((CurrentSchedule) getCurrentStudent().getCurrentSchedule());
@@ -439,6 +446,12 @@ public class Console extends UserInterface{
                     chooseFileType();
                     break;
                 case 7:
+                    consoleChangeMajor();
+                    break;
+                case 8:
+                    consoleChangeYear();
+                    break;
+                case 9:
                     //if the currentStudent is an account and not a guest, log out here.
                     //else if its a guest then just return to mainMenu
                     pageID = 0;
@@ -559,6 +572,30 @@ public class Console extends UserInterface{
             }
         }
         return entry;
+    }
+
+    static void consoleChangeMajor(){
+        String major = "";
+
+        System.out.println("What is your major?");
+        System.out.println("0) None Listed");
+        for (int i = 0; i < recMajors.size(); i++) {
+            System.out.println(i + 1 +") " + recMajors.get(i));
+        }
+        int mEntry = intEntry(0, recMajors.size(), scn);
+        if (mEntry == 0) {
+            major = "Undeclared";
+        } else {
+            major = recMajors.get((mEntry) - 1);
+        }
+        //optionSetMajor(major);
+
+    }
+    static void consoleChangeYear(){
+        int year;
+
+        System.out.println("What is your graduation year?");
+        //optionSetYear(intEntry(2000,2030,scn));
     }
 
     static void consoleMain() {

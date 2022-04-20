@@ -231,6 +231,15 @@ public class UserInterface {
 		return this.userID++;
 	}
 
+	public void optionSetMajor(){
+		//currentStudent.setMajor();
+
+	}
+
+	public void optionSetYear(int y){
+		currentStudent.setYear(y);
+	}
+
 	public static void main(String args[])throws ParseException {
 
 		Console.consoleMain();
