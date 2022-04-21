@@ -6,7 +6,9 @@ plugins {
 
 group = 'sleeplessdevelopers'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
+sourceCompatibility = '15'
+// compileJava.options.fork = true
+// compileJava.options.forkOptions.executable = '/path_to_javac'
 
 repositories {
 	mavenCentral()
@@ -30,7 +32,12 @@ dependencies {
 
 }
 
-
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+// java {
+// 	toolchain {
+// 		languageVersion.set(JavaLanguageVersion.of(17))
+// 	}
+// }
