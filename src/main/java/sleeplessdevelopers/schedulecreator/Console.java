@@ -507,19 +507,23 @@ public class Console extends UserInterface{
                 if(fileName == null && currentStudent.getStudentID() !=0){
                     chooseFileType();
                     Email e = new Email(fileName, currentStudent.getAdvisorEmail(), currentStudent.getStudentID());
+                    e.sendMail();
                 }else if(fileName != null && currentStudent.getStudentID() == 0){
                     enterId();
                     Email e = new Email(fileName, currentStudent.getAdvisorEmail(), currentStudent.getStudentID());
+                    e.sendMail();
                 }else{
                     chooseFileType();
                     enterId();
                     Email e = new Email(fileName, currentStudent.getAdvisorEmail(), currentStudent.getStudentID());
+                    e.sendMail();
                 }
                 System.out.println(fileName);
                 System.out.println(currentStudent.getAdvisorEmail());
                 System.out.println(currentStudent.getStudentID());
             }else{
                 Email e = new Email(fileName, currentStudent.getAdvisorEmail(), currentStudent.getStudentID());
+                e.sendMail();
             }
         } catch (Exception ex) {
             ex.printStackTrace();
