@@ -369,6 +369,34 @@ public class Console extends UserInterface{
         }
     }
 
+    public static Course consoleAddActivity(){
+        String name;
+        String description;
+        int amountDays;
+        String startTime;
+        String endTime;
+        ArrayList<Day> days = new ArrayList<>();
+
+        System.out.println("What activity do you want to add?");
+        name = scn.next();
+        System.out.println("What is the description of your activity, if needed");
+        description = scn.next();
+        System.out.println("When does it start?");
+        startTime = scn.next();
+        System.out.println("When does it end?");
+        endTime = scn.next();
+
+        System.out.println("How many days for this activity");
+        amountDays = scn.nextInt();
+
+        for (int i = 0; i < amountDays; i++){
+            System.out.println("What is Day " + i+1 + " ?" );
+            days.add(Day.valueOf(scn.next().toUpperCase()));
+        }
+
+
+            return new Activity(name, description, startTime, endTime, days);
+        }
 
     /**
      * Gets login information from user and attempts to log in to an account using that information.
@@ -417,7 +445,8 @@ public class Console extends UserInterface{
         System.out.println("7) Change major");
         System.out.println("8) Change year");
         System.out.println("9) Logout");
-        int in = intEntry(1,9,scn);
+        System.out.println("10) WIP: Add activity");
+        int in = intEntry(1,10,scn);
             switch (in) {
                 case 1:
                     helpDescriptions(1);
@@ -456,6 +485,9 @@ public class Console extends UserInterface{
                     //else if its a guest then just return to mainMenu
                     pageID = 0;
                     currentStudent = null;
+                    break;
+                case 10:
+                    addActivity(consoleAddActivity());
                     break;
                 default:
                     System.out.println("Invalid selection!"); //should not trigger in practice.
@@ -592,14 +624,14 @@ public class Console extends UserInterface{
         } else {
             major = recMajors.get((mEntry) - 1);
         }
-        //optionSetMajor(major);
+        optionSetMajor(major);
 
     }
     static void consoleChangeYear(){
         int year;
 
         System.out.println("What is your graduation year?");
-        //optionSetYear(intEntry(2000,2030,scn));
+        optionSetYear(intEntry(2000,2030,scn));
     }
 
     static void consoleMain() {

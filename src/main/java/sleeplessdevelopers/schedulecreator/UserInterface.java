@@ -129,6 +129,25 @@ public class UserInterface {
 		return hasConflict;
 	}
 
+	static boolean addActivity(Course activity) {
+		// check if there is a conflict before adding
+		CurrentSchedule cs = new CurrentSchedule(currentStudent.getCurrentSchedule().getCourseList());
+		boolean hasConflict = false;
+			if (cs.conflictsWith(activity)) {
+				hasConflict = true;
+			}
+
+
+		if (!hasConflict) {
+			cs.addCourse(activity);
+			currentStudent.setCurrentSchedule(cs);
+		}
+
+		return hasConflict;
+	}
+
+
+
 
 
 	/**
@@ -231,12 +250,12 @@ public class UserInterface {
 		return this.userID++;
 	}
 
-	public void optionSetMajor(){
-		//currentStudent.setMajor();
+	public static void optionSetMajor(String m){
+		currentStudent.setMajor(m);
 
 	}
 
-	public void optionSetYear(int y){
+	public static void optionSetYear(int y){
 		currentStudent.setYear(y);
 	}
 
