@@ -8,7 +8,7 @@ public class ApplicationController {
     
     @GetMapping("/")
     public String index() {
-        return "/html/LandingPage.html";
+        return "LandingPage.html";
     }
 
     @GetMapping("/login")

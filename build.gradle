@@ -7,37 +7,25 @@ plugins {
 group = 'sleeplessdevelopers'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '15'
-// compileJava.options.fork = true
-// compileJava.options.forkOptions.executable = '/path_to_javac'
 
 repositories {
 	mavenCentral()
 }
 
 dependencies {
-
-
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.junit.jupiter:junit-jupiter:5.8.2'
 	implementation(files('lib/javax.mail.jar'))
 	implementation 'com.sun.activation:javax.activation:1.2.0'
-//	implementation(files('lib/activation.jar'))
-//	implementation(files('lib/additionnal.jar'))
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation(files('lib/itextpdf-5.5.13.3.jar'))
 	implementation(files('lib/mysql-connector-java-8.0.28.jar'))
 
 	implementation 'com.google.code.gson:gson:2.8.9'
-
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
-
-// java {
-// 	toolchain {
-// 		languageVersion.set(JavaLanguageVersion.of(17))
-// 	}
-// }
