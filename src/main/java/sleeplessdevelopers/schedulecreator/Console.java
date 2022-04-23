@@ -390,7 +390,7 @@ public class Console extends UserInterface{
         amountDays = scn.nextInt();
 
         for (int i = 0; i < amountDays; i++){
-            System.out.println("What is Day " + i+1 + " ?" );
+            System.out.println("What is Day " + (i+1) + " ?" );
             days.add(Day.valueOf(scn.next().toUpperCase()));
         }
 
@@ -435,6 +435,7 @@ public class Console extends UserInterface{
     }
 
     public static void consoleSchedulePage() {
+        ArrayList<Course> activity = new ArrayList<>();
         viewSchedule(currentStudent.getCurrentSchedule());
         System.out.println("1) Help");
         System.out.println("2) Save current schedule");
@@ -487,7 +488,9 @@ public class Console extends UserInterface{
                     currentStudent = null;
                     break;
                 case 10:
-                    addActivity(consoleAddActivity());
+                    activity.add(consoleAddActivity());
+                    addActivity(activity);
+                    activity.remove(0);
                     break;
                 default:
                     System.out.println("Invalid selection!"); //should not trigger in practice.

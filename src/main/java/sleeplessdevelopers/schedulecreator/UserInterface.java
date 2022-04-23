@@ -3,6 +3,7 @@ package sleeplessdevelopers.schedulecreator;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -129,17 +130,33 @@ public class UserInterface {
 		return hasConflict;
 	}
 
-	static boolean addActivity(Course activity) {
+	static boolean addActivity(ArrayList<Course> activity) {
 		// check if there is a conflict before adding
 		CurrentSchedule cs = new CurrentSchedule(currentStudent.getCurrentSchedule().getCourseList());
 		boolean hasConflict = false;
-			if (cs.conflictsWith(activity)) {
+
+		for (int i = 0; i < cs.courseList.size(); i++){
+			boolean refNumDiff = false;
+			Random ran = new Random();
+			while (!refNumDiff){
+				if (activity.get(0).getReferenceNum() == cs.courseList.get(i).getReferenceNum()){
+					activity.get(0).setReferenceNum(ran.nextInt(0,100));
+				}
+				else {
+					break;
+				}
+			}
+		}
+
+		for (Course c : activity) {
+			if (cs.conflictsWith(c)) {
 				hasConflict = true;
 			}
+		}
 
 
 		if (!hasConflict) {
-			cs.addCourse(activity);
+			cs.addCourse(activity.get(0));
 			currentStudent.setCurrentSchedule(cs);
 		}
 
