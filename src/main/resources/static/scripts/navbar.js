@@ -2,7 +2,7 @@ var navbar = `
 
   <nav class="navbar navbar-expand-lg navbar-light">
       <div class="container">
-        <a class="navbar-brand" th:href="@{/}"><img th:src="@{images/favicon.png/}" alt="Logo" class="img-fluid" /></a>
+        <a class="navbar-brand" href="/"><img th:src="@{images/favicon.png/}" alt="Logo" class="img-fluid" /></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
         aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -10,16 +10,16 @@ var navbar = `
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav mx-lg-auto">
             <li class="nav-item">
-            <a class="nav-link active" th:href="@{/schedule}"> View Schedule </a>
+            <a class="nav-link active" href="/schedule"> View Schedule </a>
             </li>
             <li class="nav-item">
-            <a class="nav-link active" th:href="@{/about}"> About </a>
+            <a class="nav-link active" href="/about"> About </a>
             </li>
             <li class="nav-item">
-            <a class="nav-link active" th:href="@{/contact}">Contact Us</a>
+            <a class="nav-link active" href="/contact">Contact Us</a>
             </li>
         </ul>
-        <a class="btn btn-crimson ms-3" th:href="@{/login}"> Login </a>
+        <a class="btn btn-crimson ms-3" href="/login"> Login </a>
         </div>
     </div>
   </nav>`
