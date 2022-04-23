@@ -24,6 +24,10 @@ h1, h3 {
     text-align: center;
 }
 
+h3 {
+    font-size: larger;
+}
+
 /* .col {
     background-color: white;
 } */
@@ -100,12 +104,6 @@ footer{
     margin-top: .7em
 }
 
-h1 {
-    margin: .5em
-}
-
-
-
 #signup-choice {
     text-align: center;
     padding: 4em;
@@ -114,5 +112,8 @@ h1 {
     width: 70%;
     border: gray thin solid;
     border-radius: .5em;
+}
 
+#blurb {
+    font-size: small;
 }
