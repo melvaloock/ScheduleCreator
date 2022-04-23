@@ -115,7 +115,7 @@ public class UserInterface {
 		CurrentSchedule cs = new CurrentSchedule(currentStudent.getCurrentSchedule().getCourseList());
 		boolean hasConflict = false;
 		for (Course c : coursesToAdd) {
-			if (cs.conflictsWith(c)) {
+			if (!cs.conflictsWith(c).isEmpty()) {
 				hasConflict = true;
 			}
 		}
@@ -149,7 +149,7 @@ public class UserInterface {
 		}
 
 		for (Course c : activity) {
-			if (cs.conflictsWith(c)) {
+			if (!cs.conflictsWith(c).isEmpty()) {
 				hasConflict = true;
 			}
 		}

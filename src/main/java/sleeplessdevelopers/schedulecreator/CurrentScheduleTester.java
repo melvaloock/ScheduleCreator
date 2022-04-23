@@ -2,6 +2,7 @@ package sleeplessdevelopers.schedulecreator;
 
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -70,28 +71,37 @@ public class CurrentScheduleTester {
 
     @Test
     public void noConflict() {
-        CurrentSchedule cs = new CurrentSchedule(new ArrayList<>());
-        // same days, different times
+        ArrayList<Course> courses = new ArrayList<>();
         Course c1 = new Course("MUSI 102", "MUSIC HISTORY II", "9:00", "9:50", 'A', "MWF");
+        courses.add(c1);
+
+        CurrentSchedule cs = new CurrentSchedule(courses);
+
+        // there will be no conflicts, so we expect an empty list
+        ArrayList<Course> expected = new ArrayList<>();
+
+        // same days, different times
         Course c2 = new Course("ACCT 202", "PRIN OF ACCOUNT", "8:00", "8:50", 'A', "MWF");
-        cs.addCourse(c1);
-        assertFalse(cs.conflictsWith(c2));
+
+        assertEquals(expected, cs.conflictsWith(c2));
 
         // different days, same time
-        cs.clearSchedule();
-        c1 = new Course("MUSI 102", "MUSIC HISTORY II", "9:00", "9:50", 'A', "MWF");
         c2 = new Course("ACCT 202", "PRIN OF ACCOUNT", "9:00", "9:50", 'A', "TR");
-        cs.addCourse(c1);
-        assertFalse(cs.conflictsWith(c2));
+        assertEquals(expected, cs.conflictsWith(c2));
     }
 
     @Test
     public void yesConflict() {
-        CurrentSchedule cs = new CurrentSchedule(new ArrayList<>());
+        ArrayList<Course> courses = new ArrayList<>();
         Course c1 = new Course("MUSI 102", "MUSIC HISTORY II", "9:00", "9:50", 'A', "MWF");
+        courses.add(c1);
+
+        CurrentSchedule cs = new CurrentSchedule(new ArrayList<>());
+
         Course c2 = new Course("ACCT 202", "PRIN OF ACCOUNT", "9:00", "9:50", 'A', "MWF");
-        cs.addCourse(c1);
-        assertTrue(cs.conflictsWith(c2));
+
+        // c1 is the course in the schedule that causes the conflict, so we expect a list with c1 in it
+        assertEquals(courses, cs.conflictsWith(c2));
     }
 
 
