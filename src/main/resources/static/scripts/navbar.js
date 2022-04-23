@@ -10,16 +10,16 @@ var navbar = `
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav mx-lg-auto">
             <li class="nav-item">
-            <a class="nav-link active" href="ScheduleView.html"> View Schedule </a>
+            <a class="nav-link active" th:href="@{/schedule}"> View Schedule </a>
             </li>
             <li class="nav-item">
-            <a class="nav-link active" href="AboutPage.html"> About </a>
+            <a class="nav-link active" th:href="@{/about}"> About </a>
             </li>
             <li class="nav-item">
-            <a class="nav-link active" href="Contact.html">Contact Us</a>
+            <a class="nav-link active" th:href="@{/contact}">Contact Us</a>
             </li>
         </ul>
-        <a class="btn btn-crimson ms-3" href="Login.html"> Login </a>
+        <a class="btn btn-crimson ms-3" th:href="@{/login}"> Login </a>
         </div>
     </div>
   </nav>`
