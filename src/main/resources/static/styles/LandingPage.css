@@ -113,4 +113,6 @@ h1 {
     background-color: white;
     width: 70%;
     border: gray thin solid;
+    border-radius: .5em;
+
 }

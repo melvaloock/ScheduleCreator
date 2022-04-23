@@ -21,18 +21,21 @@
     integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
     crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="static/styles/LandingPage.css">
+    <link rel="stylesheet" href="styles/LandingPage.css">
 
   <!-- Custom JavaScript -->
-  <script src="/static/scripts/toast.js"></script>
+  <script src="scripts/toast.js"></script>
 
   <!-- Favicon -->
   <link rel="shortcut icon" href="/static/favicon/cropped-favicon.webp" type="image/webp"/>
 </head>
 
 <body>
-
   <header>
+    <script src="scripts/navbar.js"></script>
+  </header>
+
+  <!-- <header>
     <nav class="navbar navbar-expand-lg navbar-light">
       <div class="container">
         <a class="navbar-brand" href="LandingPage.html"><img src="/static/images/cropped-favicon.webp/" alt="Logo" class="img-fluid" /></a>
@@ -43,22 +46,20 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav mx-lg-auto">
             <li class="nav-item">
-              <a class="nav-link active" href="{{ url_for('get_homepage') }}"> Find Your Connection </a>
+              <a class="nav-link active" href="ScheduleView.html"> View Schedule </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="{{ url_for('get_profile') }}"> Profile </a>
+              <a class="nav-link active" href="AboutPage.html"> About </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="{{ url_for('get_chat_view') }}"> Chat </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" href="{{ url_for('get_contact_page') }}">Contact Us</a>
+              <a class="nav-link active" href="Contact.html">Contact Us</a>
             </li>
           </ul>
-
           <a class="btn btn-crimson ms-3" href="Login.html"> Login </a>
-
-  </header>
+        </div>
+      </div>
+    </nav>
+  </header> -->
   <main>
     <!-- show that user is logged in -->
 
@@ -71,7 +72,6 @@
     </div>
   </main>
  
-  <script src="/static/scripts/toast.js"></script>
 </body>
 
 </html>
