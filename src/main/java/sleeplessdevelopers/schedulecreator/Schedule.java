@@ -1,5 +1,7 @@
 package sleeplessdevelopers.schedulecreator;
 
+import com.google.gson.Gson;
+
 import java.text.ParseException;
 import java.util.*;
 import java.io.*;
@@ -8,8 +10,6 @@ public class Schedule {
 
 	protected ArrayList<Course> courseList;
 	protected String semester = "Fall 2022";
-	protected String outFile;
-	protected FileWriter export;
 	protected boolean isCurrent;
 
 	// used to create a schedule matrix; there may be a better solution, idk
@@ -336,22 +336,6 @@ public class Schedule {
 		this.semester = semester;
 	}
 
-	public String getOutFile() {
-		return outFile;
-	}
-
-	public void setOutFile(String outFile) {
-		this.outFile = outFile;
-	}
-
-	public FileWriter getExport() {
-		return export;
-	}
-
-	public void setExport(FileWriter export) {
-		this.export = export;
-	}
-
 	public boolean isCurrent() {
 		return isCurrent;
 	}
@@ -386,7 +370,15 @@ public class Schedule {
 		return true;
 	}
 
+	public String toJSON() {
+		Gson gson = new Gson();
+		return gson.toJson(this);
+	}
 
+	public static Schedule fromJSON(String jsonString) {
+		Gson gson = new Gson();
+		return gson.fromJson(jsonString, Schedule.class);
+	}
 
 	public static void main(String[] args) throws ParseException {
 		Course c1 = new Course("MUSI 102", "MUSIC HISTORY II", "9:00:00", "9:50:00", 'A', "MWF");

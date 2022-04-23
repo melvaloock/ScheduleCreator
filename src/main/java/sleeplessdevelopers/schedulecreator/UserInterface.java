@@ -3,8 +3,9 @@ package sleeplessdevelopers.schedulecreator;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class UserInterface {
 	
@@ -129,6 +130,41 @@ public class UserInterface {
 		return hasConflict;
 	}
 
+	static boolean addActivity(ArrayList<Course> activity) {
+		// check if there is a conflict before adding
+		CurrentSchedule cs = new CurrentSchedule(currentStudent.getCurrentSchedule().getCourseList());
+		boolean hasConflict = false;
+
+		for (int i = 0; i < cs.courseList.size(); i++){
+			boolean refNumDiff = false;
+			Random ran = new Random();
+			while (!refNumDiff){
+				if (activity.get(0).getReferenceNum() == cs.courseList.get(i).getReferenceNum()){
+					activity.get(0).setReferenceNum(ran.nextInt(0,100));
+				}
+				else {
+					break;
+				}
+			}
+		}
+
+		for (Course c : activity) {
+			if (cs.conflictsWith(c)) {
+				hasConflict = true;
+			}
+		}
+
+
+		if (!hasConflict) {
+			cs.addCourse(activity.get(0));
+			currentStudent.setCurrentSchedule(cs);
+		}
+
+		return hasConflict;
+	}
+
+
+
 
 
 	/**
@@ -166,6 +202,49 @@ public class UserInterface {
 		return true;
 	}
 
+	/**
+	 * Method used to check if the password meets the acceptable
+	 * requirements: A symbol, an uppercase letter, a number, no spaces,
+	 * and be at least eight characters long.
+	 *
+	 */
+	public static boolean passwordCheck(String pw){
+		Pattern symbolReg = Pattern.compile("[^a-zA-Z0-9]");
+		Matcher symMatch = symbolReg.matcher(pw);
+		boolean checkTrue = symMatch.find();
+		//string of symbols and else if for checking for said symbols
+		//provided by
+		// https://codingface.com/how-to-check-string-contains-special-characters-in-java/#What_is_a_Special_Character
+		boolean hasNum = false;
+		boolean hasUpper = false;
+		boolean hasSym = false;
+		if (pw.length() < 8){
+			return false;
+		}
+		char[] pwArray = pw.toCharArray();
+		for (int i = 0; i < pwArray.length; i++){
+			if (Character.isSpaceChar(i)){
+				return false;
+			}
+			else if (Character.isDigit(pw.charAt(i))){ //numbers
+				hasNum = true;
+			}
+			else if(Character.isUpperCase(pw.charAt(i))) { //uppercase letters
+				hasUpper = true;
+			}
+		}
+
+		if (checkTrue){ //symbols, ascii range or list of symbols to check
+			hasSym = true;
+		}
+
+		if (hasNum == true && hasSym == true && hasUpper == true){
+			return true;
+		}
+
+		return false;
+	}
+
 	public static boolean loginToAccount(String userEmail, String userPassword) {
 		try {
 			currentStudent = db.getAccount(userEmail, userPassword);
@@ -186,6 +265,15 @@ public class UserInterface {
 
 	public int incrementUserID() {
 		return this.userID++;
+	}
+
+	public static void optionSetMajor(String m){
+		currentStudent.setMajor(m);
+
+	}
+
+	public static void optionSetYear(int y){
+		currentStudent.setYear(y);
 	}
 
 	public static void main(String args[])throws ParseException {

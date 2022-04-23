@@ -7,11 +7,13 @@ import com.itextpdf.text.pdf.PdfWriter;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class Console extends UserInterface{
 
     private static Scanner scn = new Scanner(System.in);
     private static int pageID;
+    private static String fileName;
 
     /** - provides the user with a menu to choose between manual creation (1) or recommended schedule (2)
      * if the user chooses 1, call the consoleSearch method
@@ -343,74 +345,58 @@ public class Console extends UserInterface{
      * and is prompted to enter different information.
      */
     public static void consoleCreateAccount() {
-        String userEmail;
-        String userPassword;
+        String userEmail = "";
+        String userPassword = "";
         boolean validPass = false;
 
         while (true) {
             System.out.println("Email: ");
             userEmail = scn.next();
-            while (!validPass){
+            while (!validPass) {
                 System.out.println("Password: ");
                 userPassword = scn.next();
-                if (passwordCheck(userPassword) == true){
-                    validPass = true;
+                validPass = passwordCheck(userPassword);
+                if (validPass) {
                     break;
-                }
-                else{
+                } else {
                     System.out.println("Password invalid, must have: uppercase letter, " +
                             "number, symbol, no spaces,");
                     System.out.println("and be at least eight characters long");
                 }
-
             }
-
-
-            // if (createAccount(userEmail, userPassword)) break;
+            if (createAccount(userEmail, userPassword));
+            break;
         }
-
-        // consoleScheduleChoice();
     }
 
-    /**
-     * Method used to check if the password meets the acceptable
-     * requirements: A symbol, an uppercase letter, a number, no spaces,
-     * and be at least eight characters long.
-     *
-     */
-    public static boolean passwordCheck(String pw){
-        String symbols = "!@#$%&*()'+,-./:;<=>?[]^_`{|}";
-        //string of symbols and else if for checking for said symbols
-        //provided by
-        // https://codingface.com/how-to-check-string-contains-special-characters-in-java/#What_is_a_Special_Character
-        boolean hasNum = false;
-        boolean hasUpper = false;
-        boolean hasSym = false;
-        if (pw.length() < 8){
-            return false;
-        }
-        char[] pwArray = pw.toCharArray();
-        for (int i = 0; i < pwArray.length; i++){
-            if (Character.isSpaceChar(i)){
-                return false;
-            }
-            else if (Character.isDigit(i)){ //numbers
-                hasNum = true;
-            }
-            else if(Character.isUpperCase(i)){ //uppercase letters
-                hasUpper = true;
-            }
-        }
-        if (symbols.contains(pw)){ //symbols, ascii range or list of symbols to check
-            hasSym = true;
+    public static Course consoleAddActivity(){
+        String name;
+        String description;
+        int amountDays;
+        String startTime;
+        String endTime;
+        ArrayList<Day> days = new ArrayList<>();
+
+        System.out.println("What activity do you want to add?");
+        name = scn.next();
+        System.out.println("What is the description of your activity, if needed");
+        description = scn.next();
+        System.out.println("When does it start?");
+        startTime = scn.next();
+        System.out.println("When does it end?");
+        endTime = scn.next();
+
+        System.out.println("How many days for this activity");
+        amountDays = scn.nextInt();
+
+        for (int i = 0; i < amountDays; i++){
+            System.out.println("What is Day " + (i+1) + " ?" );
+            days.add(Day.valueOf(scn.next().toUpperCase()));
         }
 
-        if (hasNum == true && hasSym == true && hasUpper == true){
-            return true;
-        }
 
-        return false;
-    }
+            return new Activity(name, description, startTime, endTime, days);
+        }
 
     /**
      * Gets login information from user and attempts to log in to an account using that information.
@@ -451,6 +437,7 @@ public class Console extends UserInterface{
     }
 
     public static void consoleSchedulePage() {
+        ArrayList<Course> activity = new ArrayList<>();
         viewSchedule(currentStudent.getCurrentSchedule());
         System.out.println("1) Help");
         System.out.println("2) Save current schedule");
@@ -458,15 +445,23 @@ public class Console extends UserInterface{
         System.out.println("4) Load another schedule");
         System.out.println("5) Send current schedule via email");
         System.out.println("6) Save schedule as file");
-        System.out.println("7) logout");
-        int in = intEntry(1,7,scn);
+        System.out.println("7) Change major");
+        System.out.println("8) Change year");
+        System.out.println("9) Logout");
+        System.out.println("10) WIP: Add activity");
+        int in = intEntry(1,10,scn);
             switch (in) {
                 case 1:
                     helpDescriptions(1);
                     break;
                 case 2:
                     //save current schedule
-                    currentStudent.saveCurrentSchedule(db);
+                    if(currentStudent instanceof Guest){
+                        System.out.println("You cannot save a schedule as a guest");
+                    }
+                    else {
+                        currentStudent.saveCurrentSchedule(db);
+                    }
                     break;
                 case 3:
                     consoleAlterSchedule((CurrentSchedule) getCurrentStudent().getCurrentSchedule());
@@ -476,20 +471,100 @@ public class Console extends UserInterface{
                     break;
                 case 5:
                     //send via email
+                    enterAdvisorEmail();
                     break;
                 case 6:
                     //save as file
                     chooseFileType();
                     break;
                 case 7:
+                    consoleChangeMajor();
+                    break;
+                case 8:
+                    consoleChangeYear();
+                    break;
+                case 9:
                     //if the currentStudent is an account and not a guest, log out here.
                     //else if its a guest then just return to mainMenu
                     pageID = 0;
+                    currentStudent = null;
+                    break;
+                case 10:
+                    activity.add(consoleAddActivity());
+                    addActivity(activity);
+                    activity.remove(0);
                     break;
                 default:
                     System.out.println("Invalid selection!"); //should not trigger in practice.
                     break;
             }
+    }
+
+    public static void enterAdvisorEmail(){
+        System.out.println("Please enter the advisor's email: ");
+        String advisorEmail = scn.next();
+        if (isValidEmail(advisorEmail)){
+            currentStudent.setAdvisorEmail(advisorEmail);
+            sendEmail();
+        }else{
+            System.out.println("Sorry, the email you entered is invalid");
+        }
+    }
+
+    public static void enterId(){
+        System.out.println("Please enter your student ID: ");
+        String id = scn.next();
+        if(isValidID(id)){
+            currentStudent.setStudentID(Integer.parseInt(id));
+        }else{
+            System.out.println("Sorry, the id you entered is invalid");
+        }
+    }
+
+    public static boolean isValidID(String id){
+        return id != null && id.matches("[0-9]+") && id.length() == 6;
+    }
+    public static boolean isValidEmail(String email)
+    {
+        String validEmailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
+        Pattern pat = Pattern.compile(validEmailRegex);
+        if (email == null){
+            return false;
+        }else {
+            return pat.matcher(email).matches();
+        }
+    }
+
+    public static void sendEmail(){
+        try {
+            if(fileName == null || currentStudent.getStudentID() == 0){
+                if(fileName == null && currentStudent.getStudentID() !=0){
+                    chooseFileType();
+                    Email e = new Email(fileName, currentStudent.getAdvisorEmail(), currentStudent.getStudentID());
+                    e.sendMail();
+                }else if(fileName != null && currentStudent.getStudentID() == 0){
+                    enterId();
+                    Email e = new Email(fileName, currentStudent.getAdvisorEmail(), currentStudent.getStudentID());
+                    e.sendMail();
+                }else{
+                    chooseFileType();
+                    enterId();
+                    Email e = new Email(fileName, currentStudent.getAdvisorEmail(), currentStudent.getStudentID());
+                    e.sendMail();
+                }
+                System.out.println(fileName);
+                System.out.println(currentStudent.getAdvisorEmail());
+                System.out.println(currentStudent.getStudentID());
+            }else{
+                Email e = new Email(fileName, currentStudent.getAdvisorEmail(), currentStudent.getStudentID());
+                e.sendMail();
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**
@@ -538,6 +613,30 @@ public class Console extends UserInterface{
             }
         }
         return entry;
+    }
+
+    static void consoleChangeMajor(){
+        String major = "";
+
+        System.out.println("What is your major?");
+        System.out.println("0) None Listed");
+        for (int i = 0; i < recMajors.size(); i++) {
+            System.out.println(i + 1 +") " + recMajors.get(i));
+        }
+        int mEntry = intEntry(0, recMajors.size(), scn);
+        if (mEntry == 0) {
+            major = "Undeclared";
+        } else {
+            major = recMajors.get((mEntry) - 1);
+        }
+        optionSetMajor(major);
+
+    }
+    static void consoleChangeYear(){
+        int year;
+
+        System.out.println("What is your graduation year?");
+        optionSetYear(intEntry(2000,2030,scn));
     }
 
     static void consoleMain() {
@@ -621,13 +720,14 @@ public class Console extends UserInterface{
 
     public static void saveScheduleAsFile(String fileType) {
         System.out.println("Enter the name of the file you would like to save to: ");
-        String fileName = scn.next();
-
+        fileName = scn.next();
         switch (fileType) {
             case ".txt":
+                fileName+=".txt";
                 break;
             case ".pdf":
                 generatePDF(fileName);
+                fileName+=".pdf";
                 break;
         }
     }
@@ -644,8 +744,6 @@ public class Console extends UserInterface{
             System.out.println("Error generating PDF");
         }
     }
-
-
 }
 
 

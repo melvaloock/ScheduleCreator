@@ -652,34 +652,62 @@ public class Database {
     // TODO: Kevin -> sprint 2
     public void updateYear(){}
     public void updateMajor(){}
-    
-    
+
+    /**
+     * updates the oldEmail everywhere in the database to the new email.
+     * the user should be asked to enter their login information before changing their email
+     * @param oldEmail
+     * @param newEmail
+     * @throws SQLException
+     */
     public void updateEmail(String oldEmail, String newEmail) throws SQLException {
         PreparedStatement stmnt;
 
-        // update email in courseReference table
-        stmnt = conn.prepareStatement("UPDATE courseReference SET UserEmail = ? WHERE UserEmail = ?");
+        /*
+         * turn off foreign key checks.
+         * since we are updating the foreign key in multiple tables, the checks for the
+         * constraints need to be turned off.
+         */
+        stmnt = conn.prepareStatement("SET FOREIGN_KEY_CHECKS = 0");
+        stmnt.executeUpdate();
+
+        // change email in each table to the new email
+        stmnt = conn.prepareStatement("UPDATE account SET UserEmail = ? where UserEmail = ?");
         stmnt.setString(1, newEmail);
         stmnt.setString(2, oldEmail);
+        stmnt.executeUpdate();
 
-        // update email in Schedule table
-        stmnt = conn.prepareStatement("UPDATE schedule SET UserEmail = ? WHERE UserEmail = ?");
+        stmnt = conn.prepareStatement("UPDATE schedule SET UserEmail = ? where UserEmail = ?");
         stmnt.setString(1, newEmail);
         stmnt.setString(2, oldEmail);
+        stmnt.executeUpdate();
 
-        // update email in Account table
-        stmnt = conn.prepareStatement("UPDATE account SET UserEmail = ? WHERE UserEmail = ?");
+        stmnt = conn.prepareStatement("UPDATE courseReference SET UserEmail = ? where UserEmail = ?");
         stmnt.setString(1, newEmail);
         stmnt.setString(2, oldEmail);
+        stmnt.executeUpdate();
 
+
+        // turn checks back on
+        stmnt = conn.prepareStatement("SET FOREIGN_KEY_CHECKS = 1");
+        stmnt.executeUpdate();
 
         stmnt.close();
     }
-    
+
+    /**
+     * updates the user's password to the new password
+     * the user should be asked to enter their login information before changing their email
+     * @param email
+     * @param newPassword
+     * @throws SQLException
+     * @throws PasswordStorage.CannotPerformOperationException
+     */
     public void updatePassword(String email, String newPassword) throws SQLException, PasswordStorage.CannotPerformOperationException {
         PreparedStatement stmnt = conn.prepareStatement("UPDATE account SET UserPassword = ? WHERE UserEmail = ?");
         stmnt.setString(1, PasswordStorage.createHash(newPassword));
         stmnt.setString(2, email);
+        stmnt.executeUpdate();
 
         stmnt.close();
     }
