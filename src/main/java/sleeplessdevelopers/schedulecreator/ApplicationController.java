@@ -12,7 +12,25 @@ public class ApplicationController {
     }
 
     @GetMapping("/login")
-    public String login() {
-        return "/html/Login.html";
+    public String getLogin() {
+        return "Login.html";
     }
+
+    @GetMapping("/schedule")
+    public String getSchedule() {
+        return "ScheduleView.html";
+    }
+
+    @GetMapping("/about")
+    public String getAbout() {
+        return "AboutPage.html";
+    }
+
+    @GetMapping("/contact")
+    public String getContact() {
+        return "Contact.html";
+    }
+    
+    // TODO: @GetMapping("/error")
+
 }
