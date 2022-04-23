@@ -21,18 +21,18 @@
     integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
     crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="styles/LandingPage.css">
+    <link rel="stylesheet" th:href="@{/styles/LandingPage.css}">
 
   <!-- Custom JavaScript -->
-  <script src="scripts/toast.js"></script>
+  <script src="@{/scripts/toast.js}"></script>
 
   <!-- Favicon -->
-  <link rel="shortcut icon" href="images/cropped-favicon.webp" type="image/webp"/>
+  <link rel="shortcut icon" th:href="@{/images/cropped-favicon.webp}" type="image/webp"/>
 </head>
 
 <body>
   <header>
-    <script src="scripts/navbar.js"></script>
+    <script th:src="@{/scripts/navbar.js}"></script>
   </header>
 
   <main>
