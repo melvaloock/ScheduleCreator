@@ -4,6 +4,13 @@ import java.util.ArrayList;
 
 public class CurrentSchedule extends Schedule {
 
+	public CurrentSchedule(Schedule s) {
+		this.courseList = s.courseList;
+		this.semester = s.semester;
+		this.outFile = s.outFile;
+		this.export = s.export;
+		this.isCurrent = true;
+	}
 
 	public CurrentSchedule(ArrayList<Course> courses) {
 		super.setCourseList(courses);

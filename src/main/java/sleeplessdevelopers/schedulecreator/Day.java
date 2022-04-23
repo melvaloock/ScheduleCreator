@@ -38,6 +38,8 @@ public enum Day {
         }
     }
 }
+
+
     //add fix for course.todaystringlist
 
 //    //temp method

@@ -438,6 +438,8 @@ public class Console extends UserInterface{
                     break;
                 }
             }
+
+
         }
 
         if (loggedIn) {

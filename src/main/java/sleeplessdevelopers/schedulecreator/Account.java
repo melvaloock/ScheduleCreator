@@ -5,8 +5,6 @@ import java.util.*; // trying to get git to work
 
 public class Account extends Student {
 
-	private HashMap<String, Schedule> scheduleMap = new HashMap<String, Schedule>(); // stores saved schedules for now
-
 	private String email;
 	private String passwordHash;
 	private int studentID; // may not need this
