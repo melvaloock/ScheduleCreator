@@ -1,19 +1,18 @@
 package sleeplessdevelopers.schedulecreator;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
-@RestController
+@Controller
 public class ApplicationController {
     
     @GetMapping("/")
-    public ModelAndView index() {
-        return new ModelAndView("index.html");
+    public String index() {
+        return "/html/LandingPage.html";
     }
 
     @GetMapping("/login")
     public String login() {
-        return "pass";
+        return "/html/Login.html";
     }
 }
