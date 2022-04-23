@@ -1,9 +1,13 @@
 package sleeplessdevelopers.schedulecreator;
 
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
+
+import java.io.*;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -276,8 +280,82 @@ public class UserInterface {
 		currentStudent.setYear(y);
 	}
 
+
+	public static String makeJSONFile() throws FileNotFoundException {
+		Random rand = new Random();
+		/*
+		 * uses a random file name
+		 * this prevents an export schedule file from being overwritten if 2 users are exporting
+		 * at the same time
+		 */
+		String fileName = "tempJSONExport" + rand.nextInt() + ".json";
+
+		FileOutputStream fos = new FileOutputStream(fileName);
+		PrintWriter pw = new PrintWriter(fos);
+
+		String json = currentStudent.getCurrentSchedule().toJSON();
+
+		pw.print(json);
+
+		// close things
+		pw.flush();
+		pw.close();
+
+		return fileName;
+	}
+
+	public static void importFromJSONFile(String fileName) throws FileNotFoundException {
+		if (!fileName.substring(fileName.length()-5).equals(".json")){
+			throw new FileNotFoundException(fileName + " is not a JSON file.");
+		}
+
+		FileInputStream fis = new FileInputStream(fileName);
+		Scanner scn = new Scanner(fis);
+
+		StringBuilder sb = new StringBuilder();
+
+		while (scn.hasNextLine()) {
+			sb.append(scn.nextLine());
+		}
+
+		// close things
+		scn.close();
+
+		Schedule fromJSON = Schedule.fromJSON(sb.toString());
+		currentStudent.setCurrentSchedule(fromJSON);
+
+	}
+
+	public static boolean deleteJSONFile(String fileName) {
+		File f = new File(fileName);
+		return f.delete();
+	}
+
+
 	public static void main(String args[])throws ParseException {
 
-		Console.consoleMain();
+		ArrayList<Course> courses = new ArrayList<>();
+
+		courses.add(new Course("MUSI 102", "MUSIC HISTORY II", "9:00 AM", "9:50 AM", 'A', "MWF"));
+		courses.add(new Course("MUSI 102", "MUSIC HISTORY II", "9:00 AM", "9:50 AM", 'B', "MWF"));
+//		courses.add(new Course("COMP 141", "INTRO TO PROGRAM", "11:00 AM", "11:50 AM", 'A', "MWF"));
+//		courses.add(new Course("COMP 205", "INTRO TO PROGRAM", "11:00 AM", "11:50 AM", 'A', "MWF"));
+
+		currentStudent = new Account("username", "pass", new CurrentSchedule(courses, "testsemester"), "comp sci", 2021);
+
+		try {
+//			String fileName = makeJSONFile();
+//			deleteJSONFile(fileName);
+			String importName = "tempJSONExport1649190909.json";
+			importFromJSONFile(importName);
+
+			System.out.println();
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+
+//		Console.consoleMain();
 	}
 }
