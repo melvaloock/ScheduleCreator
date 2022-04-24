@@ -16,9 +16,10 @@
     integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
     crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" th:href="@{/styles/LandingPage.css}">
-    <link rel="stylesheet" th:href="@{/styles/schedulecreator.css}">
-    <link rel="stylesheet" th:href="@{/styles/navbar.css}">
+  <!-- Custom Styles -->
+  <link rel="stylesheet" th:href="@{/styles/LandingPage.css}">
+  <link rel="stylesheet" th:href="@{/styles/schedulecreator.css}">
+  <link rel="stylesheet" th:href="@{/styles/navbar.css}">
 
 
   <!-- Custom JavaScript -->
@@ -30,8 +31,11 @@
 </head>
 
 <body>
+  <header>
+    <script type="text/javascript" th:src="@{/scripts/navbar.js}"></script>
+  </header>
   <main>
-    <div class="container form" >
+    <div class="container-form" >
       <form action="#" th:action="@{/login}" th:object="${loginForm}" method="post">
         <div class="form-group">
           <label for="username">Username:</label>

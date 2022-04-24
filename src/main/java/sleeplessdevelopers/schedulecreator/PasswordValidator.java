@@ -13,8 +13,8 @@ public class PasswordValidator implements ConstraintValidator<Password, String> 
         Pattern symbolReg = Pattern.compile("[^a-zA-Z0-9]");
 		Matcher symMatch = symbolReg.matcher(password);
 		boolean checkTrue = symMatch.find();
-		//string of symbols and else if for checking for said symbols
-		//provided by
+		// string of symbols and else if for checking for said symbols
+		// provided by
 		// https://codingface.com/how-to-check-string-contains-special-characters-in-java/#What_is_a_Special_Character
 		boolean hasNum = false;
 		boolean hasUpper = false;
