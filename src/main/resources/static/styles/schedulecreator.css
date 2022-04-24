@@ -47,6 +47,6 @@ h1, h3 {
     border-radius: .5em;
 }
 
-.blurb {
+#blurb {
     font-size: small;
 }
