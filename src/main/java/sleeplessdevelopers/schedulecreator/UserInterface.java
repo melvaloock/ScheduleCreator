@@ -334,28 +334,28 @@ public class UserInterface {
 
 	public static void main(String args[])throws ParseException {
 
-		ArrayList<Course> courses = new ArrayList<>();
+//		ArrayList<Course> courses = new ArrayList<>();
+//
+//		courses.add(new Course("MUSI 102", "MUSIC HISTORY II", "9:00 AM", "9:50 AM", 'A', "MWF"));
+//		courses.add(new Course("MUSI 102", "MUSIC HISTORY II", "9:00 AM", "9:50 AM", 'B', "MWF"));
+////		courses.add(new Course("COMP 141", "INTRO TO PROGRAM", "11:00 AM", "11:50 AM", 'A', "MWF"));
+////		courses.add(new Course("COMP 205", "INTRO TO PROGRAM", "11:00 AM", "11:50 AM", 'A', "MWF"));
+//
+//		currentStudent = new Account("username", "pass", new CurrentSchedule(courses, "testsemester"), "comp sci", 2021);
+//
+//		try {
+////			String fileName = makeJSONFile();
+////			deleteJSONFile(fileName);
+//			String importName = "tempJSONExport1649190909.json";
+//			importFromJSONFile(importName);
+//
+//			System.out.println();
+//
+//		}catch (Exception e) {
+//			e.printStackTrace();
+//		}
 
-		courses.add(new Course("MUSI 102", "MUSIC HISTORY II", "9:00 AM", "9:50 AM", 'A', "MWF"));
-		courses.add(new Course("MUSI 102", "MUSIC HISTORY II", "9:00 AM", "9:50 AM", 'B', "MWF"));
-//		courses.add(new Course("COMP 141", "INTRO TO PROGRAM", "11:00 AM", "11:50 AM", 'A', "MWF"));
-//		courses.add(new Course("COMP 205", "INTRO TO PROGRAM", "11:00 AM", "11:50 AM", 'A', "MWF"));
 
-		currentStudent = new Account("username", "pass", new CurrentSchedule(courses, "testsemester"), "comp sci", 2021);
-
-		try {
-//			String fileName = makeJSONFile();
-//			deleteJSONFile(fileName);
-			String importName = "tempJSONExport1649190909.json";
-			importFromJSONFile(importName);
-
-			System.out.println();
-
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-
-
-//		Console.consoleMain();
+		Console.consoleMain();
 	}
 }
