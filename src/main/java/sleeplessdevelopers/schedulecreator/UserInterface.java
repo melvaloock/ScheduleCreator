@@ -170,7 +170,6 @@ public class UserInterface {
 	 * Method used to check if the password meets the acceptable
 	 * requirements: A symbol, an uppercase letter, a number, no spaces,
 	 * and be at least eight characters long.
-	 *
 	 */
 	public static boolean passwordCheck(String pw){
 		Pattern symbolReg = Pattern.compile("[^a-zA-Z0-9]");
