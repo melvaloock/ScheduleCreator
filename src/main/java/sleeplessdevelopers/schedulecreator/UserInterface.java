@@ -321,7 +321,7 @@ public class UserInterface {
 		// close things
 		scn.close();
 
-		Schedule fromJSON = Schedule.fromJSON(sb.toString());
+		CurrentSchedule fromJSON = CurrentSchedule.fromJSON(sb.toString());
 		currentStudent.setCurrentSchedule(fromJSON);
 
 	}

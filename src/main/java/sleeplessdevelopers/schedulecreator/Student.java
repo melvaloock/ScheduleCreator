@@ -27,10 +27,9 @@ public class Student {
 	}
 
 	//i think this might be broken
-	public void setCurrentSchedule(Schedule currentSchedule) {
+	public void setCurrentSchedule(CurrentSchedule currentSchedule) {
 		currentSchedule.makeCurrent();
-		currentSchedule.setCurrent(true);
-		this.currentSchedule = (CurrentSchedule) currentSchedule;
+		this.currentSchedule = currentSchedule;
 	}
 
 	public String getMajor() {

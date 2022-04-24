@@ -57,7 +57,7 @@ public class Account extends Student {
 		
 	}
 
-	public void setCurrentSchedule(Schedule currentSchedule, Database db) {
+	public void setCurrentSchedule(CurrentSchedule currentSchedule, Database db) {
 		if (this.currentSchedule != null) {
 			saveCurrentSchedule(db);
 			this.currentSchedule.setCurrent(false);
