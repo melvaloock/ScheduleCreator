@@ -21,6 +21,11 @@ public class ApplicationController {
         return "ScheduleView.html";
     }
 
+    @GetMapping("/schedule-edit")
+    public String getScheduleEdit() {
+        return "ScheduleEdit.html";
+    }
+
     @GetMapping("/about")
     public String getAbout() {
         return "AboutPage.html";
@@ -29,6 +34,16 @@ public class ApplicationController {
     @GetMapping("/contact")
     public String getContact() {
         return "Contact.html";
+    }
+
+    @GetMapping("/guest")
+    public String getGuest() {
+        return "Guest.html";
+    }
+
+    @GetMapping("/auto-schedule")
+    public String getAutoSchedule() {
+        return "AutoSchedule.html";
     }
     
     // TODO: @GetMapping("/error")
