@@ -36,3 +36,17 @@ h1, h3 {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     text-align: center;
 }
+
+.content {
+    text-align: center;
+    padding: 4em;
+    margin:auto;
+    background-color: white;
+    width: 70%;
+    border: gray thin solid;
+    border-radius: .5em;
+}
+
+.blurb {
+    font-size: small;
+}

@@ -21,25 +21,29 @@
     integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
     crossorigin="anonymous"></script>
 
-  <link rel="stylesheet" th:href="@{/styles/LandingPage.css}">
+
+    <link rel="stylesheet" href="styles/LandingPage.css">
+    <link rel="stylesheet" href="styles/navbar.css">
+    <link rel="stylesheet" href="styles/schedulecreator.css">
+    
 
   <!-- Custom JavaScript -->
-  <script th:src="@{/scripts/toast.js}"></script>
+  <script src="scripts/toast.js"></script>
 
   <!-- Favicon -->
-  <link rel="shortcut icon" th:href="@{/images/cropped-favicon.webp}" type="image/webp" />
+  <link rel="shortcut icon" href="/images/cropped-favicon.webp" type="image/webp" />
 </head>
 
 <body>
   <header>
-    <script type="text/javascript" th:src="@{/scripts/navbar.js}"></script>
+    <script type="text/javascript" src="scripts/navbar.js"></script>
   </header>
 
   <main>
     <!-- show that user is logged in -->
 
 
-    <div id="signup-choice" class="container">
+    <div class="container content">
       <h1>GCC Course Scheduler</h1>
       <h3>Simplifying Schedule Creation Since 2022</h3>
       <p id="blurb">With GCC Course Scheduler pick from a curated selection of premade schedules based off of your year

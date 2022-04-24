@@ -54,7 +54,7 @@ cursor: pointer;
 } */
 
 
-#signup-choice {
+.content {
     text-align: center;
     padding: 4em;
     margin:auto;
@@ -64,6 +64,6 @@ cursor: pointer;
     border-radius: .5em;
 }
 
-#blurb {
+.blurb {
     font-size: small;
 }
