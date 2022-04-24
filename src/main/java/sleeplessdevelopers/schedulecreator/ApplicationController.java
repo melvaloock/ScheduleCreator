@@ -22,6 +22,11 @@ public class ApplicationController extends UserInterface {
         return "Login.html";
     }
 
+    @GetMapping("/create-account")
+    public String getCreateAccount() {
+        return "CreateAccount.html";
+    }
+
     @GetMapping("/schedule")
     public String getSchedule() {
         return "ScheduleView.html";

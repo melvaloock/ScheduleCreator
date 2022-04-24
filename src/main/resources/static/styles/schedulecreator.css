@@ -16,6 +16,10 @@ footer{
     margin-top: .7em
 }
 
+.btn-light {
+    background-color: rgb(222, 222, 222);
+}
+
 body {
     background-color: rgb(199, 199, 199);
 }
@@ -49,4 +53,18 @@ h1, h3 {
 
 #blurb {
     font-size: small;
+}
+
+.form {
+    text-align: left;
+    padding: 4em;
+    margin:auto;
+    background-color: white;
+    width: 70%;
+    border: gray thin solid;
+    border-radius: .5em;
+}
+
+.submit-btns {
+    text-align: center;
 }
