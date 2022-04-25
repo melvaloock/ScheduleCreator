@@ -38,7 +38,7 @@
     <script type="text/javascript" th:src="@{/scripts/navbar.js}"></script>
   </header>
   <main>
-    <div class = content>
+    <div class="content">
     <div class="container-form">
       <form action="#" th:action="@{/create-account}" th:object="${accountCreationForm}" method="post">
         <div class="form-group">
@@ -63,7 +63,7 @@
       <p class="alert alert-danger" th:if="${#fields.hasErrors('accountCreationForm')}" th:errors="*{accountCreationForm}">
     </div>
     </div>
-    </main>
+  </main>
 
 </body>
 
