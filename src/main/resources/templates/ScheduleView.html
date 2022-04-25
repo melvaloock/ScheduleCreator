@@ -1,3 +1,4 @@
+<!--Calendar Display code adapted from https://codepen.io/roccop/pen/OGyBPG -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,19 +34,33 @@
 </header>
 
 <main>
-  <div>
-    <h1 th:text ="${schedule.getSemester()}"></h1>
+  <h1 th:text ="${schedule.getSemester()}"></h1>
+  <div id="top-line">
+    <a class="btn btn-light ms-3" th:href="@{/export}">Export</a>
+    <a class="btn btn-crimson ms-3" th:href="@{/emailt}">Email</a>
+    <div id="schedule-actions">
+      <a class="btn btn-crimson ms-3" th:href="@{/search}">Add Course</a>
+      <a class="btn btn-light ms-3" th:href="@{/schedule}">Remove Course</a>
+      <a class="btn btn-light ms-3" th:href="@{/schedule}">Save Schedule</a>
+    </div>
   </div>
   <div class="container" id="schedule">
+    <ul class="calendar weekly-byhour">
     <!-- Non-responsive (yet); Just a small sample of what's possible with CSS Grid. -->
 
-    <ul class="calendar weekly-byhour">
+      <li id="corner"></li>
+
+<!--      <script th:src="@{/scripts/schedule.js}"></script>-->
+
       <!--  EVENT NODES  -->
       <!--  DATA:      CATEGORY                         DAY              START  /  END     EVENT DETAILS  -->
-      <!-- <li class="event work" style="grid-column:   mon;   grid-row:  h08   /  h11;  ">Finish this calendar</li>
-      <li class="event work" style="grid-column:   wed;   grid-row:  h10   /  h19;  ">Master the grid!</li>
-      <li class="event personal" style="grid-column:   fri;   grid-row:  h16   /  h23;  ">After work drinks</li>
-      <li class="event personal" style="grid-column:   tue;   grid-row:  h18   /  h20;  ">Soccer game</li> -->
+      <!--      <li class="event work" style="grid-column:   mon;   grid-row:  h08   /  h11;  ">Finish this calendar</li>-->
+      <!--      <li class="event work" style="grid-column:   wed;   grid-row:  h10   /  h19;  ">Master the grid!</li>-->
+      <!--      <li class="event personal" style="grid-column:   fri;   grid-row:  h16   /  h23;  ">After work drinks</li>-->
+      <!--      <li class="event personal" style="grid-column:   tue;   grid-row:  h18   /  h20;  ">Soccer game</li>-->
+      <th:block th:each="course: ${schedule.getCourseList()}">
+        <li class="event" th:each="day: ${course.getDayStringList()}" th:style="${course.toCSSString(day)}" th:text="${course.getCode()}">
+      </th:block>
 
       <!--  DAYS OF THE WEEK  -->
       <li class="day mon">Mon</li>
@@ -73,12 +88,11 @@
 
 
       <!--  TOP LEFT CORNER FILLER  -->
-      <li id="corner"></li>
 
       <!--  EMPTY HOURLY FILLERS:
       Helps us show the grid template lines, and create calendar funtionality later. One for every hour
       cell (7 * 24), because our events are "position:absolute" and will sit over top of empty cells -->
-      <script th:src="@{/scripts/schedule.js}"></script>
+
     </ul>
 
   </div>

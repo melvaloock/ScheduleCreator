@@ -17,6 +17,8 @@ import javax.validation.Valid;
 
 @Controller
 public class ApplicationController extends UserInterface {
+
+
     
     @GetMapping("/")
     public String index() {
@@ -25,8 +27,17 @@ public class ApplicationController extends UserInterface {
 
     @GetMapping("/schedule")
     public String getSchedule(Model model) {
-        model.addAttribute("schedule", currentStudent.getCurrentSchedule());
-        return "ScheduleView.html";
+        if (currentStudent == null) {
+            return "redirect:/login";
+            //TODO: add error message
+        } else {
+            //next 3 lines for testing purposes
+//            RecommendedSchedule rs = new RecommendedSchedule("Computer Science (BS)", 2024, db);
+//            currentStudent.setCurrentSchedule(rs.makeCurrentSchedule());
+//            currentStudent.addRecommendedSchedule();
+            model.addAttribute("schedule", currentStudent.getCurrentSchedule());
+            return "ScheduleView.html";
+        }
     }
 
     @GetMapping("/schedule/edit")
@@ -143,6 +154,18 @@ public class ApplicationController extends UserInterface {
 
         return courses;
     }
+    
+    @GetMapping("/schedule/export")
+    public String getExport() {
+        return "ScheduleView.html";
+    }
+
+    @GetMapping("/schedule/email")
+    public String getEmail() {
+        return "ScheduleView.html";
+    }
+
+
 
     // TODO: @GetMapping("/error")
 
