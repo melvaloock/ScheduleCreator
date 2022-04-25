@@ -99,8 +99,21 @@ public class ApplicationController extends UserInterface {
 
 
     @GetMapping("/auto-schedule")
-    public String getAutoSchedule() {
+    public String getAutoSchedule(Model model) {
+        model.addAttribute("autoScheduleForm", new AutoScheduleForm());
         return "AutoSchedule.html";
+    }
+
+    @PostMapping("/auto-schedule")
+    public String postAutoSchedule(@Valid @ModelAttribute("autoScheduleForm") AutoScheduleForm autoScheduleForm,
+            BindingResult result) {
+        if (result.hasErrors()) {
+            return "redirect:/auto-schedule";
+        } else {
+            currentStudent.setCurrentSchedule(getRecommendedSchedule(autoScheduleForm.getMajor(),
+                    autoScheduleForm.getYear()).makeCurrentSchedule());
+            return "redirect:/schedule";
+        }
     }
     
     @GetMapping("/login")
@@ -187,6 +200,10 @@ public class ApplicationController extends UserInterface {
         }
 
         return courses;
+    }
+
+    public RecommendedSchedule getRecommendedSchedule(String major, int year) {
+        return new RecommendedSchedule(major, year, db);
     }
     
     @GetMapping("/schedule/export")
