@@ -69,6 +69,11 @@ h1, h3 {
     text-align: center;
 }
 
+.btn-abt {
+    width: 100%;
+    margin: .2em;
+}
+
 .remove-input::before {
     content: '\A';
     white-space: pre-line;

@@ -213,8 +213,8 @@ public class ApplicationController extends UserInterface {
     @ResponseBody
     @GetMapping("/api/get/courses")
     public String getCourses() {
-        try {
-            String json = db.getJSONCourses(); 
+        try {;
+            String json = db.getJSONCourses();
             return json;
         } catch (Exception e) {
             e.getMessage();
@@ -255,6 +255,12 @@ public class ApplicationController extends UserInterface {
     @GetMapping("/schedule/email")
     public String getEmail() {
         return "ScheduleView.html";
+    }
+
+    @GetMapping("/logout")
+    public String getLogout() {
+        currentStudent = null;
+        return "redirect:/";
     }
 
 

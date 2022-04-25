@@ -59,7 +59,7 @@
       <!--      <li class="event personal" style="grid-column:   fri;   grid-row:  h16   /  h23;  ">After work drinks</li>-->
       <!--      <li class="event personal" style="grid-column:   tue;   grid-row:  h18   /  h20;  ">Soccer game</li>-->
       <th:block th:each="course: ${schedule.getCourseList()}">
-        <li class="event" th:each="day: ${course.getDayStringList()}" th:style="${course.toCSSString(day)}" th:text="${course.getCode()}" th:id="${course.getCode()}">
+        <li class="event" th:each="day: ${course.getDayStringList()}" th:style="${course.toCSSString(day)}" th:text="${course.getCode()}"></li>
       </th:block>
 
       <!--  DAYS OF THE WEEK  -->
