@@ -39,13 +39,17 @@ crossorigin="anonymous"></script> -->
   </header>
 
   <div class="container-form form">
+    <h2>Remove Courses: </h2>
     <form action="#" th:action="@{/remove-course}" th:object="${scheduleForm}" method="post">
       <button type="submit" class="btn btn-primary">Select Courses</button>
-      <input type="checkbox" name="courseCodes"
-        th:each="course : ${courseList}"
-        th:text="${course.getCode()}"
-        th:value="${course.getCode()}"
-        th:field="*{courseCodes}">
+      <br>
+      <th:block th:each="course : ${courseList}">
+      <br>
+      <input class= "remove-input" type="checkbox" name="courseCodes"
+             th:text="${course.getCode()}"
+             th:value="${course.getCode()}"
+             th:field="*{courseCodes}">
+      </th:block>
     </form>
   </div>
 

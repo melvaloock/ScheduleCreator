@@ -68,3 +68,8 @@ h1, h3 {
 .submit-btns {
     text-align: center;
 }
+
+.remove-input::before {
+    content: '\A';
+    white-space: pre-line;
+}

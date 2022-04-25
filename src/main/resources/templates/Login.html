@@ -36,6 +36,7 @@
   </header>
   <main>
     <div class="container-form form" >
+      <h2>Log In:</h2>
       <form action="#" th:action="@{/login}" th:object="${loginForm}" method="post">
         <div class="form-group">
           <label for="username">Username:</label>
@@ -50,6 +51,7 @@
         <div class="form-group submit-btns">
           <button type="submit" class="btn btn-primary btn-crimson">Login</button>
           <a class="btn btn-light ms-3" th:href="@{/create-account}"> Don't have an account? Sign Up! </a>
+          <a class="btn btn-light ms-3" th:href="@{/guest}"> Continue as guest </a>
         </div>
       </form>
     </div>
