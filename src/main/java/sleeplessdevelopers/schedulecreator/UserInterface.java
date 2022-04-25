@@ -283,12 +283,14 @@ public class UserInterface {
 
 	public static String makeJSONFile() throws FileNotFoundException {
 		Random rand = new Random();
+		CurrentSchedule cs = currentStudent.getCurrentSchedule();
 		/*
-		 * uses a random file name
-		 * this prevents an export schedule file from being overwritten if 2 users are exporting
-		 * at the same time
+		 * uses a random number in file name
+		 * this prevents an export schedule file from being overwritten if 2 users are
+		 * importing/exporting with the same file name at the same time
 		 */
-		String fileName = "tempJSONExport" + rand.nextInt() + ".json";
+		String fileName = cs.semester + "_" + currentStudent.getEmail() + "_"
+				+ rand.nextInt(100000) + "_" + ".json";
 
 		FileOutputStream fos = new FileOutputStream(fileName);
 		PrintWriter pw = new PrintWriter(fos);
@@ -338,16 +340,16 @@ public class UserInterface {
 //
 //		courses.add(new Course("MUSI 102", "MUSIC HISTORY II", "9:00 AM", "9:50 AM", 'A', "MWF"));
 //		courses.add(new Course("MUSI 102", "MUSIC HISTORY II", "9:00 AM", "9:50 AM", 'B', "MWF"));
-////		courses.add(new Course("COMP 141", "INTRO TO PROGRAM", "11:00 AM", "11:50 AM", 'A', "MWF"));
-////		courses.add(new Course("COMP 205", "INTRO TO PROGRAM", "11:00 AM", "11:50 AM", 'A', "MWF"));
+//		courses.add(new Course("COMP 141", "INTRO TO PROGRAM", "11:00 AM", "11:50 AM", 'A', "MWF"));
+//		courses.add(new Course("COMP 205", "INTRO TO PROGRAM", "11:00 AM", "11:50 AM", 'A', "MWF"));
 //
-//		currentStudent = new Account("username", "pass", new CurrentSchedule(courses, "testsemester"), "comp sci", 2021);
+//		currentStudent = new Account("username@email.com", "pass", new CurrentSchedule(courses, "testsemester"), "comp sci", 2021);
 //
 //		try {
-////			String fileName = makeJSONFile();
+//			String fileName = makeJSONFile();
 ////			deleteJSONFile(fileName);
-//			String importName = "tempJSONExport1649190909.json";
-//			importFromJSONFile(importName);
+////			String importName = "tempJSONExport1649190909.json";
+////			importFromJSONFile(importName);
 //
 //			System.out.println();
 //

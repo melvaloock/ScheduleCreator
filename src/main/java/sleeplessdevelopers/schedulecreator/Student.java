@@ -22,7 +22,7 @@ public class Student {
 		//use the setCurrentSchedule() method to set as current after creating schedule
 	}
 
-	public Schedule getCurrentSchedule() {
+	public CurrentSchedule getCurrentSchedule() {
 		return currentSchedule;
 	}
 
