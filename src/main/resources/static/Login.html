@@ -22,12 +22,12 @@
     crossorigin="anonymous"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" th:href="@{/styles/LandingPage.css}">
-  <link rel="stylesheet" th:href="@{/styles/schedulecreator.css}">
-  <link rel="stylesheet" th:href="@{/styles/navbar.css}">
+  <link rel="stylesheet" href="styles/LandingPage.css">
+  <link rel="stylesheet" href="styles/schedulecreator.css}">
+  <link rel="stylesheet" href="styles/navbar.css">
 
   <!-- Custom JavaScript -->
-  <script th:src="@{/scripts/toast.js}"></script>
+  <script src="scripts/toast.js"></script>
 
   <!-- Favicon -->
   <link rel="shortcut icon" th:href="@{/images/cropped-favicon.webp}" type="image/webp" />
@@ -38,6 +38,7 @@
     <script type="text/javascript" th:src="@{/scripts/navbar.js}"></script>
   </header>
   <main>
+    <div class = content>
     <div class="container-form">
       <form action="#" th:action="@{/create-account}" th:object="${accountCreationForm}" method="post">
         <div class="form-group">
@@ -61,7 +62,8 @@
       </form>
       <p class="alert alert-danger" th:if="${#fields.hasErrors('accountCreationForm')}" th:errors="*{accountCreationForm}">
     </div>
-  </main>
+    </div>
+    </main>
 
 </body>
 

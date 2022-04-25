@@ -3,15 +3,17 @@
 
 /* GRID SETUP */
 .calendar {
+  align-self: center;
   display: grid;
   grid-gap: 1px;
   background-color: #eee;
   margin: auto;
-  position:fixed;
-  width: 80%;
-  height: 80%;
-  margin-bottom: 8em;
-/*   padding: 5px; */
+  position: relative;
+  min-width: 70vw;
+  max-width: 80vw;
+  min-height: 60vh;
+  padding: 5px;
+  font-size: small;
 }
 
 .weekly-byhour {
@@ -22,7 +24,6 @@
     [time] auto [mon] 1fr [tue] 1fr [wed] 1fr [thu] 1fr [fri] 1fr [end-col];
   grid-template-rows:
     [day]  auto
-    [h07]  1fr 
     [h08]  1fr
     [h09]  1fr
     [h10]  1fr 
@@ -91,5 +92,6 @@ li.event { background-color: #82caaf; position: absolute; height: 100%; width: 1
 .h23 { grid-area: h23 / time; }
 
 #schedule {
-    background-color: #82caaf;
+    margin:auto; 
+    padding: auto;
 }

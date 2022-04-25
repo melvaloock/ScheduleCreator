@@ -33,27 +33,25 @@
     </header>
 
     <main>
-    <div class="container" id="schedule">
-        <!-- Non-responsive (yet); Just a small sample of what's possible with CSS Grid. -->
-
-        <ul class="calendar weekly-byhour">
-        <!--  EVENT NODES  -->
-        <!--  DATA:      CATEGORY                         DAY              START  /  END     EVENT DETAILS  -->
-        <!-- <li class="event work" style="grid-column:   mon;   grid-row:  h08   /  h11;  ">Finish this calendar</li>
-        <li class="event work" style="grid-column:   wed;   grid-row:  h10   /  h19;  ">Master the grid!</li>
-        <li class="event personal" style="grid-column:   fri;   grid-row:  h16   /  h23;  ">After work drinks</li>
-        <li class="event personal" style="grid-column:   tue;   grid-row:  h18   /  h20;  ">Soccer game</li> -->
-    
+      
+    <div id="schedule">
+      <!-- Non-responsive (yet); Just a small sample of what's possible with CSS Grid. -->
+      <ul class="calendar weekly-byhour">
+      <!--  EVENT NODES  -->
+      <!--  DATA:      CATEGORY                         DAY              START  /  END     EVENT DETAILS  -->
+      <!-- <li class="event work" style="grid-column:   mon;   grid-row:  h08   /  h11;  ">Finish this calendar</li>
+      <li class="event work" style="grid-column:   wed;   grid-row:  h10   /  h19;  ">Master the grid!</li>
+      <li class="event personal" style="grid-column:   fri;   grid-row:  h16   /  h23;  ">After work drinks</li>
+      <li class="event personal" style="grid-column:   tue;   grid-row:  h18   /  h20;  ">Soccer game</li> -->
         <!--  DAYS OF THE WEEK  -->
         <li class="day mon">Mon</li>
         <li class="day tue">Tue</li>
         <li class="day wed">Wed</li>
         <li class="day thu">Thu</li>
         <li class="day fri">Fri</li>
-    
-        <!--  TIMES OF THE DAY  -->
+      
+          <!--  TIMES OF THE DAY  -->
 
-        <li class="time h07">7:00 am</li>
         <li class="time h08">8:00 am</li>
         <li class="time h09">9:00 am</li>
         <li class="time h10">10:00 am</li>
@@ -68,94 +66,16 @@
         <li class="time h19">7:00 pm</li>
         <li class="time h20">8:00 pm</li>
         <li class="time h21">9:00 pm</li>
-
   
-        <!--  TOP LEFT CORNER FILLER  -->
+          <!--  TOP LEFT CORNER FILLER  -->
         <li id="corner"></li>        
+     
+          <!--  EMPTY HOURLY FILLERS:
+          Helps us show the grid template lines, and create calendar funtionality later. One for every hour
+          cell (7 * 24), because our events are "position:absolute" and will sit over top of empty cells -->
         <script src="scripts/schedule.js"></script>
-    
-        <!--  EMPTY HOURLY FILLERS:
-        Helps us show the grid template lines, and create calendar funtionality later. One for every hour
-        cell (7 * 24), because our events are "position:absolute" and will sit over top of empty cells -->
-        <!-- <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li> -->
-  </ul>
-
+      </ul>
     </div>
-    </main> 
-
+  </main> 
 </body>
 </html>
