@@ -24,4 +24,4 @@ var navbar = `
     </div>
   </nav>`
 
-document.body.insertAdjacentHTML("afterbegin", navbar);
+document.getElementsByTagName("header")[0].insertAdjacentHTML("afterbegin", navbar);
