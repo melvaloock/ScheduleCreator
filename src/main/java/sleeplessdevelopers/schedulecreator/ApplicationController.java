@@ -210,8 +210,6 @@ public class ApplicationController extends UserInterface {
         }
     }
 
-
-
     @ResponseBody
     @GetMapping("/api/get/courses")
     public String getCourses() {
@@ -226,7 +224,9 @@ public class ApplicationController extends UserInterface {
 
     public ArrayList<Course> getCoursesFromJSON(ArrayList<String> json) {
         ArrayList<Course> courses = new ArrayList<Course>();
+
         for (String c : json) {
+
             JSONObject jsonObject = new JSONObject(c);
 
             int courseID = (int) jsonObject.get("CourseID");
@@ -240,7 +240,6 @@ public class ApplicationController extends UserInterface {
 
             courses.add(new Course(courseCode, courseName, startTime, endTime, courseCode.charAt(courseCode.length() - 1), weekday, courseID)); 
         }
-
         return courses;
     }
 
