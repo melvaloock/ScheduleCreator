@@ -250,7 +250,7 @@ public class Course {
 
 	public String toCSSString(String dayString) {
 		return dayString.toLowerCase() + ";	" +
-		 "grid-row:	h" + startTime.substring(0, 2) +
+		 "grid-row:	h" + startTime.substring(0,2) +
 		  "	/	" + endTime.substring(0, 2) + ";	";
 	}
 	public void setDays(String days) {

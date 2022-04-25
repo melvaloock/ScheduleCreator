@@ -12,6 +12,8 @@ import javax.validation.Valid;
 
 @Controller
 public class ApplicationController extends UserInterface {
+
+
     
     @GetMapping("/")
     public String index() {
@@ -106,6 +108,17 @@ public class ApplicationController extends UserInterface {
         }
        
     }
+
+    @GetMapping("/schedule/export")
+    public String getExport() {
+        return "ScheduleView.html";
+    }
+
+    @GetMapping("/schedule/email")
+    public String getEmail() {
+        return "ScheduleView.html";
+    }
+
 
 
     // TODO: @GetMapping("/error")

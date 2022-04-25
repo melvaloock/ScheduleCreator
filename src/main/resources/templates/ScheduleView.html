@@ -1,3 +1,4 @@
+<!--Calendar Display code adapted from https://codepen.io/roccop/pen/OGyBPG -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,13 +34,25 @@
 </header>
 
 <main>
-  <div>
+  <div id="top-line">
     <h1 th:text ="${schedule.getSemester()}"></h1>
+    <a class="btn btn-light ms-3" th:href="@{/export}">Export</a>
+    <a class="btn btn-crimson ms-3" th:href="@{/emailt}">Email</a>
+    <div>
+      <a class="btn btn-red ms-3" th:href="@{/search}">Add Course</a>
+      <a class="btn btn-light ms-3" th:href="@{/schedule}">Remove Course</a>
+      <a class="btn btn-light ms-3" th:href="@{/schedule}">Save Schedule</a>
+    </div>
   </div>
   <div class="container" id="schedule">
     <!-- Non-responsive (yet); Just a small sample of what's possible with CSS Grid. -->
 
     <ul class="calendar weekly-byhour">
+      <div th:each="course: ${schedule.getCourseList()}">
+        <div th:each="class: ${course.getDays}">
+         <li class="event" style="grid-column" th:style="${course.getCSSString(class)" th:text="${course.getCode()}"> </li>
+        </div>
+      </div>
       <!--  EVENT NODES  -->
       <!--  DATA:      CATEGORY                         DAY              START  /  END     EVENT DETAILS  -->
       <!-- <li class="event work" style="grid-column:   mon;   grid-row:  h08   /  h11;  ">Finish this calendar</li>
