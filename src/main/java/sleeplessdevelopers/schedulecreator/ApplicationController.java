@@ -27,9 +27,9 @@ public class ApplicationController extends UserInterface {
             //TODO: add error message
         } else {
             //next 3 lines for testing purposes
-            RecommendedSchedule rs = new RecommendedSchedule("Computer Science (BS)", 2024, db);
-            currentStudent.setCurrentSchedule(rs.makeCurrentSchedule());
-            currentStudent.addRecommendedSchedule();
+//            RecommendedSchedule rs = new RecommendedSchedule("Computer Science (BS)", 2024, db);
+//            currentStudent.setCurrentSchedule(rs.makeCurrentSchedule());
+//            currentStudent.addRecommendedSchedule();
             model.addAttribute("schedule", currentStudent.getCurrentSchedule());
             return "ScheduleView.html";
         }
