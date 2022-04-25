@@ -32,7 +32,6 @@ public class ApplicationController extends UserInterface {
             //next 3 lines for testing purposes
 //            RecommendedSchedule rs = new RecommendedSchedule("Computer Science (BS)", 2024, db);
 //            currentStudent.setCurrentSchedule(rs.makeCurrentSchedule());
-//            currentStudent.addRecommendedSchedule();
             model.addAttribute("schedule", currentStudent.getCurrentSchedule());
             return "ScheduleView.html";
         }
@@ -100,8 +99,13 @@ public class ApplicationController extends UserInterface {
 
     @GetMapping("/auto-schedule")
     public String getAutoSchedule(Model model) {
-        model.addAttribute("autoScheduleForm", new AutoScheduleForm());
-        return "AutoSchedule.html";
+        if (currentStudent == null) {
+            return "redirect:/login";
+            //TODO: add error message
+        } else {
+            model.addAttribute("autoScheduleForm", new AutoScheduleForm());
+            return "AutoSchedule.html";
+        }
     }
 
     @PostMapping("/auto-schedule")
@@ -154,8 +158,13 @@ public class ApplicationController extends UserInterface {
 
     @GetMapping("/search")
     public String getSearch(Model model) {
-        model.addAttribute("searchForm", new SearchForm());
-        return "CourseSearch.html";
+        if (currentStudent == null) {
+            return "redirect:/login";
+            //TODO: add error message
+        } else {
+            model.addAttribute("searchForm", new SearchForm());
+            return "CourseSearch.html";
+        }
     }
 
     @PostMapping("/search")
