@@ -6,6 +6,20 @@ window.addEventListener("DOMContentLoaded", async function () {
     searchCourses();
 });
 
+window.onload = function () {
+    var filters = document.getElementById("filters");
+    var filtersList = filters.getElementsByTagName("input");
+    for (var i = 0; i < filtersList.length; i++) {
+        filtersList[i].addEventListener("click", function () {
+            for (var i = 0; i < filtersList.length; i++) {
+                if (filtersList[i] != this && this.checked) {
+                    filtersList[i].checked = false;
+                }
+            }
+        });
+    }
+};
+
 async function cacheCourses() {
     caches.open('dynamicSearchCache').then(cache => {
         cache.add(coursesURL) // this validates the JSON
@@ -48,12 +62,37 @@ function fetchCourses(searchTerm) {
 
 function filterCourses(courses, searchTerm) {
     let courseList = [];
-    for (const course of courses.courses) {
-        if (course.CourseName.toLowerCase().includes(searchTerm.toLowerCase())) {
-            courseList.push(course);
-        }
 
-    }
+    let codeFilter = document.getElementById("code");
+    let keywordFilter = document.getElementById("keyword");
+    let timeFilter = document.getElementById("time");
+    let daysFilter = document.getElementById("days");
+
+    if (codeFilter.checked) {
+        for (const course of courses.courses) {
+            if (course.CourseCode.toLowerCase().includes(searchTerm.toLowerCase())) {
+                courseList.push(course);
+            }
+        }
+    } else if (keywordFilter.checked) {
+        for (const course of courses.courses) {
+            if (course.CourseName.toLowerCase().includes(searchTerm.toLowerCase())) {
+                courseList.push(course);
+            }
+        }
+    } else if (timeFilter.checked) {
+        for (const course of courses.courses) {
+            if (course.StartTime.includes(searchTerm)) {
+                courseList.push(course);
+            }
+        }
+    } else {
+        for (const course of courses.courses) {
+            if (course.Weekay.toLowerCase().includes(searchTerm.toLowerCase())) {
+                courseList.push(course);
+            }
+        }
+    } 
     return courseList;
 }
 

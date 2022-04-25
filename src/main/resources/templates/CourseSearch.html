@@ -39,12 +39,22 @@
   </header>
   <main>
     <div class="container-form form">
-        <form action="#" th:action="@{/search}" th:object="${searchForm}" method="post">
-          <input type="text" class="form-control" id="search">
-          <button type="submit" class="btn btn-primary">Select Courses</button>
-          <fieldset id="coursesList">
-          </fieldset>
-        </form>
+      <div id="filters">
+        <label for="code">Code</label>
+        <input type="checkbox" id="code" name="code" value="1">
+        <label for="keyword">Keyword</label>
+        <input type="checkbox" id="keyword" name="keyword" value="2">
+        <label for="time">Time</label>
+        <input type="checkbox" id="time" name="time" value="3">
+        <label for="days">Day</label>
+        <input type="checkbox" id="days" name="days" value="4">
+      </div>
+      <form action="#" th:action="@{/search}" th:object="${searchForm}" method="post">
+        <input type="text" class="form-control" id="search">
+        <button type="submit" class="btn btn-primary">Select Courses</button>
+        <fieldset id="coursesList">
+        </fieldset>
+      </form>
     </div>
   </main>
 </body>
