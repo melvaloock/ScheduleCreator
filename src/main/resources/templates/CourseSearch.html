@@ -38,11 +38,10 @@
     <script type="text/javascript" th:src="@{/scripts/navbar.js}" th:inline="javascript"></script>
   </header>
   <main>
-    <form action="#">
-      <input type="text" class="form-control" id="search">
-    </form>
     <div class="container-form form">
         <form action="#" th:action="@{/search}" th:object="${searchForm}" method="post">
+          <input type="text" class="form-control" id="search">
+          <button type="submit" class="btn btn-primary">Select Courses</button>
           <fieldset id="coursesList">
           </fieldset>
         </form>

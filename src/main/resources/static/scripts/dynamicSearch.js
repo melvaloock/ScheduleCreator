@@ -52,6 +52,7 @@ function filterCourses(courses, searchTerm) {
         if (course.CourseName.toLowerCase().includes(searchTerm.toLowerCase())) {
             courseList.push(course);
         }
+
     }
     return courseList;
 }
@@ -72,17 +73,22 @@ function displayCourses(courses) {
             paragraph.innerHTML = "No courses found";
             coursesList.appendChild(paragraph);
         } else {
+//            let submit = document.createElement("input");
+//            submit.type = "submit";
+//            submit.value = "Select Courses";
+//            coursesList.appendChild(submit);
             for (const course of courses) {
-                let label = document.createElement("label");
-                label.for = "courses";
-                label.innerHTML = course.CourseName;
-                coursesList.appendChild(label);
-
                 let courseItem = document.createElement("input");
                 courseItem.type = "checkbox";
                 courseItem.name = "courses";
                 courseItem.value = JSON.stringify(course);
                 coursesList.appendChild(courseItem);
+
+                let label = document.createElement("label");
+                label.for = "courses";
+                label.innerHTML = course.CourseCode + " | " + course.CourseName +
+                " | " + course.Weekday + " | " + course.StartTime;
+                coursesList.appendChild(label);
 
                 let newLine = document.createElement("br");
                 coursesList.appendChild(newLine);
@@ -93,10 +99,6 @@ function displayCourses(courses) {
                 // courseJSON.style.display = "none";
                 // coursesList.appendChild(courseJSON);
             }
-            let submit = document.createElement("input");
-            submit.type = "submit";
-            submit.value = "Select Courses";
-            coursesList.appendChild(submit);
         }
     }
 }

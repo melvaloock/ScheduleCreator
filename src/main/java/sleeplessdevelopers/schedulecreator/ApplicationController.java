@@ -1,6 +1,6 @@
 package sleeplessdevelopers.schedulecreator;
 
-import org.apache.tomcat.util.json.JSONParser;
+import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,11 +9,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-
-import org.json.JSONObject;
-
 import javax.validation.Valid;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 @Controller
 public class ApplicationController extends UserInterface {
@@ -70,6 +68,17 @@ public class ApplicationController extends UserInterface {
         }
     }
 
+    @GetMapping("/schedule/save")
+    public String postSchedule() {
+        currentStudent.saveCurrentSchedule(db);
+        return "redirect:/schedule";
+    }
+
+    // @GetMapping("/schedule/edit")
+    // public String getScheduleEdit() {
+    //     return "ScheduleEdit.html";
+    // }
+
     @GetMapping("/about")
     public String getAbout() {
         return "AboutPage.html";
@@ -102,7 +111,7 @@ public class ApplicationController extends UserInterface {
 
     @PostMapping("/login")
     public String postLogin(@Valid @ModelAttribute("loginForm") LoginForm loginForm,
-            BindingResult bindingResult) {
+            BindingResult bindingResult) throws SQLException {
         if (bindingResult.hasErrors()) {
             return "Login.html";
         } else {
