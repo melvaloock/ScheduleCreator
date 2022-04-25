@@ -20,6 +20,7 @@ var navbar = `
             </li>
         </ul>
         <a class="btn btn-crimson ms-3" href="/login"> Login </a>
+        <a class="btn btn-light ms-3" href="/logout"> Log Out </a>
         </div>
     </div>
   </nav>`
