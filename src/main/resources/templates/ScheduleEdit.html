@@ -1,14 +1,108 @@
+<!--Calendar Display code adapted from https://codepen.io/roccop/pen/OGyBPG -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Edit Schedule</title>
+  <meta charset="UTF-8">
+  <title>View Schedule</title>
+  <!-- Bootstrap CSS v5.0.2 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-    <link rel="stylesheet" th:href="@{/styles/schedulecreator.css}">
-    <link rel="stylesheet" th:href="@{/styles/navbar.css}">
 
+  <!-- Bootstrap JavaScript Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+    integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+    crossorigin="anonymous"></script>
+
+  <!--Custom CSS stylesheet-->
+  <link rel="stylesheet" th:href="@{/styles/schedulecreator.css}">
+  <link rel="stylesheet" th:href="@{/styles/navbar.css}">
+  <link rel="stylesheet" th:href="@{/styles/schedule.css}">
+
+  <!-- Custom JavaScript -->
+  <script th:src="@{/scripts/toast.js}"></script>
+  <script th:src="@{/scripts/removeCourse.js}"></script>
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" th:href="@{/images/cropped-favicon.webp}" type="image/webp" />
+  <title> Login </title>
 </head>
+
 <body>
+  <header>
+    <script th:src="@{/scripts/navbar.js}"></script>
+  </header>
+
+  <main>
+    <h1 th:text="${schedule.getSemester()}"></h1>
+    <div id="top-line">
+      <a class="btn btn-light ms-3" th:href="@{/export}">Export</a>
+      <a class="btn btn-crimson ms-3" th:href="@{/emailt}">Email</a>
+      <div id="schedule-actions">
+        <!-- <a class="btn btn-crimson ms-3" th:href="@{/search}">Add Course</a> -->
+        <!-- <a class="btn btn-light ms-3" th:href="@{/schedule-edit}">Done</a> -->
+        <!-- <a class="btn btn-light ms-3" th:href="@{/schedule}">Save Schedule</a> -->
+      </div>
+    </div>
+    <form action="#" th:action="@{/schedule-edit}" th:object="${scheduleForm}" method="post">
+      
+      <div class="container" id="schedule">
+        <ul class="calendar weekly-byhour" id="calendar">
+          <!-- Non-responsive (yet); Just a small sample of what's possible with CSS Grid. -->
+
+          <li id="corner"></li>
+
+          <!--      <script th:src="@{/scripts/schedule.js}"></script>-->
+
+          <!--  EVENT NODES  -->
+          <!--  DATA:      CATEGORY                         DAY              START  /  END     EVENT DETAILS  -->
+          <!--      <li class="event work" style="grid-column:   mon;   grid-row:  h08   /  h11;  ">Finish this calendar</li>-->
+          <!--      <li class="event work" style="grid-column:   wed;   grid-row:  h10   /  h19;  ">Master the grid!</li>-->
+          <!--      <li class="event personal" style="grid-column:   fri;   grid-row:  h16   /  h23;  ">After work drinks</li>-->
+          <!--      <li class="event personal" style="grid-column:   tue;   grid-row:  h18   /  h20;  ">Soccer game</li>-->
+          <th:block th:each="course: ${schedule.getCourseList()}">
+            <li class="event" th:each="day: ${course.getDayStringList()}" th:style="${course.toCSSString(day)}"
+              th:text="${course.getCode()}" th:name="${course.getCode()}">
+              <input type="hidden" th:value="${course.getCode()}" th:name="${course.getCode()}">
+          </th:block>
+          <!--  DAYS OF THE WEEK  -->
+          <li class="day mon">Mon</li>
+          <li class="day tue">Tue</li>
+          <li class="day wed">Wed</li>
+          <li class="day thu">Thu</li>
+          <li class="day fri">Fri</li>
+
+          <!--  TIMES OF THE DAY  -->
+
+          <li class="time h08">8:00 am</li>
+          <li class="time h09">9:00 am</li>
+          <li class="time h10">10:00 am</li>
+          <li class="time h11">11:00 am</li>
+          <li class="time h12">12:00 pm</li>
+          <li class="time h13">1:00 pm</li>
+          <li class="time h14">2:00 pm</li>
+          <li class="time h15">3:00 pm</li>
+          <li class="time h16">4:00 pm</li>
+          <li class="time h17">5:00 pm</li>
+          <li class="time h18">6:00 pm</li>
+          <li class="time h19">7:00 pm</li>
+          <li class="time h20">8:00 pm</li>
+          <li class="time h21">9:00 pm</li>
+
+
+          <!--  TOP LEFT CORNER FILLER  -->
+
+          <!--  EMPTY HOURLY FILLERS:
+      Helps us show the grid template lines, and create calendar funtionality later. One for every hour
+      cell (7 * 24), because our events are "position:absolute" and will sit over top of empty cells -->
+
+        </ul>
+      </div>
+      <button type="submit" class="btn btn-light ms-3">Done</button>
+    </form>
+  </main>
 
 </body>
+
 </html>

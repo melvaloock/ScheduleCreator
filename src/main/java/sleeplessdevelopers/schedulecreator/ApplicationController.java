@@ -40,9 +40,34 @@ public class ApplicationController extends UserInterface {
         }
     }
 
-    @GetMapping("/schedule/edit")
-    public String getScheduleEdit() {
-        return "ScheduleEdit.html";
+    @GetMapping("/schedule-edit")
+    public String getScheduleEdit(Model model) {
+        if (currentStudent == null) {
+            return "redirect:/login";
+            //TODO: add error message
+        } else {
+            //next 3 lines for testing purposes
+//            RecommendedSchedule rs = new RecommendedSchedule("Computer Science (BS)", 2024, db);
+//            currentStudent.setCurrentSchedule(rs.makeCurrentSchedule());
+//            currentStudent.addRecommendedSchedule();
+            model.addAttribute("schedule", currentStudent.getCurrentSchedule());
+            model.addAttribute("scheduleForm", new ScheduleForm());
+            return "ScheduleEdit.html";
+        }
+    }
+
+    @PostMapping("/schedule-edit")
+    public String postScheduleEdit(@Valid @ModelAttribute("scheduleForm") ScheduleForm scheduleForm,
+            BindingResult result) {
+        if (result.hasErrors()) {
+            System.out.println(scheduleForm.toString());
+            return "redirect:/schedule-edit";
+        } else {
+            for (String courseCode : scheduleForm.getCourseCodes()) {
+                currentStudent.currentSchedule.removeCourse(courseCode);
+            }
+            return "redirect:/schedule";
+        }
     }
 
     @GetMapping("/about")
@@ -119,7 +144,7 @@ public class ApplicationController extends UserInterface {
         } else {
             ArrayList<String> courses = searchForm.getCourses();
             addCourses(getCoursesFromJSON(courses));
-            return "redirect:/";
+            return "redirect:/schedule";
         }
     }
 
