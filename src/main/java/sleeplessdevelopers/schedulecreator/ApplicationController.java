@@ -1,7 +1,5 @@
 package sleeplessdevelopers.schedulecreator;
 
-import javax.validation.Valid;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.validation.Valid;
 
 @Controller
 public class ApplicationController extends UserInterface {
@@ -19,7 +19,8 @@ public class ApplicationController extends UserInterface {
     }
 
     @GetMapping("/schedule")
-    public String getSchedule() {
+    public String getSchedule(Model model) {
+        model.addAttribute("schedule", currentStudent.getCurrentSchedule());
         return "ScheduleView.html";
     }
 
@@ -40,8 +41,12 @@ public class ApplicationController extends UserInterface {
 
     @GetMapping("/guest")
     public String getGuest() {
+        if (currentStudent == null) {
+            createGuest();
+        }
         return "Guest.html";
     }
+
 
     @GetMapping("/auto-schedule")
     public String getAutoSchedule() {
@@ -60,8 +65,10 @@ public class ApplicationController extends UserInterface {
         if (bindingResult.hasErrors()) {
             return "Login.html";
         } else {
-            loginToAccount(loginForm.getUsername(), loginForm.getPassword());
-            return "redirect:/"; // TODO: update with proper path
+            if (loginToAccount(loginForm.getUsername(), loginForm.getPassword())) {
+                return "redirect:/schedule";
+            }
+            else return "login.html";
         }
     }
 
