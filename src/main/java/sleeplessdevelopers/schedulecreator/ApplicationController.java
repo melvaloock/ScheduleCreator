@@ -179,6 +179,40 @@ public class ApplicationController extends UserInterface {
         }
     }
 
+    @GetMapping("/remove-course")
+    public String getRemoveCourse(Model model) {
+        if (currentStudent == null) {
+            return "redirect:/login";
+            //TODO: add error message
+        } else {
+            //next 3 lines for testing purposes
+//            RecommendedSchedule rs = new RecommendedSchedule("Computer Science (BS)", 2024, db);
+//            currentStudent.setCurrentSchedule(rs.makeCurrentSchedule());
+//            currentStudent.addRecommendedSchedule();
+            model.addAttribute("scheduleForm", new ScheduleForm());
+            model.addAttribute("schedule", currentStudent.getCurrentSchedule());
+            return "CourseRemove.html";
+        }
+    }
+
+    @PostMapping("/remove-course")
+    public String postSearch(@Valid @ModelAttribute("scheduleForm") ScheduleForm scheduleForm,
+                             BindingResult bindingResult, Model model) {
+        model.addAttribute("schedule", currentStudent.getCurrentSchedule());
+        if (bindingResult.hasErrors()) {
+            System.out.println(scheduleForm.toString());
+            return "CourseRemove.html";
+        } else {
+            ArrayList<String> courses = scheduleForm.getCourseCodes();
+            for (String code: courses) {
+                currentStudent.currentSchedule.removeCourse(code);
+            }
+            return "redirect:/schedule";
+        }
+    }
+
+
+
     @ResponseBody
     @GetMapping("/api/get/courses")
     public String getCourses() {
