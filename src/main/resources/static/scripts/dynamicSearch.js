@@ -1,7 +1,7 @@
 let isCacheSupported = 'caches' in window; // may not need this
 const coursesURL = "/api/get/courses/"
 
-window.addEventListener("DOMContentLoaded", async function() {
+window.addEventListener("DOMContentLoaded", async function () {
     cacheCourses();
     searchCourses();
 });
@@ -24,7 +24,7 @@ async function cacheCourses() {
 }
 
 function searchCourses() {
-    document.getElementById("search").addEventListener("keyup", function(event) {
+    document.getElementById("search").addEventListener("keyup", function (event) {
         let searchTerm = event.target.value;
         if (searchTerm.length > 0) {
             fetchCourses(searchTerm);
@@ -64,7 +64,6 @@ function displayCourses(courses) {
         paragraph.innerHTML = courses;
         empty.appendChild(paragraph);
     } else {
-        console.log(courses);
         let coursesList = document.getElementById("coursesList");
         coursesList.innerHTML = "";
 
@@ -74,10 +73,30 @@ function displayCourses(courses) {
             coursesList.appendChild(paragraph);
         } else {
             for (const course of courses) {
-                let courseItem = document.createElement("li");
-                courseItem.innerHTML = course.CourseName;
+                let label = document.createElement("label");
+                label.for = "courses";
+                label.innerHTML = course.CourseName;
+                coursesList.appendChild(label);
+
+                let courseItem = document.createElement("input");
+                courseItem.type = "checkbox";
+                courseItem.name = "courses";
+                courseItem.value = JSON.stringify(course);
                 coursesList.appendChild(courseItem);
+
+                let newLine = document.createElement("br");
+                coursesList.appendChild(newLine);
+
+                // let courseJSON = document.createElement("div");
+                // courseJSON.className = "course-JSON";
+                // courseJSON.innerHTML = JSON.stringify(course);
+                // courseJSON.style.display = "none";
+                // coursesList.appendChild(courseJSON);
             }
+            let submit = document.createElement("input");
+            submit.type = "submit";
+            submit.value = "Select Courses";
+            coursesList.appendChild(submit);
         }
     }
 }
@@ -88,18 +107,10 @@ function displayCourses(courses) {
  * @param {Response} response HTTP response to be checked
  * @returns {object} object encoded by JSON in the response
  */
- function validateJSON(response) {
+function validateJSON(response) {
     if (response.ok) {
         return response.json();
     } else {
         return Promise.reject(response);
     }
 }
-
-// function validateAndCache(response) {
-//     if (response.ok) {
-//         return cache.put(url, response.json());
-//     } else {
-//         return Promise.reject(response);
-//     }
-// }

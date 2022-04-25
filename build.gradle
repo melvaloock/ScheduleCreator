@@ -21,6 +21,8 @@ dependencies {
 	// implementation 'org.springframework.session:spring-session-jdbc'
 	implementation(files('lib/mysql-connector-java-8.0.28.jar'))
 
+	implementation 'org.json:json:20220320'
+
 	implementation 'org.junit.jupiter:junit-jupiter:5.8.2'
 	implementation(files('lib/javax.mail.jar'))
 	implementation 'com.sun.activation:javax.activation:1.2.0'

@@ -35,13 +35,18 @@
 
 <body>
   <header>
-    <script type="text/javascript" th:src="@{/scripts/navbar.js}"></script>
+    <script type="text/javascript" th:src="@{/scripts/navbar.js}" th:inline="javascript"></script>
   </header>
   <main>
     <form action="#">
       <input type="text" class="form-control" id="search">
     </form>
-    <div id="coursesList"></div>
+    <div class="container-form form">
+        <form action="#" th:action="@{/search}" th:object="${searchForm}" method="post">
+          <fieldset id="coursesList">
+          </fieldset>
+        </form>
+    </div>
   </main>
 </body>
 
