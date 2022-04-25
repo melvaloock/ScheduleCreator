@@ -392,7 +392,10 @@ public class Database {
         selectStmt.setString(1, userEmail);
         ResultSet rst = selectStmt.executeQuery();
 
-        String passwordHash = rst.getString("UserPassword");
+        String passwordHash = "";
+        if (rst.next()) {
+            passwordHash = rst.getString("UserPassword");
+        }
 
         pstmtCheck.close();
         rstCheck.close();
