@@ -190,7 +190,7 @@ public class ApplicationController extends UserInterface {
 //            currentStudent.setCurrentSchedule(rs.makeCurrentSchedule());
 //            currentStudent.addRecommendedSchedule();
             model.addAttribute("scheduleForm", new ScheduleForm());
-            model.addAttribute("schedule", currentStudent.getCurrentSchedule());
+            model.addAttribute("courseList", currentStudent.getCurrentSchedule().getCourseList());
             return "CourseRemove.html";
         }
     }
@@ -198,9 +198,8 @@ public class ApplicationController extends UserInterface {
     @PostMapping("/remove-course")
     public String postSearch(@Valid @ModelAttribute("scheduleForm") ScheduleForm scheduleForm,
                              BindingResult bindingResult, Model model) {
-        model.addAttribute("schedule", currentStudent.getCurrentSchedule());
         if (bindingResult.hasErrors()) {
-            System.out.println(scheduleForm.toString());
+            model.addAttribute("courseList", currentStudent.getCurrentSchedule().getCourseList());
             return "CourseRemove.html";
         } else {
             ArrayList<String> courses = scheduleForm.getCourseCodes();
