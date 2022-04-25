@@ -14,10 +14,11 @@ import javax.validation.Payload;
 @Target({ TYPE, FIELD, ANNOTATION_TYPE })
 @Retention(RUNTIME)
 @Documented
-@Constraint(validatedBy = PasswordValidator.class)
-public @interface Password {
-    String message() default "{sleeplessdevelopers.schedulecreator.Password.message}";
+@Constraint(validatedBy = PasswordMatchValidator.class)
+public @interface PasswordMatch {
+    String message() default "{sleeplessdevelopers.schedulecreator.PasswordMatch.message}";
     Class<?>[] groups() default {};
     Class<? extends Payload> [] payload() default {};
 }
+
 

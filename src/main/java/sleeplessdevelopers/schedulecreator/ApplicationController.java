@@ -17,16 +17,6 @@ public class ApplicationController extends UserInterface {
         return "LandingPage.html";
     }
 
-    @GetMapping("/login")
-    public String getLogin() {
-        return "Login.html";
-    }
-
-    @GetMapping("/create-account")
-    public String getCreateAccount() {
-        return "CreateAccount.html";
-    }
-
     @GetMapping("/schedule")
     public String getSchedule() {
         return "ScheduleView.html";
@@ -70,6 +60,23 @@ public class ApplicationController extends UserInterface {
             return "Login.html";
         } else {
             loginToAccount(loginForm.getUsername(), loginForm.getPassword());
+            return "redirect:/"; // TODO: update with proper path
+        }
+    }
+
+    @GetMapping("/create-account")
+    public String getCreateAccount(Model model) {
+        model.addAttribute("accountCreationForm", new AccountCreationForm());
+        return "CreateAccount.html";
+    }
+
+    @PostMapping("/create-account")
+    public String postCreateAccount(@Valid @ModelAttribute("accountCreationForm") AccountCreationForm accountCreationForm,
+            BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "CreateAccount.html";
+        } else {
+            createAccount(accountCreationForm.getUsername(), accountCreationForm.getPassword());
             return "redirect:/"; // TODO: update with proper path
         }
     }
