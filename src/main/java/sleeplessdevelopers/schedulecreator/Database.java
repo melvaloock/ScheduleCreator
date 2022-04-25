@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Scanner;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 // import java.time.LocalTime;
 
 public class Database { 
@@ -710,6 +713,35 @@ public class Database {
         stmnt.executeUpdate();
 
         stmnt.close();
+    }
+
+    public String getJSONCourses() throws SQLException {
+        StringBuilder sb = new StringBuilder();
+        sb.append("{\"courses\":[");
+
+        PreparedStatement psmtCheck = conn.prepareStatement("SELECT * FROM course");
+        ResultSet rstCheck = psmtCheck.executeQuery();
+
+        while (rstCheck.next()) {
+            ObjectMapper mapper = new ObjectMapper();
+            ObjectNode course = mapper.createObjectNode();
+
+            course.put("CourseID", rstCheck.getInt("CourseID"));
+            course.put("CourseCode", rstCheck.getString("CourseCode"));
+            course.put("CourseName", rstCheck.getString("CourseName"));
+            course.put("Weekday", rstCheck.getString("Weekday"));
+            course.put("StartTime", rstCheck.getString("StartTime"));
+            course.put("EndTime", rstCheck.getString("EndTime"));
+            course.put("Enrollment", rstCheck.getInt("Enrollment"));
+            course.put("Capacity", rstCheck.getInt("Capacity"));
+
+            String json = course.toString();
+            sb.append(json);
+            sb.append(",");
+        }
+        sb.deleteCharAt(sb.length() - 1);
+        sb.append("]}");
+        return sb.toString();
     }
 
     /**

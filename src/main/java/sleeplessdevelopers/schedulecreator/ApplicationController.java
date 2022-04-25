@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class ApplicationController extends UserInterface {
@@ -22,7 +23,7 @@ public class ApplicationController extends UserInterface {
         return "ScheduleView.html";
     }
 
-    @GetMapping("/schedule-edit")
+    @GetMapping("/schedule/edit")
     public String getScheduleEdit() {
         return "ScheduleEdit.html";
     }
@@ -79,6 +80,24 @@ public class ApplicationController extends UserInterface {
             createAccount(accountCreationForm.getUsername(), accountCreationForm.getPassword());
             return "redirect:/"; // TODO: update with proper path
         }
+    }
+
+    @GetMapping("/search")
+    public String getSearch(Model model) {
+        return "CourseSearch.html";
+    }
+
+    @ResponseBody
+    @GetMapping("/api/get/courses")
+    public String getCourses() {
+        try {
+            String json = db.getJSONCourses(); 
+            return json;
+        } catch (Exception e) {
+            e.getMessage();
+            return "";
+        }
+       
     }
 
 

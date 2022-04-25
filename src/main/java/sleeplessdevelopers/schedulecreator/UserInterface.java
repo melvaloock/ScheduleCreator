@@ -15,6 +15,7 @@ public class UserInterface {
 	};
 	static ArrayList<Course> courses;
 	protected static Account currentStudent;
+	protected static boolean isLoggedIn = false;
 
 	// database for the current session -- will only work if you have
 	// an active db on your machine
@@ -147,7 +148,7 @@ public class UserInterface {
 		currentStudent = new Guest(); //Guest class inherits from Account class
 		CurrentSchedule newSchedule = new CurrentSchedule();
 		currentStudent.setCurrentSchedule(newSchedule);
-
+		
 	}
 
 	static boolean createAccount(String userEmail, String userPassword) {
@@ -163,6 +164,7 @@ public class UserInterface {
 		CurrentSchedule newSchedule = new CurrentSchedule();
 		currentStudent.setCurrentSchedule(newSchedule);
 
+		isLoggedIn = true;
 		return true;
 	}
 
@@ -219,6 +221,7 @@ public class UserInterface {
 			return false;
 		}
 
+		isLoggedIn = true;
 		return true;
 	}
 
