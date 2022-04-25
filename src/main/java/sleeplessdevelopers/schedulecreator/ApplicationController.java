@@ -1,6 +1,6 @@
 package sleeplessdevelopers.schedulecreator;
 
-import org.apache.tomcat.util.json.JSONParser;
+import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,11 +9,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-
-import org.json.JSONObject;
-
 import javax.validation.Valid;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 @Controller
 public class ApplicationController extends UserInterface {
@@ -34,16 +32,51 @@ public class ApplicationController extends UserInterface {
             //next 3 lines for testing purposes
 //            RecommendedSchedule rs = new RecommendedSchedule("Computer Science (BS)", 2024, db);
 //            currentStudent.setCurrentSchedule(rs.makeCurrentSchedule());
-//            currentStudent.addRecommendedSchedule();
             model.addAttribute("schedule", currentStudent.getCurrentSchedule());
             return "ScheduleView.html";
         }
     }
 
-    @GetMapping("/schedule/edit")
-    public String getScheduleEdit() {
-        return "ScheduleEdit.html";
+    @GetMapping("/schedule-edit")
+    public String getScheduleEdit(Model model) {
+        if (currentStudent == null) {
+            return "redirect:/login";
+            //TODO: add error message
+        } else {
+            //next 3 lines for testing purposes
+//            RecommendedSchedule rs = new RecommendedSchedule("Computer Science (BS)", 2024, db);
+//            currentStudent.setCurrentSchedule(rs.makeCurrentSchedule());
+//            currentStudent.addRecommendedSchedule();
+            model.addAttribute("schedule", currentStudent.getCurrentSchedule());
+            model.addAttribute("scheduleForm", new ScheduleForm());
+            return "ScheduleEdit.html";
+        }
     }
+
+    @PostMapping("/schedule-edit")
+    public String postScheduleEdit(@Valid @ModelAttribute("scheduleForm") ScheduleForm scheduleForm,
+            BindingResult result) {
+        if (result.hasErrors()) {
+            System.out.println(scheduleForm.toString());
+            return "redirect:/schedule-edit";
+        } else {
+            for (String courseCode : scheduleForm.getCourseCodes()) {
+                currentStudent.currentSchedule.removeCourse(courseCode);
+            }
+            return "redirect:/schedule";
+        }
+    }
+
+    @GetMapping("/schedule/save")
+    public String postSchedule() {
+        currentStudent.saveCurrentSchedule(db);
+        return "redirect:/schedule";
+    }
+
+    // @GetMapping("/schedule/edit")
+    // public String getScheduleEdit() {
+    //     return "ScheduleEdit.html";
+    // }
 
     @GetMapping("/about")
     public String getAbout() {
@@ -65,8 +98,26 @@ public class ApplicationController extends UserInterface {
 
 
     @GetMapping("/auto-schedule")
-    public String getAutoSchedule() {
-        return "AutoSchedule.html";
+    public String getAutoSchedule(Model model) {
+        if (currentStudent == null) {
+            return "redirect:/login";
+            //TODO: add error message
+        } else {
+            model.addAttribute("autoScheduleForm", new AutoScheduleForm());
+            return "AutoSchedule.html";
+        }
+    }
+
+    @PostMapping("/auto-schedule")
+    public String postAutoSchedule(@Valid @ModelAttribute("autoScheduleForm") AutoScheduleForm autoScheduleForm,
+            BindingResult result) {
+        if (result.hasErrors()) {
+            return "redirect:/auto-schedule";
+        } else {
+            currentStudent.setCurrentSchedule(getRecommendedSchedule(autoScheduleForm.getMajor(),
+                    autoScheduleForm.getYear()).makeCurrentSchedule());
+            return "redirect:/schedule";
+        }
     }
     
     @GetMapping("/login")
@@ -77,7 +128,7 @@ public class ApplicationController extends UserInterface {
 
     @PostMapping("/login")
     public String postLogin(@Valid @ModelAttribute("loginForm") LoginForm loginForm,
-            BindingResult bindingResult) {
+            BindingResult bindingResult) throws SQLException {
         if (bindingResult.hasErrors()) {
             return "Login.html";
         } else {
@@ -107,8 +158,13 @@ public class ApplicationController extends UserInterface {
 
     @GetMapping("/search")
     public String getSearch(Model model) {
-        model.addAttribute("searchForm", new SearchForm());
-        return "CourseSearch.html";
+        if (currentStudent == null) {
+            return "redirect:/login";
+            //TODO: add error message
+        } else {
+            model.addAttribute("searchForm", new SearchForm());
+            return "CourseSearch.html";
+        }
     }
 
     @PostMapping("/search")
@@ -119,9 +175,42 @@ public class ApplicationController extends UserInterface {
         } else {
             ArrayList<String> courses = searchForm.getCourses();
             addCourses(getCoursesFromJSON(courses));
-            return "redirect:/";
+            return "redirect:/schedule";
         }
     }
+
+    @GetMapping("/remove-course")
+    public String getRemoveCourse(Model model) {
+        if (currentStudent == null) {
+            return "redirect:/login";
+            //TODO: add error message
+        } else {
+            //next 3 lines for testing purposes
+//            RecommendedSchedule rs = new RecommendedSchedule("Computer Science (BS)", 2024, db);
+//            currentStudent.setCurrentSchedule(rs.makeCurrentSchedule());
+//            currentStudent.addRecommendedSchedule();
+            model.addAttribute("scheduleForm", new ScheduleForm());
+            model.addAttribute("courseList", currentStudent.getCurrentSchedule().getCourseList());
+            return "CourseRemove.html";
+        }
+    }
+
+    @PostMapping("/remove-course")
+    public String postSearch(@Valid @ModelAttribute("scheduleForm") ScheduleForm scheduleForm,
+                             BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("courseList", currentStudent.getCurrentSchedule().getCourseList());
+            return "CourseRemove.html";
+        } else {
+            ArrayList<String> courses = scheduleForm.getCourseCodes();
+            for (String code: courses) {
+                currentStudent.currentSchedule.removeCourse(code);
+            }
+            return "redirect:/schedule";
+        }
+    }
+
+
 
     @ResponseBody
     @GetMapping("/api/get/courses")
@@ -153,6 +242,10 @@ public class ApplicationController extends UserInterface {
         }
 
         return courses;
+    }
+
+    public RecommendedSchedule getRecommendedSchedule(String major, int year) {
+        return new RecommendedSchedule(major, year, db);
     }
     
     @GetMapping("/schedule/export")

@@ -53,6 +53,21 @@ public class CurrentSchedule extends Schedule {
 		}
 	}
 
+	public void removeCourse(String remCode) {
+		/*
+		 * some courses have 2 Course objects but are just one course because they have different
+		 * times on different days (like 10-10:50 on MWF and 12-1:15 on T).
+		 * This loops through and checks if there are multiple courses with the same code.
+		 * If there are, then it is the same course and they all need removed.
+		 */
+		for (int i = 0; i < courseList.size(); i++){
+			if (courseList.get(i).getCode().equals(remCode)){
+				courseList.remove(i);
+				i--;
+			}
+		}
+	}
+
 	/**
 	 * returns true if Course c has a time conflict with any of the courses in the current schedule
 	 * @param c Course to check against Courses in schedule

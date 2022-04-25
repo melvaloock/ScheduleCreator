@@ -6,6 +6,20 @@ window.addEventListener("DOMContentLoaded", async function () {
     searchCourses();
 });
 
+window.onload = function () {
+    var filters = document.getElementById("filters");
+    var filtersList = filters.getElementsByTagName("input");
+    for (var i = 0; i < filtersList.length; i++) {
+        filtersList[i].addEventListener("click", function () {
+            for (var i = 0; i < filtersList.length; i++) {
+                if (filtersList[i] != this && this.checked) {
+                    filtersList[i].checked = false;
+                }
+            }
+        });
+    }
+};
+
 async function cacheCourses() {
     caches.open('dynamicSearchCache').then(cache => {
         cache.add(coursesURL) // this validates the JSON
@@ -48,11 +62,37 @@ function fetchCourses(searchTerm) {
 
 function filterCourses(courses, searchTerm) {
     let courseList = [];
-    for (const course of courses.courses) {
-        if (course.CourseName.toLowerCase().includes(searchTerm.toLowerCase())) {
-            courseList.push(course);
+
+    let codeFilter = document.getElementById("code");
+    let keywordFilter = document.getElementById("keyword");
+    let timeFilter = document.getElementById("time");
+    let daysFilter = document.getElementById("days");
+
+    if (codeFilter.checked) {
+        for (const course of courses.courses) {
+            if (course.CourseCode.toLowerCase().includes(searchTerm.toLowerCase())) {
+                courseList.push(course);
+            }
         }
-    }
+    } else if (keywordFilter.checked) {
+        for (const course of courses.courses) {
+            if (course.CourseName.toLowerCase().includes(searchTerm.toLowerCase())) {
+                courseList.push(course);
+            }
+        }
+    } else if (timeFilter.checked) {
+        for (const course of courses.courses) {
+            if (course.StartTime.includes(searchTerm)) {
+                courseList.push(course);
+            }
+        }
+    } else {
+        for (const course of courses.courses) {
+            if (course.Weekay.toLowerCase().includes(searchTerm.toLowerCase())) {
+                courseList.push(course);
+            }
+        }
+    } 
     return courseList;
 }
 
@@ -72,17 +112,22 @@ function displayCourses(courses) {
             paragraph.innerHTML = "No courses found";
             coursesList.appendChild(paragraph);
         } else {
+//            let submit = document.createElement("input");
+//            submit.type = "submit";
+//            submit.value = "Select Courses";
+//            coursesList.appendChild(submit);
             for (const course of courses) {
-                let label = document.createElement("label");
-                label.for = "courses";
-                label.innerHTML = course.CourseName;
-                coursesList.appendChild(label);
-
                 let courseItem = document.createElement("input");
                 courseItem.type = "checkbox";
                 courseItem.name = "courses";
                 courseItem.value = JSON.stringify(course);
                 coursesList.appendChild(courseItem);
+
+                let label = document.createElement("label");
+                label.for = "courses";
+                label.innerHTML = course.CourseCode + " | " + course.CourseName +
+                " | " + course.Weekday + " | " + course.StartTime;
+                coursesList.appendChild(label);
 
                 let newLine = document.createElement("br");
                 coursesList.appendChild(newLine);
@@ -93,10 +138,6 @@ function displayCourses(courses) {
                 // courseJSON.style.display = "none";
                 // coursesList.appendChild(courseJSON);
             }
-            let submit = document.createElement("input");
-            submit.type = "submit";
-            submit.value = "Select Courses";
-            coursesList.appendChild(submit);
         }
     }
 }
