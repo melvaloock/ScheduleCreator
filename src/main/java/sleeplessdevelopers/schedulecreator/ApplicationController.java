@@ -174,6 +174,12 @@ public class ApplicationController extends UserInterface {
             return "CourseSearch.html";
         } else {
             ArrayList<String> courses = searchForm.getCourses();
+
+            // debugging
+            for (String c : courses) {
+                System.out.println(c);
+            }
+
             addCourses(getCoursesFromJSON(courses));
             return "redirect:/schedule";
         }
@@ -238,7 +244,9 @@ public class ApplicationController extends UserInterface {
             // String enrollment = (String) jsonObject.get("Enrollment");
             // String capacity = (String) jsonObject.get("Capacity");
 
-            courses.add(new Course(courseCode, courseName, startTime, endTime, courseCode.charAt(courseCode.length() - 1), weekday, courseID)); 
+            if (courseID != 99999) {
+                courses.add(new Course(courseCode, courseName, startTime, endTime, courseCode.charAt(courseCode.length() - 1), weekday, courseID)); 
+            }
         }
         return courses;
     }

@@ -121,6 +121,7 @@ function displayCourses(courses) {
                 courseItem.type = "checkbox";
                 courseItem.name = "courses";
                 courseItem.value = JSON.stringify(course);
+                // courseItem.value = course;
                 coursesList.appendChild(courseItem);
 
                 let label = document.createElement("label");
@@ -138,6 +139,13 @@ function displayCourses(courses) {
                 // courseJSON.style.display = "none";
                 // coursesList.appendChild(courseJSON);
             }
+            let courseItem = document.createElement("input");
+            courseItem.type = "checkbox";
+            courseItem.name = "courses";
+            courseItem.value = "{\"CourseID\":99999,\"CourseCode\":\"null101\",\"CourseName\":\"null101\",\"Weekday\":\"MWF\",\"StartTime\":\"01:00:00\",\"EndTime\":\"02:00:00\",\"Enrollment\":30,\"Capacity\":30}";
+            courseItem.style.display = "none";
+            courseItem.checked = true;
+            coursesList.appendChild(courseItem);
         }
     }
 }

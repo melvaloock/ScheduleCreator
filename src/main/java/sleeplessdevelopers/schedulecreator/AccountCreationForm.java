@@ -14,12 +14,12 @@ public class AccountCreationForm {
 
     @Length(min = 8, max = 256) // TODO: check max length with database limit
     @NotNull
-    @Password(message = "Please enter a valid password")
+    @Password(message = "Passwords must contain at least 1 number, 1 uppercase letter, and 1 special character")
     private String password;
 
     @Length(min = 8, max = 256) // TODO: check max length with database limit
     @NotNull
-    @Password(message = "Please enter a valid password")
+    @Password(message = "Passwords must contain at least 1 number, 1 uppercase letter, and 1 special character")
     private String passwordMatch;
 
     public String getUsername() {
