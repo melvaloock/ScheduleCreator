@@ -533,14 +533,28 @@ public class Database {
 
         ArrayList<Course> courses = new ArrayList<Course>();
         while (rstCheck.next()) {
-            PreparedStatement selectStmt = conn
-                .prepareStatement("SELECT * FROM course WHERE CourseID = ?");
-            selectStmt.setString(1, rstCheck.getString("CourseID"));
-            ResultSet rstSelect = selectStmt.executeQuery();
+            int ID = rstCheck.getInt("CourseID");
+            if (ID >= 100000) {
+                PreparedStatement selectStmt = conn
+                        .prepareStatement("SELECT * FROM course WHERE CourseID = ?");
+                selectStmt.setInt(1, ID);
+                ResultSet rstSelect = selectStmt.executeQuery();
 
-            while (rstSelect.next()) {
-                courses.add(createCourse(rstSelect));
-                // TODO: createActivity
+                while (rstSelect.next()) {
+                    courses.add(createCourse(rstSelect));
+                    // TODO: createActivity
+                }
+            }
+            else {
+                PreparedStatement selectStmt = conn
+                        .prepareStatement("SELECT * FROM activity WHERE ActivityID = ?");
+                selectStmt.setInt(1, ID);
+                ResultSet rstSelect = selectStmt.executeQuery();
+
+                while (rstSelect.next()) {
+                    courses.add(createActivity(rstSelect));
+                    // TODO: createActivity
+                }
             }
         }
         return courses;
@@ -687,7 +701,7 @@ public class Database {
     public void addActivity (Course c) {
         try {
             PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM activity WHERE ActivityID = ?");
-            pstmtCheck.setInt(1, c.getReferenceNum());
+            pstmtCheck.setInt(1, getMaxActivityRef() + 1);
             ResultSet rstCheck = pstmtCheck.executeQuery();
 
             if (rstCheck.next()) {
