@@ -248,17 +248,27 @@ public class Course {
 		return charList;
 	}
 
-	public String toTwoDigit(String time) {
-		if (time.charAt(1) == ':') {
-			return "0" + time.charAt(0);
+	public String CSSStartTime() {
+		if (startTime.charAt(1) == ':') {
+			return "0" + startTime.charAt(0);
 		}
-		return time.substring(0,2);
+		return startTime.substring(0,2);
+	}
+
+	public String CSSEndTime() {
+		if (endTime.charAt(1) == ':') {
+			if(endTime.charAt(0) == '9' || endTime.charAt(0) == '8') {
+				return String.valueOf(Integer.valueOf(endTime.substring(0,1))+ 2);
+			}
+			return "0" + (Integer.valueOf(endTime.substring(0,1)) + 2);
+		}
+		return endTime.substring(0,2);
 	}
 
 	public String toCSSString(String dayString) {
 		return "grid-column:  " + dayString.toLowerCase() + ";	" +
-		 "grid-row:	h" + toTwoDigit(startTime) +
-		  "	/	h" + toTwoDigit(endTime) + ";	";
+		 "grid-row:	h" + CSSStartTime() +
+		  "	/	h" + CSSEndTime() + ";	";
 	}
 	public void setDays(String days) {
 		this.days = daysToEnum(days);

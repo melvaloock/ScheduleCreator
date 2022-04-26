@@ -91,7 +91,7 @@ public class ApplicationController extends UserInterface {
         return "Contact.html";
     }
 
-    @GetMapping("/guest")
+    @GetMapping("/schedule/new")
     public String getGuest(Model model) {
         if (currentStudent == null) {
             createGuest();
@@ -293,12 +293,12 @@ public class ApplicationController extends UserInterface {
     
     @GetMapping("/schedule/export")
     public String getExport() {
-        return "ScheduleView.html";
+        return "redirect:/schedule";
     }
 
     @GetMapping("/schedule/email")
     public String getEmail() {
-        return "ScheduleView.html";
+        return "redirect:/schedule";
     }
 
     @GetMapping("/logout")
