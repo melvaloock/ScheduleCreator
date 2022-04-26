@@ -189,7 +189,6 @@ public class ApplicationController extends UserInterface {
 
             conflictingAdds = addCourses(getCoursesFromJSON(courses));
 
-
             if (conflictingAdds.size() == 0) {
                 return "redirect:/schedule";
             } else {

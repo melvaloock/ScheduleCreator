@@ -540,6 +540,7 @@ public class Database {
 
             while (rstSelect.next()) {
                 courses.add(createCourse(rstSelect));
+                // TODO: createActivity
             }
         }
         return courses;
@@ -637,13 +638,28 @@ public class Database {
 
             deleteAllCourseRefs(scheduleID, userEmail);
 
-            ArrayList<Integer> courseIDs = getCourseIDs(courses);
-            for (int courseID : courseIDs) {
-                addCourseRef(courseID, scheduleID, userEmail);
+            for (Course c : courses) {
+                if (c instanceof Activity) {
+                    addActivityRef((Activity) c);
+                } else {
+                    addCourseRef(c.getReferenceNum(), scheduleID, userEmail);
+                }
             }
+
+            // ArrayList<Integer> courseIDs = getCourseIDs(courses);
+            // for (int courseID : courseIDs) {
+                
+
+            //     addCourseRef(courseID, scheduleID, userEmail);
+            // }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    // TODO: Christian
+    public void addActivityRef(Activity activity) {
+        
     }
 
     //Implement a method to get the reference number of each class -Tyler

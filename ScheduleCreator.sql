@@ -1,6 +1,7 @@
 -- drop table if exists course;
 drop table if exists recommendedCourse;
 drop table if exists recommendedSchedule;
+drop table if exists activity;
 drop table if exists courseReference;
 drop table if exists schedule;
 drop table if exists account;
@@ -58,6 +59,19 @@ create table if not exists course (
     Enrollment int,
     Capacity int,
     constraint pk_course primary key (CourseID)
+	);
+    
+create table if not exists activity (
+	ActivityID int not null,
+    ScheduleID varchar(30) not null,
+    UserEmail varchar(255) not null,
+    ActivityCode varchar(30) not null,
+    ActivityName varchar(255) not null,
+    Weekday varchar(10),
+    StartTime varchar(30),
+    EndTime varchar(30),
+    constraint pk_activity primary key (ActivityID),
+    constraint fk_activity foreign key (ScheduleID, UserEmail) references schedule(ScheduleID, UserEmail)    
 	);
         
 select * from course;
