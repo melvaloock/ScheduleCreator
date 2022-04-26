@@ -41,8 +41,6 @@ crossorigin="anonymous"></script> -->
 <div class="container-form form">
   <h2> Conflicting Courses: </h2>
   <form action="#" th:action="@{/conflicting-courses}" th:object="${conflictForm}" method="post">
-    <button type="submit" class="btn btn-primary"> Remove and Add </button>
-    <button type="submit" class="btn btn-primary"> Do not Add </button>
     <br>
     <th:block th:each="course : ${conflicts}">
       <br>
@@ -50,12 +48,15 @@ crossorigin="anonymous"></script> -->
              th:text="${course.getCode()}"
              th:value="${course.getCode()}">
     </th:block>
-    <th:block th:each="course : ${toAdd}">
+    <th:block th:each="course : ${adding}">
       <br>
-      <p class= "remove-input"  name="toAddCodes"
+      <p class= "remove-input"  name="addingCodes"
          th:text="${course.getCode()}"
          th:value="${course.getCode()}">
     </th:block>
+    <br>
+    <button type="submit" class="btn btn-primary"> Remove and Add </button>
+    <button type="submit" class="btn btn-primary"> Do not Add </button>
   </form>
 </div>
 
