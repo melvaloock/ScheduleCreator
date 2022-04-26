@@ -42,18 +42,24 @@ crossorigin="anonymous"></script> -->
   <h2> Conflicting Courses: </h2>
   <form action="#" th:action="@{/conflicting-courses}" th:object="${conflictForm}" method="post">
     <br>
-    <th:block th:each="course : ${conflicts}">
-      <br>
-      <p class= "remove-input"  name="conflictCodes"
+    <div class="row">
+      <div class="col-md-6">
+        <h3> Courses Added </h3>
+        <th:block th:each="course : ${conflicts}">
+          <p class= "remove-input"  name="conflictCodes"
+                 th:text="${course.getCode()}"
+                 th:value="${course.getCode()}">
+        </th:block>
+      </div>
+      <div class="col-md-6">
+        <h3> Courses Removed </h3>
+        <th:block th:each="course : ${adding}">
+          <p class= "remove-input"  name="addingCodes"
              th:text="${course.getCode()}"
              th:value="${course.getCode()}">
-    </th:block>
-    <th:block th:each="course : ${adding}">
-      <br>
-      <p class= "remove-input"  name="addingCodes"
-         th:text="${course.getCode()}"
-         th:value="${course.getCode()}">
-    </th:block>
+        </th:block>
+      </div>
+    </div>
     <br>
     <button type="submit" class="btn btn-primary"> Remove and Add </button>
     <button type="submit" class="btn btn-primary"> Do not Add </button>
