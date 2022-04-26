@@ -110,7 +110,7 @@ public class UserInterface {
 	 * adds courses to schedule if they do not have conflicts
 	 * @param coursesToAdd Arraylist of courses needing to be added
 	 */
-	static ArrayList<Course> addCourses(ArrayList<Course> coursesToAdd) {
+	public static ArrayList<Course> addCourses(ArrayList<Course> coursesToAdd) {
 		ArrayList<Course> conflicts = new ArrayList<>();
 
 		CurrentSchedule cs = new CurrentSchedule(currentStudent.getCurrentSchedule().getCourseList());
@@ -128,7 +128,13 @@ public class UserInterface {
 		return conflicts;
 	}
 
+	public ArrayList<Course> getConflicts(ArrayList<Course> coursesToCheck) {
+		ArrayList<Course> conflicts = new ArrayList<>();
 
+
+
+		return conflicts;
+	}
 
 	/**
 	 * clears the current Student's current schedule

@@ -180,7 +180,39 @@ public class ApplicationController extends UserInterface {
                 System.out.println(c);
             }
 
-            addCourses(getCoursesFromJSON(courses));
+            ArrayList<Course> toAdd = addCourses(getCoursesFromJSON(courses));
+
+            if (toAdd.size() == 0) {
+                return "redirect:/schedule";
+            } else {
+//                return getConflictingCourses(null, toAdd);
+                return "redirect:/conflicting-courses";
+            }
+        }
+    }
+
+    @GetMapping("/conflicting-courses")
+    public String getConflictingCourses(Model model) {
+        if (currentStudent == null) {
+            return "redirect:/login";
+            //TODO: add error message
+        } else {
+            model.addAttribute("conflictForm", new ConflictForm());
+            ArrayList<Course> toAdd = new ArrayList<>();
+            toAdd.add(new Course("MUSI 102", "MUSIC HISTORY II", "9:00 AM", "9:50 AM", 'A', "MWF"));
+            model.addAttribute("conflicts", toAdd);
+            ArrayList<Course> conflicts = toAdd;
+            model.addAttribute("toAdd", conflicts);
+            return "ConflictingCourses.html";
+        }
+    }
+
+    @PostMapping("/conflicting-courses")
+    public String postConflictingCourses(@Valid @ModelAttribute("searchForm") ConflictForm conflictForm,
+                                         BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "CourseSearch.html";
+        } else {
             return "redirect:/schedule";
         }
     }

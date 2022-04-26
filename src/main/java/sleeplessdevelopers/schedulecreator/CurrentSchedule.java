@@ -1,5 +1,6 @@
 package sleeplessdevelopers.schedulecreator;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class CurrentSchedule extends Schedule {
