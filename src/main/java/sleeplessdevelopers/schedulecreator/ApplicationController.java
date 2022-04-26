@@ -89,7 +89,7 @@ public class ApplicationController extends UserInterface {
         return "Contact.html";
     }
 
-    @GetMapping("/schedule/new")
+    @GetMapping("/schedule-new")
     public String getGuest(Model model) {
         if (currentStudent == null) {
             createGuest();
