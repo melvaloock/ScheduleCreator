@@ -110,27 +110,34 @@ public class UserInterface {
 	 * adds courses to schedule if they do not have conflicts
 	 * @param coursesToAdd Arraylist of courses needing to be added
 	 */
-	static boolean addCourses(ArrayList<Course> coursesToAdd) {
-		// check if there is a conflict before adding
+	public static ArrayList<Course> addCourses(ArrayList<Course> coursesToAdd) {
+		ArrayList<Course> conflicts = new ArrayList<>();
+
 		CurrentSchedule cs = new CurrentSchedule(currentStudent.getCurrentSchedule().getCourseList());
-		boolean hasConflict = false;
+
 		for (Course c : coursesToAdd) {
 			if (cs.conflictsWith(c)) {
-				hasConflict = true;
-			}
-		}
-
-		if (!hasConflict) {
-			for (Course c : coursesToAdd) {
+				conflicts.add(c);
+			} else {
 				cs.addCourse(c);
 			}
-			currentStudent.setCurrentSchedule(cs);
 		}
 
-		return hasConflict;
+		currentStudent.setCurrentSchedule(cs);
+
+		return conflicts;
 	}
 
+	public ArrayList<Course> getConflicts(ArrayList<Course> coursesToCheck) {
+		ArrayList<Course> conflicts = new ArrayList<>();
+//		CurrentSchedule cs = currentStudent.getCurrentSchedule();
 
+		for (Course c: coursesToCheck) {
+//			conflicts.addAll(cs.getConflicts(c));
+		}
+
+		return conflicts;
+	}
 
 	/**
 	 * clears the current Student's current schedule

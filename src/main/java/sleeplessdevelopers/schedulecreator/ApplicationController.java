@@ -167,6 +167,8 @@ public class ApplicationController extends UserInterface {
         }
     }
 
+    private ArrayList<Course> conflictingAdds;
+
     @PostMapping("/search")
     public String postSearch(@Valid @ModelAttribute("searchForm") SearchForm searchForm,
             BindingResult bindingResult) {
@@ -180,7 +182,37 @@ public class ApplicationController extends UserInterface {
                 System.out.println(c);
             }
 
-            addCourses(getCoursesFromJSON(courses));
+            conflictingAdds = addCourses(getCoursesFromJSON(courses));
+
+
+            if (conflictingAdds.size() == 0) {
+                return "redirect:/schedule";
+            } else {
+                return "redirect:/conflicting-courses";
+            }
+        }
+    }
+
+    @GetMapping("/conflicting-courses")
+    public String getConflictingCourses(Model model) {
+        if (currentStudent == null) {
+            return "redirect:/login";
+            //TODO: add error message
+        } else {
+            model.addAttribute("conflictForm", new ConflictForm());
+            model.addAttribute("adding", conflictingAdds);
+            ArrayList<Course> conflicts = getConflicts(conflictingAdds);
+            model.addAttribute("conflicts", conflicts);
+            return "ConflictingCourses.html";
+        }
+    }
+
+    @PostMapping("/conflicting-courses")
+    public String postConflictingCourses(@Valid @ModelAttribute("searchForm") ConflictForm conflictForm,
+                                         BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "CourseSearch.html";
+        } else {
             return "redirect:/schedule";
         }
     }
