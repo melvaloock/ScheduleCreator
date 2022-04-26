@@ -33,6 +33,7 @@ public class ApplicationController extends UserInterface {
 //            RecommendedSchedule rs = new RecommendedSchedule("Computer Science (BS)", 2024, db);
 //            currentStudent.setCurrentSchedule(rs.makeCurrentSchedule());
             model.addAttribute("schedule", currentStudent.getCurrentSchedule());
+            model.addAttribute("loggedIn", isLoggedIn);
             return "ScheduleView.html";
         }
     }
@@ -79,20 +80,23 @@ public class ApplicationController extends UserInterface {
     // }
 
     @GetMapping("/about")
-    public String getAbout() {
+    public String getAbout(Model model) {
+        model.addAttribute("loggedIn", isLoggedIn);
         return "AboutPage.html";
     }
 
     @GetMapping("/contact")
-    public String getContact() {
+    public String getContact(Model model) {
+        model.addAttribute("loggedIn", isLoggedIn);
         return "Contact.html";
     }
 
     @GetMapping("/guest")
-    public String getGuest() {
+    public String getGuest(Model model) {
         if (currentStudent == null) {
             createGuest();
         }
+        model.addAttribute("loggedIn", isLoggedIn);
         return "Guest.html";
     }
 
@@ -163,6 +167,7 @@ public class ApplicationController extends UserInterface {
             //TODO: add error message
         } else {
             model.addAttribute("searchForm", new SearchForm());
+            model.addAttribute("loggedIn", isLoggedIn);
             return "CourseSearch.html";
         }
     }

@@ -30,7 +30,8 @@
 </head>
 <body>
 <header>
-  <script th:src="@{/scripts/navbar.js}"></script>
+  <script th:if="${loggedIn}" th:src="@{/scripts/AccountNavbar.js}"></script>
+  <script th:unless="${loggedIn}" th:src="@{/scripts/GuestNavbar.js}"></script>
 </header>
 
 <main>
@@ -41,7 +42,8 @@
     <div id="schedule-actions">
       <a class="btn btn-crimson ms-3" th:href="@{/search}">Add Course</a>
       <a class="btn btn-light ms-3" th:href="@{/remove-course}">Remove Course</a>
-      <a class="btn btn-light ms-3" th:href="@{/schedule/save}">Save Schedule</a>
+      <a th:if="${loggedIn}" class="btn btn-light ms-3" th:href="@{/schedule/save}">Save Schedule</a>
+      <a th:unless="${loggedIn}" class="btn btn-light ms-3" th:href="@{/create-account}">Create Account to Save Schedule</a>
     </div>
   </div>
   <div class="container" id="schedule">
