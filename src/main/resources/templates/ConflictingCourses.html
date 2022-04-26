@@ -46,23 +46,25 @@ crossorigin="anonymous"></script> -->
       <div class="col-md-6">
         <h3> Courses Added </h3>
         <th:block th:each="course : ${conflicts}">
-          <p class= "remove-input"  name="conflictCodes"
+          <input class= "remove-input" type="hidden" name="conflictsInSchedule"
                  th:text="${course.getCode()}"
-                 th:value="${course.getCode()}">
+                 th:value="${course.getCode()}"
+                 th:field="*{conflictsInSchedule}">
         </th:block>
       </div>
       <div class="col-md-6">
         <h3> Courses Removed </h3>
         <th:block th:each="course : ${adding}">
-          <p class= "remove-input"  name="addingCodes"
+          <input class= "remove-input"  type="hidden" name="coursesToAdd"
              th:text="${course.getCode()}"
-             th:value="${course.getCode()}">
+             th:value="${course.getCode()}"
+             th:field="*{coursesToAdd}">
         </th:block>
       </div>
     </div>
     <br>
-    <button type="submit" class="btn btn-primary"> Remove and Add </button>
-    <button type="submit" class="btn btn-primary"> Do not Add </button>
+    <button type="submit" class="btn btn-primary" name="remove" value="remove"> Remove and Add </button>
+    <button type="submit" class="btn btn-primary" name="no-change" value="no-change"> Do not Add </button>
   </form>
 </div>
 
