@@ -133,7 +133,7 @@ public class UserInterface {
 //		CurrentSchedule cs = currentStudent.getCurrentSchedule();
 
 		for (Course c: coursesToCheck) {
-//			conflicts.add(cs.getConflicts(c));
+//			conflicts.addAll(cs.getConflicts(c));
 		}
 
 		return conflicts;

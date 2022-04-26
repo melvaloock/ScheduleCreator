@@ -75,9 +75,19 @@ public class CurrentSchedule extends Schedule {
 	 * @return boolean
 	 */
 	public boolean conflictsWith(Course c) {
+		return getConflicts(c).size() > 0;
+	}
+
+	/**
+	 * returns the list of courses that have a conflicting time with c
+	 * @param c Course to check against Courses in schedule
+	 * @return list of courses that conflict with c
+	 */
+	public ArrayList<Course> getConflicts(Course c) {
+		ArrayList<Course> conflicts = new ArrayList<>();
 		// if c is NULL, then it will have no conflicts
 		if (c.getStartTime() == null){
-			return false;
+			return conflicts;
 		}
 
 		// parse Course c days and time
@@ -126,17 +136,19 @@ public class CurrentSchedule extends Schedule {
 
 			// check start time
 			if (cStart >= tempStart && cStart <= tempEnd){
-				return true;
+				conflicts.add(current);
+				continue;
 			}
 
 			// check end time
 			if (cEnd >= tempStart && cEnd <= tempEnd){
-				return true;
+				conflicts.add(current);
+				continue;
 			}
 
 		}
 
-		return false;
+		return conflicts;
 	}
 
 }
