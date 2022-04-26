@@ -26,7 +26,6 @@ public class Student {
 		return currentSchedule;
 	}
 
-	//i think this might be broken
 	public void setCurrentSchedule(CurrentSchedule currentSchedule) {
 		currentSchedule.makeCurrent();
 		this.currentSchedule = currentSchedule;

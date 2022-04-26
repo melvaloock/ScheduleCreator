@@ -138,9 +138,9 @@ public class UserInterface {
 
 	public ArrayList<Course> getConflicts(ArrayList<Course> coursesToCheck) {
 		ArrayList<Course> conflicts = new ArrayList<>();
-		// CurrentSchedule cs = currentStudent.getCurrentSchedule();\
+		 CurrentSchedule cs = currentStudent.getCurrentSchedule();
 		for (Course c : coursesToCheck) {
-			// conflicts.addAll(cs.getConflicts(c));
+			 conflicts.addAll(cs.getConflicts(c));
 		}
 
 		return conflicts;
