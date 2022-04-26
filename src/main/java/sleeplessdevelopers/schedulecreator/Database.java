@@ -1,14 +1,14 @@
 package sleeplessdevelopers.schedulecreator;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import java.io.File;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Scanner;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 // import java.time.LocalTime;
 
@@ -739,6 +739,19 @@ public class Database {
         stmnt.close();
     }
 
+    public int getMaxActivityRef() {
+        try {
+            PreparedStatement selectStmt = conn.prepareStatement("SELECT MAX(ActivityCode) FROM activity");
+            ResultSet resultSet = selectStmt.executeQuery();
+
+            return resultSet.getInt("ActivityId");
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return 0;
+        }
+    }
+
     public String getJSONCourses() throws SQLException {
         StringBuilder sb = new StringBuilder();
         sb.append("{\"courses\":[");
@@ -774,15 +787,15 @@ public class Database {
 	 * should close the connection and any prepared statements.
 	 */
 	public void endDatabaseConnection() {
-		try {
-			if (conn != null) {
-				conn.close();
-				System.out.println("Disconnected!");
-			}
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
-	}
+        try {
+            if (conn != null) {
+                conn.close();
+                System.out.println("Disconnected!");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     public static void main(String args[]) {
         // Database db = new Database("root", "password", "sys");
