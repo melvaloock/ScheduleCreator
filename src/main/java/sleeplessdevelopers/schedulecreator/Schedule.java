@@ -28,6 +28,7 @@ public class Schedule {
 		this.semester = semester;
 	}
 
+
 	public void exportSchedule() {}
 
 	public void displaySchedule() {
@@ -312,7 +313,10 @@ public class Schedule {
 		}
 	}
 
-	public void makeCurrent() {}
+	public CurrentSchedule makeCurrent() {
+		isCurrent = true;
+		return (CurrentSchedule) this;
+	}
 
 	//create constructor for saved schedules in whatever format they are
 

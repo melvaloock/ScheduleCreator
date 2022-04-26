@@ -22,15 +22,14 @@ public class Student {
 		//use the setCurrentSchedule() method to set as current after creating schedule
 	}
 
-	public Schedule getCurrentSchedule() {
+	public CurrentSchedule getCurrentSchedule() {
 		return currentSchedule;
 	}
 
 	//i think this might be broken
-	public void setCurrentSchedule(Schedule currentSchedule) {
+	public void setCurrentSchedule(CurrentSchedule currentSchedule) {
 		currentSchedule.makeCurrent();
-		currentSchedule.setCurrent(true);
-		this.currentSchedule = (CurrentSchedule) currentSchedule;
+		this.currentSchedule = currentSchedule;
 	}
 
 	public String getMajor() {

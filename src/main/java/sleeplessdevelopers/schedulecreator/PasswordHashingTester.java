@@ -15,5 +15,4 @@ public class PasswordHashingTester {
         assertTrue(PasswordStorage.verifyPassword(pass, hash));
         assertFalse(PasswordStorage.verifyPassword("wrong", hash));
     }
-
 }

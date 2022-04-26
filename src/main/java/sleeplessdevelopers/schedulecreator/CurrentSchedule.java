@@ -1,10 +1,17 @@
 package sleeplessdevelopers.schedulecreator;
 
 import java.lang.reflect.Array;
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 
 public class CurrentSchedule extends Schedule {
 
+	public CurrentSchedule(Schedule s) {
+		this.courseList = s.courseList;
+		this.semester = s.semester;
+		this.isCurrent = true;
+	}
 
 	public CurrentSchedule(ArrayList<Course> courses) {
 		super.setCourseList(courses);
@@ -150,5 +157,11 @@ public class CurrentSchedule extends Schedule {
 
 		return conflicts;
 	}
+
+	public static CurrentSchedule fromJSON(String jsonString) {
+		Gson gson = new Gson();
+		return gson.fromJson(jsonString, CurrentSchedule.class);
+	}
+
 
 }

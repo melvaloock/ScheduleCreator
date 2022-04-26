@@ -5,8 +5,6 @@ import java.util.*; // trying to get git to work
 
 public class Account extends Student {
 
-	private HashMap<String, Schedule> scheduleMap = new HashMap<String, Schedule>(); // stores saved schedules for now
-
 	private String email;
 	private String passwordHash;
 	private int studentID; // may not need this
@@ -59,7 +57,7 @@ public class Account extends Student {
 		
 	}
 
-	public void setCurrentSchedule(Schedule currentSchedule, Database db) {
+	public void setCurrentSchedule(CurrentSchedule currentSchedule, Database db) {
 		if (this.currentSchedule != null) {
 			saveCurrentSchedule(db);
 			this.currentSchedule.setCurrent(false);
