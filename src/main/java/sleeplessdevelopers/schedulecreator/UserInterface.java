@@ -1,7 +1,5 @@
 package sleeplessdevelopers.schedulecreator;
 
-import org.apache.tomcat.util.http.fileupload.FileUploadException;
-
 import java.io.*;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -197,6 +195,7 @@ public class UserInterface {
 		currentStudent = new Guest(); // Guest class inherits from Account class
 		CurrentSchedule newSchedule = new CurrentSchedule();
 		currentStudent.setCurrentSchedule(newSchedule);
+		isLoggedIn = false;
 
 	}
 
