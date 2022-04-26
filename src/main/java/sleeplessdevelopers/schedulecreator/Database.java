@@ -1,14 +1,14 @@
 package sleeplessdevelopers.schedulecreator;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import java.io.File;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Scanner;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 // import java.time.LocalTime;
 
@@ -640,7 +640,8 @@ public class Database {
 
             for (Course c : courses) {
                 if (c instanceof Activity) {
-                    addActivityRef((Activity) c);
+                    addActivity(c);
+                    addActivityRef(c.getReferenceNum(), scheduleID, userEmail);
                 } else {
                     addCourseRef(c.getReferenceNum(), scheduleID, userEmail);
                 }
@@ -658,22 +659,81 @@ public class Database {
     }
 
     // TODO: Christian
-    public void addActivityRef(Activity activity) {
-        
+    public void addActivityRef (int activityID, String scheduleID, String userEmail) throws SQLException {
+        PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM courseReference WHERE CourseID = ? AND UserEmail = ?");
+        pstmtCheck.setInt(1, activityID);
+        pstmtCheck.setString(2, userEmail);
+        ResultSet rstCheck = pstmtCheck.executeQuery();
+
+        if (rstCheck.next()) {
+            throw new SQLException("This course already exists in your " + scheduleID + " semester");
+        }
+
+        PreparedStatement insertStmt = conn.prepareStatement("INSERT INTO courseReference values(?, ?, ?)");
+        insertStmt.setInt(1, activityID);
+        insertStmt.setString(2, scheduleID);
+        insertStmt.setString(3, userEmail);
+        int rows = insertStmt.executeUpdate();
+
+        if (rows <= 0) {
+            throw new SQLException("ERROR: Course addition failed. Please try again.");
+        }
+
+        pstmtCheck.close();
+        rstCheck.close();
+        insertStmt.close();
+    }
+
+    public void addActivity (Course c) {
+        try {
+            PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM activity WHERE ActivityID = ?");
+            pstmtCheck.setInt(1, c.getReferenceNum());
+            ResultSet rstCheck = pstmtCheck.executeQuery();
+
+            if (rstCheck.next()) {
+                throw new SQLException("That activity already exists.");
+            }
+
+            PreparedStatement insertStmt = conn.prepareStatement("INSERT INTO activity values(?, ?, ?, ?, ?, ?)");
+            insertStmt.setInt(1, c.getReferenceNum());
+            insertStmt.setString(2, c.getCode());
+            insertStmt.setString(3, c.getTitle());
+            insertStmt.setString(4, c.getDays());
+            insertStmt.setString(5, c.getStartTime());
+            insertStmt.setString(6, c.getEndTime());
+
+            int rows = insertStmt.executeUpdate();
+
+            if (rows > 0) {
+                System.out.println("Insertion successful!");
+            }
+
+            pstmtCheck.close();
+            rstCheck.close();
+            insertStmt.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     // TODO: Christian
-    public void createActivity(ResultSet resultSet) {
-
+    public Activity createActivity(ResultSet rst) throws SQLException {
+        ArrayList<Day> days = new ArrayList<Day>();
+        String daysString = rst.getString("Weekday");
+        for (char c : daysString.toCharArray()) {
+            days.add(Day.Day(c));
+        }
+        String code = rst.getString("ActivityCode");
+        return new Activity(rst.getInt("ActivityID"), rst.getString("ActivityCode"), rst.getString("ActivityName"),
+                rst.getString("StartTime"), rst.getString("EndTime"), days);
     }
 
-    //Implement a method to get the reference number of each class -Tyler
     public int getReferenceNum(Course c) throws SQLException {
-        PreparedStatement selectStmt = conn.prepareStatement("SELECT * FROM course WHERE CourseCode = ? and CourseName = ?");
+        PreparedStatement selectStmt = conn.prepareStatement("SELECT * FROM course WHERE ActivityCode = ? and ActivityName = ?");
         selectStmt.setString(1, c.getCode());
         selectStmt.setString(2, c.getTitle());
         ResultSet resultSet = selectStmt.executeQuery();
-        return resultSet.getInt("CourseID");
+        return resultSet.getInt("ActivityID");
     }
 
     // TODO: Kevin -> sprint 2
