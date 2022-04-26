@@ -16,6 +16,7 @@ window.onload = function () {
                     filtersList[i].checked = false;
                 }
             }
+            displayCourses("Begin typing to search courses");
         });
     }
 };
@@ -27,13 +28,6 @@ async function cacheCourses() {
             .catch(error => {
                 console.log("Courses Fetch Failed: " + error);
             })
-
-        // fetch(coursesURL)
-        //     .then(cache.add()
-        //     .then(console.log("Courses added to cache"))
-        //     .catch(error => {
-        //         console.log("Courses Fetch Failed: " + error);
-        //     })
     });
 }
 
@@ -86,13 +80,21 @@ function filterCourses(courses, searchTerm) {
                 courseList.push(course);
             }
         }
-    } else {
+    } else if (daysFilter.checked) {
+        // TODO: add extra div with more days divs (EXTRA)
+
         for (const course of courses.courses) {
-            if (course.Weekay.toLowerCase().includes(searchTerm.toLowerCase())) {
+            if (expand(course.Weekday).toLowerCase().includes(searchTerm.toLowerCase()) || course.Weekday.toLowerCase().includes(searchTerm.toLowerCase())) {
+                courseList.push(course);
+            } 
+        }
+    } else { // searches by keyword as default
+        for (const course of courses.courses) {
+            if (course.CourseName.toLowerCase().includes(searchTerm.toLowerCase())) {
                 courseList.push(course);
             }
         }
-    } 
+    }
     return courseList;
 }
 
@@ -147,6 +149,16 @@ function displayCourses(courses) {
             courseItem.checked = true;
             coursesList.appendChild(courseItem);
         }
+    }
+}
+
+function expand(weekday) {
+    if (weekday == "MWF") {
+        return "Monday Wednesday Friday";
+    } else if (weekday == "TR") {
+        return "Tuesday Thursday";
+    } else {
+        return weekday;
     }
 }
 
