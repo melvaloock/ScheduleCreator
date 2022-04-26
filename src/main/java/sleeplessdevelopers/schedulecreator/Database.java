@@ -662,6 +662,11 @@ public class Database {
         
     }
 
+    // TODO: Christian
+    public void createActivity(ResultSet resultSet) {
+
+    }
+
     //Implement a method to get the reference number of each class -Tyler
     public int getReferenceNum(Course c) throws SQLException {
         PreparedStatement selectStmt = conn.prepareStatement("SELECT * FROM course WHERE CourseCode = ? and CourseName = ?");
