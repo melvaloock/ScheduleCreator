@@ -273,13 +273,13 @@ public class Console extends UserInterface{
                 }
 
                 // check if there are any conflicts
-                boolean hasConflict = addCourses(coursesToAdd);
+                ArrayList<Course> conflicts = addCourses(coursesToAdd);
 
                 /*
                  * if there are conflicts, the courses not added and the user is told,
                  * otherwise the courses are added and they user is told that they are added
                  */
-                if (hasConflict) {
+                if (conflicts.size() > 0) {
                     System.out.println("The course you selected conflicts with another course in your schedule," +
                             " so it cannot be added.");
                 } else {
