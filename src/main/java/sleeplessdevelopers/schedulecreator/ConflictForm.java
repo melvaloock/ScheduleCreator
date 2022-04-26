@@ -6,10 +6,10 @@ import javax.validation.constraints.NotEmpty;
 
 public class ConflictForm {
 
-    @NotEmpty
+//    @NotEmpty
     ArrayList<String> conflictsInSchedule;
 
-    @NotEmpty
+//    @NotEmpty
     ArrayList<String> coursesToAdd;
 
     public ArrayList<String> getConflictsInSchedule() {

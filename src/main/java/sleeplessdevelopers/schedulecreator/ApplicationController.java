@@ -4,10 +4,8 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.sql.SQLException;
@@ -173,6 +171,7 @@ public class ApplicationController extends UserInterface {
     }
 
     private ArrayList<Course> conflictingAdds;
+    private ArrayList<Course> conflictsInSchedule;
 
     @PostMapping("/search")
     public String postSearch(@Valid @ModelAttribute("searchForm") SearchForm searchForm,
@@ -188,6 +187,7 @@ public class ApplicationController extends UserInterface {
             }
 
             conflictingAdds = addCourses(getCoursesFromJSON(courses));
+            conflictsInSchedule = getConflicts(conflictingAdds);
 
             if (conflictingAdds.size() == 0) {
                 return "redirect:/schedule";
@@ -203,20 +203,54 @@ public class ApplicationController extends UserInterface {
             return "redirect:/login";
             //TODO: add error message
         } else {
+//            ConflictForm cf = new ConflictForm();
+//            cf.setCoursesToAdd(conflictingAdds);
+//            ArrayList<Course> conflicts = getConflicts(conflictingAdds);
+//            cf.setConflictsInSchedule(conflicts);
             model.addAttribute("conflictForm", new ConflictForm());
             model.addAttribute("adding", conflictingAdds);
-            ArrayList<Course> conflicts = getConflicts(conflictingAdds);
-            model.addAttribute("conflicts", conflicts);
+            model.addAttribute("conflicts", conflictsInSchedule);
             return "ConflictingCourses.html";
         }
     }
 
-    @PostMapping("/conflicting-courses")
-    public String postConflictingCourses(@Valid @ModelAttribute("searchForm") ConflictForm conflictForm,
+    @PostMapping(value = "/conflicting-courses", params = "remove")
+    public String removeConflictingCourses(@Valid @ModelAttribute("conflictForm") ConflictForm conflictForm,
                                          BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "CourseSearch.html";
+            System.out.println("remove reached with errors");
+            for (ObjectError e: bindingResult.getAllErrors()){
+                System.out.println(e.toString());
+            }
+            return "redirect:/schedule";
         } else {
+            System.out.println("remove reached");
+//                ArrayList<String> conflictsInSchedule = conflictForm.conflictsInSchedule;
+//                ArrayList<String> coursesToAdd = conflictForm.coursesToAdd;
+                CurrentSchedule cs = currentStudent.getCurrentSchedule();
+
+                for (Course c: conflictsInSchedule) {
+                    cs.removeCourse(c);
+                }
+
+                for (Course c: conflictingAdds) {
+                    cs.addCourse(c);
+                }
+
+                currentStudent.setCurrentSchedule(cs);
+
+            return "redirect:/schedule";
+        }
+    }
+
+    @PostMapping(value = "/conflicting-courses", params = "no-change")
+    public String noRemoveConflictingCourses(@Valid @ModelAttribute("conflictForm") ConflictForm conflictForm,
+                                         BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            System.out.println("no remove reached with errors");
+            return "redirect:/schedule";
+        } else {
+            System.out.println("no remove reached");
             return "redirect:/schedule";
         }
     }
