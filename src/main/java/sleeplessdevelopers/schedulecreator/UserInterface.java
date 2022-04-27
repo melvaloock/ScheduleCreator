@@ -57,6 +57,7 @@ public class UserInterface {
 		}
 
 		System.out.println(semesters); // TODO: debugging
+		System.out.println(semesters.isEmpty());
 
 		return semesters;
 	}

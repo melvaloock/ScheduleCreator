@@ -16,8 +16,6 @@ import java.util.ArrayList;
 @Controller
 public class ApplicationController extends UserInterface {
 
-
-
     @GetMapping("/")
     public String index() {
         return "LandingPage.html";
@@ -212,7 +210,7 @@ public class ApplicationController extends UserInterface {
             return "CreateAccount.html";
         } else {
             createAccount(accountCreationForm.getUsername(), accountCreationForm.getPassword());
-            return "redirect:/"; // TODO: update with proper path
+            return "redirect:/schedule"; // TODO: update with proper path
         }
     }
 
