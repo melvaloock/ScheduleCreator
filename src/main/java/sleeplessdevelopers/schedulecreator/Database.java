@@ -479,6 +479,108 @@ public class Database {
         }
     }
 
+    // TODO: THERE IS NO CHECKING WHATSOEVER
+    public Schedule getSchedule(String userEmail, String scheduleID) throws SQLException {
+        PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM schedule WHERE UserEmail = ?");
+        pstmtCheck.setString(1, userEmail);
+        ResultSet rstCheck = pstmtCheck.executeQuery();
+
+        System.out.print(rstCheck);
+
+        if (rstCheck.next()) {
+            ArrayList<Course> courses = getCoursesFromRefs(userEmail, scheduleID);
+            System.out.println("Courses: " + courses);
+            return new Schedule(courses, scheduleID);
+        } else {
+            // returns null if no current schedule
+            return null;
+        }
+    }
+
+    // added by Kevin to get all schedules (sprint 2)
+    public ArrayList<Schedule> getOtherSchedules(String userEmail) throws SQLException {
+
+        ArrayList<Schedule> schedules = new ArrayList<Schedule>();
+
+        PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM schedule WHERE UserEmail = ?");
+        pstmtCheck.setString(1, userEmail);
+
+        ResultSet rstCheck = pstmtCheck.executeQuery();
+
+        if (rstCheck.next()) {
+            PreparedStatement joinStatement = conn
+                .prepareStatement("SELECT s.UserEmail, s.ScheduleID, s.IsCurrent, c.CourseID FROM schedule s inner join courseReference c ON (s.ScheduleID = c.ScheduleID AND s.UserEmail = c.UserEmail) WHERE s.UserEmail = ?");
+            joinStatement.setString(1, userEmail);
+            ResultSet rstJoin = joinStatement.executeQuery();
+
+            while (rstJoin.next()) {
+                String scheduleID = rstJoin.getString("ScheduleID");
+                ArrayList<Course> courses = getCoursesFromRefs(userEmail, scheduleID);
+                boolean isCurrent = rstJoin.getBoolean("IsCurrent");
+
+                if (!isCurrent) {
+                    schedules.add(new Schedule(courses, scheduleID));
+                }
+            }
+            return schedules;
+        }
+        return schedules; // accounted for elsewhere
+    }
+
+    public ArrayList<String> getSemesters(String userEmail) throws SQLException {
+        ArrayList<String> semesters = new ArrayList<String>();
+
+        PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM schedule WHERE UserEmail = ?");
+        pstmtCheck.setString(1, userEmail);
+
+        ResultSet rstCheck = pstmtCheck.executeQuery();
+
+        if (rstCheck.next()) {
+            PreparedStatement selectStatement = conn
+                .prepareStatement("SELECT DISTINCT ScheduleID from schedule where UserEmail = ?");
+            selectStatement.setString(1, userEmail);
+            ResultSet rstSet = selectStatement.executeQuery();
+
+            while (rstSet.next()) {
+                String scheduleID = rstSet.getString("ScheduleID");
+                semesters.add(scheduleID);
+            }
+            return semesters;
+        }
+        return semesters; // accounted for elsewhere
+    }
+
+    public void makeCurrentSchedule(String semester, String userEmail) throws SQLException {
+        PreparedStatement pstmt = conn.prepareStatement("UPDATE schedule SET IsCurrent = 0 WHERE UserEmail = ?");
+        pstmt.setString(1, userEmail);
+        pstmt.executeUpdate();
+        pstmt.close();
+
+        pstmt = conn.prepareStatement("UPDATE schedule SET IsCurrent = 1 WHERE UserEmail = ? AND ScheduleID = ?");
+        pstmt.setString(1, userEmail);
+        pstmt.setString(2, semester);
+        pstmt.executeUpdate();
+        pstmt.close();
+    }
+
+    public void removeCurrentSchedule(String semster, String userEmail) {
+        try {
+            PreparedStatement pstmtCheck = conn.prepareStatement("SELECT * FROM schedule WHERE UserEmail = ?");
+            pstmtCheck.setString(1, userEmail);
+            ResultSet rstCheck = pstmtCheck.executeQuery();
+
+            if (rstCheck.next()) {
+                PreparedStatement updateStatement = conn
+                    .prepareStatement("UPDATE schedule SET IsCurrent = 0 WHERE UserEmail = ? AND ScheduleID = ?");
+                updateStatement.setString(1, userEmail);
+                updateStatement.setString(2, semster);
+                updateStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * @param searchCode
      * @return
@@ -653,12 +755,12 @@ public class Database {
             deleteAllCourseRefs(scheduleID, userEmail);
 
             for (Course c : courses) {
-                if (c instanceof Activity) {
-                    addActivity(c);
-                    addActivityRef(c.getReferenceNum(), scheduleID, userEmail);
-                } else {
+                // if (c instanceof Activity) {
+                //     addActivity(c);
+                //     addActivityRef(c.getReferenceNum(), scheduleID, userEmail);
+                // } else {
                     addCourseRef(c.getReferenceNum(), scheduleID, userEmail);
-                }
+                // }
             }
 
             // ArrayList<Integer> courseIDs = getCourseIDs(courses);

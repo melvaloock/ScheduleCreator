@@ -42,6 +42,35 @@ public class UserInterface {
 		return ((i + 7) + ":00:00");
 	}
 
+	public static ArrayList<String> getSchedules() {
+		ArrayList<String> semesters = new ArrayList<String>();
+		try {
+			semesters = (db.getSemesters(currentStudent.getEmail()));
+		} catch (SQLException e) {
+			e.getMessage();
+		}
+
+		System.out.println(semesters); // TODO: debugging
+
+		if (semesters.contains(currentStudent.currentSchedule.semester)) {
+			semesters.remove(currentStudent.currentSchedule.semester);
+		}
+
+		System.out.println(semesters); // TODO: debugging
+
+		return semesters;
+	}
+
+	public static CurrentSchedule getNewCurrentSchedule(String semester, String email) {
+		Schedule temp = new Schedule();
+		try {
+			temp = db.getSchedule(email, semester);
+		} catch (SQLException e) {
+			e.getMessage();
+		}
+		return new CurrentSchedule(temp);
+	}
+
 	public static ArrayList<Course> searchCoursesByCode(String code) {
 
 		ArrayList<Course> result = new ArrayList<>();
@@ -125,7 +154,7 @@ public class UserInterface {
 	public static ArrayList<Course> addCourses(ArrayList<Course> coursesToAdd) {
 		ArrayList<Course> conflicts = new ArrayList<>();
 
-		CurrentSchedule cs = new CurrentSchedule(currentStudent.getCurrentSchedule().getCourseList());
+		CurrentSchedule cs = new CurrentSchedule(currentStudent.getCurrentSchedule().getCourseList(), currentStudent.getCurrentSchedule().semester);
 
 		for (Course c : coursesToAdd) {
 			if (cs.conflictsWith(c)) {

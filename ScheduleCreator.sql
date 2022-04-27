@@ -1,10 +1,10 @@
 -- drop table if exists course;
-drop table if exists recommendedCourse;
-drop table if exists recommendedSchedule;
-drop table if exists activity;
-drop table if exists courseReference;
-drop table if exists schedule;
-drop table if exists account;
+-- drop table if exists recommendedCourse;
+-- drop table if exists recommendedSchedule;
+-- drop table if exists activity;
+-- drop table if exists courseReference;
+-- drop table if exists schedule;
+-- drop table if exists account;
 
 create table if not exists account (
     UserEmail varchar(255) not null,
@@ -85,6 +85,8 @@ select * from courseReference;
 select * from recommendedSchedule;
 
 select * from recommendedCourse;
+
+SELECT s.UserEmail, s.ScheduleID, s.IsCurrent, c.CourseID FROM schedule s inner join courseReference c ON s.ScheduleID = c.ScheduleID WHERE s.UserEmail = "testy2@test.com";
 
 -- insert into account values("hambykr19@gcc.edu", "somepasswordhash");
 

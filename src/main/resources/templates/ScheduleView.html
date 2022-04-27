@@ -1,25 +1,27 @@
 <!--Calendar Display code adapted from https://codepen.io/roccop/pen/OGyBPG -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>View Schedule</title>
+
   <!-- Bootstrap CSS v5.0.2 -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
   <!-- Bootstrap JavaScript Libraries -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-          integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
-          crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+    crossorigin="anonymous"></script>
 
   <!--Custom CSS stylesheet-->
   <link rel="stylesheet" th:href="@{/styles/schedulecreator.css}">
   <link rel="stylesheet" th:href="@{/styles/navbar.css}">
   <link rel="stylesheet" th:href="@{/styles/schedule.css}">
-
-
 
   <!-- Custom JavaScript -->
   <script th:src="@{/scripts/toast.js}"></script>
@@ -28,78 +30,98 @@
   <link rel="shortcut icon" th:href="@{/images/cropped-favicon.webp}" type="image/webp" />
   <title> Login </title>
 </head>
+
 <body>
-<header>
-  <script th:if="${loggedIn}" th:src="@{/scripts/AccountNavbar.js}"></script>
-  <script th:unless="${loggedIn}" th:src="@{/scripts/GuestNavbar.js}"></script>
-</header>
+  <header>
+    <script th:if="${loggedIn}" th:src="@{/scripts/AccountNavbar.js}"></script>
+    <script th:unless="${loggedIn}" th:src="@{/scripts/GuestNavbar.js}"></script>
+  </header>
 
-<main>
-  <h1 th:text ="${schedule.getSemester()}"></h1>
-  <div id="top-line">
-    <a class="btn btn-light ms-3" th:href="@{/schedule/export}">Export</a>
-    <a class="btn btn-crimson ms-3" th:href="@{/schedule/email}">Email</a>
-    <div id="schedule-actions">
-      <a class="btn btn-crimson ms-3" th:href="@{/search}">Add Course</a>
-      <a class="btn btn-light ms-3" th:href="@{/remove-course}">Remove Course</a>
-      <a th:if="${loggedIn}" class="btn btn-light ms-3" th:href="@{/schedule/save}">Save Schedule</a>
-      <a th:unless="${loggedIn}" class="btn btn-light ms-3" th:href="@{/create-account}">Create Account to Save Schedule</a>
+  <main>
+    <h1 th:text="${schedule.getSemester()}"></h1>
+    <div id="top-line">
+      <a class="btn btn-light ms-3" th:href="@{/schedule/export}">Export</a>
+      <a class="btn btn-crimson ms-3" th:href="@{/schedule/email}">Email</a>
+      <div id="schedule-actions">
+        <div th:if="${loggedIn}" class="btn-group">
+          <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
+            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Select a different schedule
+          </button>
+          <div class="dropdown-menu">
+            <p th:if="${schedulesList.isEmpty()}" class="dropdown-item">No schedules found</p>
+            <form action="#" th:action="@{/schedule/switch/}" th:object="${switchForm}" method="post">
+              <button name="semester" th:each="schedule: ${schedulesList}" class="dropdown-item" th:value="${schedule}"
+                th:text="${schedule}"></a>
+            </form>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" th:href="@{/schedule-create}">Create a new schedule</a>
+          </div>
+        </div>
+        <a class="btn btn-crimson ms-3" th:href="@{/search}">Add Course</a>
+        <a class="btn btn-light ms-3" th:href="@{/remove-course}">Remove Course</a>
+        <a th:if="${loggedIn}" class="btn btn-light ms-3" th:href="@{/schedule/save}">Save Schedule</a>
+        <a th:unless="${loggedIn}" class="btn btn-light ms-3" th:href="@{/create-account}">Create Account to Save
+          Schedule</a>
+      </div>
     </div>
-  </div>
-  <div class="container" id="schedule">
-    <ul class="calendar weekly-byhour">
-    <!-- Non-responsive (yet); Just a small sample of what's possible with CSS Grid. -->
+    <div class="container" id="schedule">
+      <ul class="calendar weekly-byhour">
+        <!-- Non-responsive (yet); Just a small sample of what's possible with CSS Grid. -->
 
-      <li id="corner"></li>
+        <li id="corner"></li>
 
-<!--      <script th:src="@{/scripts/schedule.js}"></script>-->
+        <!--      <script th:src="@{/scripts/schedule.js}"></script>-->
 
-      <!--  EVENT NODES  -->
-      <!--  DATA:      CATEGORY                         DAY              START  /  END     EVENT DETAILS  -->
-      <!--      <li class="event work" style="grid-column:   mon;   grid-row:  h08   /  h11;  ">Finish this calendar</li>-->
-      <!--      <li class="event work" style="grid-column:   wed;   grid-row:  h10   /  h19;  ">Master the grid!</li>-->
-      <!--      <li class="event personal" style="grid-column:   fri;   grid-row:  h16   /  h23;  ">After work drinks</li>-->
-      <!--      <li class="event personal" style="grid-column:   tue;   grid-row:  h18   /  h20;  ">Soccer game</li>-->
-      <th:block th:each="course: ${schedule.getCourseList()}">
-        <li th:class="${course.displaySpecial()}" th:each="day: ${course.getDayStringList()}" th:style="${course.toCSSString(day)}" th:text="${course.getCode()}"></li>
-        <li th:class="${course.displaySpecial()}" th:each="day: ${course.getDayStringList()}" th:style="${course.toCSSString(day)}" th:text="${course.getCode()}"></li>
-      </th:block>
+        <!--  EVENT NODES  -->
+        <!--  DATA:      CATEGORY                         DAY              START  /  END     EVENT DETAILS  -->
+        <!--      <li class="event work" style="grid-column:   mon;   grid-row:  h08   /  h11;  ">Finish this calendar</li>-->
+        <!--      <li class="event work" style="grid-column:   wed;   grid-row:  h10   /  h19;  ">Master the grid!</li>-->
+        <!--      <li class="event personal" style="grid-column:   fri;   grid-row:  h16   /  h23;  ">After work drinks</li>-->
+        <!--      <li class="event personal" style="grid-column:   tue;   grid-row:  h18   /  h20;  ">Soccer game</li>-->
+        <th:block th:each="course: ${schedule.getCourseList()}">
+          <li th:class="${course.displaySpecial()}" th:each="day: ${course.getDayStringList()}"
+            th:style="${course.toCSSString(day)}" th:text="${course.getCode()}"></li>
+          <li th:class="${course.displaySpecial()}" th:each="day: ${course.getDayStringList()}"
+            th:style="${course.toCSSString(day)}" th:text="${course.getCode()}"></li>
+        </th:block>
 
-      <!--  DAYS OF THE WEEK  -->
-      <li class="day mon">Mon</li>
-      <li class="day tue">Tue</li>
-      <li class="day wed">Wed</li>
-      <li class="day thu">Thu</li>
-      <li class="day fri">Fri</li>
+        <!--  DAYS OF THE WEEK  -->
+        <li class="day mon">Mon</li>
+        <li class="day tue">Tue</li>
+        <li class="day wed">Wed</li>
+        <li class="day thu">Thu</li>
+        <li class="day fri">Fri</li>
 
-      <!--  TIMES OF THE DAY  -->
+        <!--  TIMES OF THE DAY  -->
 
-      <li class="time h08">8:00 am</li>
-      <li class="time h09">9:00 am</li>
-      <li class="time h10">10:00 am</li>
-      <li class="time h11">11:00 am</li>
-      <li class="time h12">12:00 pm</li>
-      <li class="time h13">1:00 pm</li>
-      <li class="time h14">2:00 pm</li>
-      <li class="time h15">3:00 pm</li>
-      <li class="time h16">4:00 pm</li>
-      <li class="time h17">5:00 pm</li>
-      <li class="time h18">6:00 pm</li>
-      <li class="time h19">7:00 pm</li>
-      <li class="time h20">8:00 pm</li>
-      <li class="time h21">9:00 pm</li>
+        <li class="time h08">8:00 am</li>
+        <li class="time h09">9:00 am</li>
+        <li class="time h10">10:00 am</li>
+        <li class="time h11">11:00 am</li>
+        <li class="time h12">12:00 pm</li>
+        <li class="time h13">1:00 pm</li>
+        <li class="time h14">2:00 pm</li>
+        <li class="time h15">3:00 pm</li>
+        <li class="time h16">4:00 pm</li>
+        <li class="time h17">5:00 pm</li>
+        <li class="time h18">6:00 pm</li>
+        <li class="time h19">7:00 pm</li>
+        <li class="time h20">8:00 pm</li>
+        <li class="time h21">9:00 pm</li>
 
 
-      <!--  TOP LEFT CORNER FILLER  -->
+        <!--  TOP LEFT CORNER FILLER  -->
 
-      <!--  EMPTY HOURLY FILLERS:
+        <!--  EMPTY HOURLY FILLERS:
       Helps us show the grid template lines, and create calendar funtionality later. One for every hour
       cell (7 * 24), because our events are "position:absolute" and will sit over top of empty cells -->
 
-    </ul>
+      </ul>
 
-  </div>
-</main>
+    </div>
+  </main>
 
 </body>
+
 </html>

@@ -6,6 +6,13 @@ window.addEventListener("DOMContentLoaded", async function () {
     searchCourses();
 });
 
+window.addEventListener("keydown", function (event) {
+    if (event.key === 'Enter' && validateSearch() === false) {
+        event.preventDefault();
+        return false;
+    }
+});
+
 window.onload = function () {
     var filters = document.getElementById("filters");
     var filtersList = filters.getElementsByTagName("input");
@@ -33,11 +40,13 @@ async function cacheCourses() {
 
 function searchCourses() {
     document.getElementById("search").addEventListener("keyup", function (event) {
-        let searchTerm = event.target.value;
-        if (searchTerm.length > 0) {
-            fetchCourses(searchTerm);
-        } else {
-            displayCourses("Begin typing to search courses");
+        if (event.key !== 'Enter') {
+            let searchTerm = event.target.value;
+            if (searchTerm.length > 0) {
+                fetchCourses(searchTerm);
+            } else {
+                displayCourses("Begin typing to search courses");
+            }
         }
     });
 }
@@ -139,12 +148,6 @@ function displayCourses(courses) {
 
                 let newLine = document.createElement("br");
                 coursesList.appendChild(newLine);
-
-                // let courseJSON = document.createElement("div");
-                // courseJSON.className = "course-JSON";
-                // courseJSON.innerHTML = JSON.stringify(course);
-                // courseJSON.style.display = "none";
-                // coursesList.appendChild(courseJSON);
             }
             let courseItem = document.createElement("input");
             courseItem.type = "checkbox";
@@ -165,6 +168,21 @@ function expand(weekday) {
     } else {
         return weekday;
     }
+}
+
+function validateSearch() {
+   const checkBoxes = document.getElementsByName("courses");
+   var count = 0;
+   for (const checkBox of checkBoxes) {
+       if (checkBox.checked) {
+           count++;
+       }
+
+       if (count > 1) {
+            return true;
+       }
+   }
+   return false;
 }
 
 /**

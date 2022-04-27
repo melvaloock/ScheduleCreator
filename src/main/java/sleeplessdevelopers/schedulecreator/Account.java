@@ -53,8 +53,54 @@ public class Account extends Student {
 		catch (Exception e){
 			System.out.println(e.getMessage());
 		}
+	}
 
-		
+	public void makeCurrentSchedule(String semester, String userEmail, Database db) {
+		try {
+			db.makeCurrentSchedule(semester, userEmail);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	public void saveNewSchedule(Database db) {
+		//TODO: add currentSchedule to scheduleMap (or however saved schedules will be stored)
+		// - this includes adding a label (key) to this schedule so that it can be accessed
+		if (getEmail() == null) {
+			System.out.println("\n You must have an account to save a Schedule");
+			return;
+		}
+		try {
+			// add a current schedule to the database if it isn't already there
+			db.addSchedule(getCurrentSchedule().semester, true, getEmail());
+		}
+		catch (Exception e){
+			System.out.println(e.getMessage());
+		}
+	}
+
+	public void removeCurrentSchedule(Database db) {
+		//TODO: add currentSchedule to scheduleMap (or however saved schedules will be stored)
+		// - this includes adding a label (key) to this schedule so that it can be accessed
+		if (getEmail() == null) {
+			System.out.println("\n You must have an account to save a Schedule");
+			return;
+		}
+		try {
+			Schedule checkSch = db.getCurrentSchedule(getEmail());
+			if (checkSch == null) {
+				// add a current schedule to the database if it isn't already there
+				db.addSchedule(getCurrentSchedule().semester, false, getEmail());
+				db.updateCourseRefs(getCurrentSchedule().semester, getEmail(), getCurrentSchedule().getCourseList());
+			} else {
+				// update the current schedule in the database
+				db.updateCourseRefs(getCurrentSchedule().semester, getEmail(), getCurrentSchedule().getCourseList());
+				db.removeCurrentSchedule(getCurrentSchedule().semester, getEmail());
+			}
+		}
+		catch (Exception e){
+			System.out.println(e.getMessage());
+		}
 	}
 
 	public void setCurrentSchedule(CurrentSchedule currentSchedule, Database db) {

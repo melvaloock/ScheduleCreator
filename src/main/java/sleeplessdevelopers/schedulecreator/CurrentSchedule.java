@@ -7,7 +7,11 @@ import java.util.ArrayList;
 public class CurrentSchedule extends Schedule {
 
 	public CurrentSchedule(Schedule s) {
-		this.courseList = s.courseList;
+		if (s.courseList != null) {
+			this.courseList = s.courseList;
+		} else {
+			this.courseList = new ArrayList<Course>();
+		}
 		this.semester = s.semester;
 		this.isCurrent = true;
 	}
@@ -22,6 +26,11 @@ public class CurrentSchedule extends Schedule {
 
 	public CurrentSchedule() {
 		super();
+		isCurrent = true;
+	}
+
+	public CurrentSchedule(String semester) {
+		super(semester);
 		isCurrent = true;
 	}
 

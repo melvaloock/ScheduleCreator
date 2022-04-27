@@ -23,6 +23,11 @@ public class Schedule {
 		this.courseList = new ArrayList<Course>();
 	}
 
+	public Schedule(String semester) {
+		this.courseList = new ArrayList<Course>();
+		this.semester = semester;
+	}
+
 	public Schedule(ArrayList<Course> courseList, String semester) {
 		this.courseList = courseList;
 		this.semester = semester;

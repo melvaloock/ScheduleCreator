@@ -32,9 +32,53 @@ public class ApplicationController extends UserInterface {
             //next 3 lines for testing purposes
 //            RecommendedSchedule rs = new RecommendedSchedule("Computer Science (BS)", 2024, db);
 //            currentStudent.setCurrentSchedule(rs.makeCurrentSchedule());
+            model.addAttribute("schedulesList", getSchedules());
             model.addAttribute("schedule", currentStudent.getCurrentSchedule());
             model.addAttribute("loggedIn", isLoggedIn);
             return "ScheduleView.html";
+        }
+    }
+
+    @PostMapping("/schedule/switch")
+    public String postScheduleSwitch(@Valid @ModelAttribute("switchForm") SwitchForm switchForm
+            , BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            System.out.println("error!"); // TODO: add error message
+            return "redirect:/schedule";
+        } else {
+            System.out.println(switchForm.getSemester()); // TODO: debugging
+            currentStudent.removeCurrentSchedule(db);
+            currentStudent.currentSchedule = getNewCurrentSchedule(switchForm.getSemester(), currentStudent.getEmail());
+            currentStudent.saveCurrentSchedule(db);
+            currentStudent.makeCurrentSchedule(switchForm.getSemester(), currentStudent.getEmail(), db);
+            return "redirect:/schedule";
+        }
+    }
+
+    @GetMapping("/schedule-create")
+    public String getScheduleCreate(Model model) {
+        if (currentStudent == null) {
+            return "redirect:/login";
+        } else {
+            model.addAttribute("newScheduleForm", new NewScheduleForm());
+            return "ScheduleCreate.html";
+        }
+    }
+
+    @PostMapping("/schedule-create")
+    public String postScheduleCreate(@Valid @ModelAttribute("newScheduleForm") NewScheduleForm newScheduleForm, 
+            BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "redirect:/schedule-create";
+        } else {
+            currentStudent.removeCurrentSchedule(db);
+            // currentStudent.setCurrentSchedule(new CurrentSchedule(new Schedule(newScheduleForm.getSemester())));
+            currentStudent.currentSchedule = new CurrentSchedule(newScheduleForm.getSemester());
+            // System.out.println("Debugging: " + currentStudent.getCurrentSchedule().semester);
+            currentStudent.saveNewSchedule(db);
+
+            model.addAttribute("loggedIn", isLoggedIn);
+            return "redirect:/schedule-new";
         }
     }
 
@@ -70,7 +114,9 @@ public class ApplicationController extends UserInterface {
 
     @GetMapping("/schedule/save")
     public String postSchedule() {
-        currentStudent.saveCurrentSchedule(db);
+        CurrentSchedule temp = currentStudent.currentSchedule;
+        System.out.println(temp.semester);
+        System.out.println(temp.courseList);
         return "redirect:/schedule";
     }
 
@@ -99,6 +145,17 @@ public class ApplicationController extends UserInterface {
         model.addAttribute("loggedIn", isLoggedIn);
         return "Guest.html";
     }
+
+    // @PostMapping("/schedule-new")
+    // public String postNewSchedule(@Valid @ModelAttribute("newScheduleForm") ScheduleForm scheduleForm,
+    //         BindingResult result) {
+    //     if (result.hasErrors()) {
+    //         return "redirect:/schedule-new";
+    //     } else {
+    //         // TODO: make old schedule 0 in database
+    //         return "Guest.html";
+    //     }
+    // }
 
 
     @GetMapping("/auto-schedule")
