@@ -208,8 +208,11 @@ public class UserInterface {
 			return false;
 		}
 
-		currentStudent = new Account(userEmail, userPassword);
 		CurrentSchedule newSchedule = new CurrentSchedule();
+		if (currentStudent != null) {
+			newSchedule = currentStudent.currentSchedule;
+		}
+		currentStudent = new Account(userEmail, userPassword);
 		currentStudent.setCurrentSchedule(newSchedule);
 
 		isLoggedIn = true;
