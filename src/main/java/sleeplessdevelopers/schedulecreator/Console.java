@@ -215,8 +215,13 @@ public class Console extends UserInterface{
         int courseEntry;
         boolean coursesExist = false;
         int coursecount = 0;
+        int histct = 0;
+
         ArrayList<Course> recentCourse = new ArrayList<>();
+
         ArrayList<String> lastCommand = new ArrayList<>();
+        ArrayList<String> commandHistory = new ArrayList<>();
+
         while (true) {
             viewSchedule(currentStudent.getCurrentSchedule());
             System.out.println("Alter Schedule Choices: ");
@@ -264,6 +269,10 @@ public class Console extends UserInterface{
                 coursesExist = true;
                 coursecount++;
                 lastCommand.add("Add");
+                //action history
+                histct++;
+                commandHistory.add("Add");
+
                 // see if the user wants to add any other courses from the list
                 while (true) {
                     System.out.println("Add another course? (y/n)");
@@ -275,6 +284,11 @@ public class Console extends UserInterface{
                         // add none
                         if (courseEntry == 0) break;
                         coursesToAdd.add(results.get(courseEntry - 1));
+                        coursecount++;
+                        lastCommand.add("Add");
+                        //action history
+                        histct++;
+                        commandHistory.add("Add");
                     } else if (addAnother == 'N') {
                         break;
                     }
@@ -314,11 +328,15 @@ public class Console extends UserInterface{
 
                 // remove course
                 currentStudent.currentSchedule.removeCourse(courses.get(courseEntry-1));
+
                 coursecount--;
                 if(coursecount == 0){
                     coursesExist = false;
                 }
                 lastCommand.add("Remove");
+
+                histct++;
+                commandHistory.add("Remove");
                 // give result
                 System.out.println("Course Removed.");
 
@@ -330,7 +348,7 @@ public class Console extends UserInterface{
                 if (yn == 'Y'){
                     clearSchedule();
                 }
-
+            //undo feature
             }else if(choice == 4){
                 if(!coursesExist && lastCommand.isEmpty() && coursecount == 0){
                     System.out.println("There is no step to go back to");
@@ -352,22 +370,22 @@ public class Console extends UserInterface{
                     addCourses(coursesToAdd);
                     System.out.println("Successfully undid last action");
                 }
-
+            //redo feature
             }else if(choice == 5){
-                if(!coursesExist && lastCommand.isEmpty() && coursecount == 0){
+                if(!coursesExist && lastCommand.isEmpty() && histct == 0){
                     System.out.println("There is no step to go forward to");
-                }else if(coursesExist && coursecount > 1){
-                    if(lastCommand.get(lastCommand.size()-2).equals("Remove")){
+                }else if(coursesExist && histct > coursecount){
+                    if(commandHistory.get(lastCommand.size()-1).equals("Remove")){
                         ArrayList<Course> courses = currentStudent.getCurrentSchedule().getCourseList();
-                        currentStudent.currentSchedule.removeCourse(courses.get(coursecount-1));
+                        currentStudent.currentSchedule.removeCourse(courses.get(histct-1));
                         coursecount--;
-                        lastCommand.remove(lastCommand.size()-2);
+                        lastCommand.add("Remove");
                         System.out.println("Successfully redid last action");
-                    }else if(lastCommand.get(lastCommand.size()-2).equals("Add")){
+                    }else if(commandHistory.get(lastCommand.size()-1).equals("Add")){
                         ArrayList<Course> coursesToAdd = new ArrayList<>();
-                        coursesToAdd.add(recentCourse.get(coursecount - 1));
+                        coursesToAdd.add(recentCourse.get(histct - 1));
                         coursecount++;
-                        lastCommand.remove(lastCommand.size()-2);
+                        lastCommand.add("Add");
                         addCourses(coursesToAdd);
                         System.out.println("Successfully redid last action");
                     }
