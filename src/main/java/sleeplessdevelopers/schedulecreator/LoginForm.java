@@ -2,18 +2,18 @@ package sleeplessdevelopers.schedulecreator;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import javax.websocket.OnMessage;
 
 import org.hibernate.validator.constraints.Length;
 
 public class LoginForm {
 
     @Email(message = "Please enter a valid email address")
-    @NotNull
+    @NotNull(message = "Please enter an email address")
     private String username;
 
-    @Length(min = 8, max = 256) // TODO: check max length with database limit
-    @NotNull
-    @Password(message = "Passwords must contain at least 1 number, 1 uppercase letter, and 1 special character")
+    @NotNull(message = "Please enter a password")
+    @Password(message = "Incorrect username or password")
     private String password;
 
     public String getUsername() {

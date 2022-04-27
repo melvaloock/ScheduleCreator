@@ -49,7 +49,7 @@
             Select a different schedule
           </button>
           <div class="dropdown-menu">
-            <p th:if="${schedulesList.isEmpty()}" class="dropdown-item">No schedules found</p>
+            <p th:if="${schedulesList.isEmpty()}" class="disabled">No schedules found</p>
             <form action="#" th:action="@{/schedule/switch/}" th:object="${switchForm}" method="post">
               <button name="semester" th:each="schedule: ${schedulesList}" class="dropdown-item" th:value="${schedule}"
                 th:text="${schedule}"></a>

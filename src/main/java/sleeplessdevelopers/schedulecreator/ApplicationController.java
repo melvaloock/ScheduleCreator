@@ -70,9 +70,7 @@ public class ApplicationController extends UserInterface {
             return "redirect:/schedule-create";
         } else {
             currentStudent.removeCurrentSchedule(db);
-            // currentStudent.setCurrentSchedule(new CurrentSchedule(new Schedule(newScheduleForm.getSemester())));
             currentStudent.currentSchedule = new CurrentSchedule(newScheduleForm.getSemester());
-            // System.out.println("Debugging: " + currentStudent.getCurrentSchedule().semester);
             currentStudent.saveNewSchedule(db);
 
             model.addAttribute("loggedIn", isLoggedIn);
