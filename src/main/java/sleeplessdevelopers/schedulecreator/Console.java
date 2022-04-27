@@ -732,18 +732,7 @@ public class Console extends UserInterface{
         }
     }
 
-    public static void generatePDF(String filename) {
-        Document doc = new Document();
-        try {
-            PdfWriter writer = PdfWriter.getInstance(doc, new FileOutputStream("./" + filename + ".pdf"));
-            doc.open();
-            doc.add(new Paragraph(currentStudent.getCurrentSchedule().toString()));
-            doc.close();
-            writer.close();
-        } catch (Exception e) {
-            System.out.println("Error generating PDF");
-        }
-    }
+
 }
 
 

@@ -1,5 +1,9 @@
 package sleeplessdevelopers.schedulecreator;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+
 import java.io.*;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -347,6 +351,19 @@ public class UserInterface {
 	public static boolean deleteJSONFile(String fileName) {
 		File f = new File(fileName);
 		return f.delete();
+	}
+
+	public static void generatePDF(String filename) {
+		Document doc = new Document();
+		try {
+			PdfWriter writer = PdfWriter.getInstance(doc, new FileOutputStream("./" + filename + ".pdf"));
+			doc.open();
+			doc.add(new Paragraph(currentStudent.getCurrentSchedule().toString()));
+			doc.close();
+			writer.close();
+		} catch (Exception e) {
+			System.out.println("Error generating PDF");
+		}
 	}
 
 	public static void main(String args[]) throws ParseException {
