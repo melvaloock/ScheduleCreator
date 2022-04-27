@@ -6,8 +6,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.io.FileInputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -327,7 +331,24 @@ public class ApplicationController extends UserInterface {
     
     @GetMapping("/schedule/export")
     public String getExport() {
-        return "redirect:/schedule";
+        return "Export.html";
+    }
+
+    @PostMapping("/uploadJSON")
+    public String importJSON(@RequestParam("jsonImportFile") MultipartFile file) {
+            if (file.isEmpty()) {
+                System.out.println("empty file");
+                return "redirect:/schedule/export";
+            }
+
+            try {
+                String content = new String(file.getBytes());
+                importFromJSONString(content);
+            } catch (Exception e) {
+                System.out.println("error with getting file data");
+            }
+
+            return "redirect:/schedule";
     }
 
     @GetMapping("/schedule/email")
