@@ -333,7 +333,8 @@ public class UserInterface {
 		 * this prevents an export schedule file from being overwritten if 2 users are
 		 * importing/exporting with the same file name at the same time
 		 */
-		String fileName = cs.semester + "_" + currentStudent.getEmail() + "_"
+		String semester = cs.semester.replaceAll(" ", "");
+		String fileName = "src/main/resources/static/files/" + semester + "_" + currentStudent.getEmail() + "_"
 				+ rand.nextInt(100000) + ".json";
 
 		FileOutputStream fos = new FileOutputStream(fileName);
@@ -384,7 +385,8 @@ public class UserInterface {
 
 	public static String generatePDF() {
 		Random rand = new Random();
-		String filename = currentStudent.getCurrentSchedule().getSemester() + "_" + currentStudent.getEmail()
+		String semester = currentStudent.getCurrentSchedule().semester.replaceAll(" ", "");
+		String filename = "src/main/resources/static/files/" + semester + "_" + currentStudent.getEmail()
 				+ "_" + rand.nextInt(100000);
 		Document doc = new Document();
 		try {
