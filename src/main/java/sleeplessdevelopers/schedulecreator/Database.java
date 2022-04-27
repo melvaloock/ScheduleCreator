@@ -957,6 +957,25 @@ public class Database {
         return sb.toString();
     }
 
+    public ArrayList<String> getMajorsList() {
+        ArrayList<String> majors = new ArrayList<String>();
+
+        try {
+            PreparedStatement psmtCheck = conn.prepareStatement("SELECT DISTINCT Major FROM recommendedSchedule");
+            ResultSet rstCheck = psmtCheck.executeQuery();
+
+            while (rstCheck.next()) {
+                majors.add(rstCheck.getString("Major"));
+            }
+
+            return majors;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return majors;
+    }
+
     /**
 	 * This method implements the functionality necessary to exit the application:
 	 * this should allow the user to cleanly exit the application properly. This

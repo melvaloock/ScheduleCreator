@@ -15,6 +15,18 @@ public class RecommendedSchedule extends Schedule {
 		this.year = year;
 	}
 
+	public RecommendedSchedule(String semester, String major, int year, Database db) {
+		super();
+		try {
+			super.courseList = db.getRecommendedCourses(major, year, semester);
+		} catch (SQLException e) {
+			System.out.print(e.getMessage());
+		}
+		this.major = major;
+		this.year = year;
+		this.semester = semester;
+	}
+
 	public RecommendedSchedule(String major, int year, Database db) {
 		super();
 		try {

@@ -39,14 +39,19 @@
       <h2>Enter your Information</h2>
       <form action="#" th:action="@{/auto-schedule}" th:object="${autoScheduleForm}" method="post">
         <div class="form-group">
-          <label for="major">Major:</label>
-          <input type="text" class="form-control" id="major" th:field="*{major}">
-          <p class="alert alert-danger" th:if="${#fields.hasErrors('major')}" th:errors="*{major}"></p>
+          <label for="major" class="form-label">Major</label>
+          <input class="form-control" list="datalistOptions" id="major" placeholder="Type to search..." th:field="*{major}">
+          <datalist id="datalistOptions">
+            <option th:each="major : ${majorsList}" th:value="${major}" th:field="*{major}">
+          </datalist>
         </div>
         <div class="form-group">
-          <label for="year">Year:</label>
-          <input type="text" class="form-control" id="year" th:field="*{year}">
-          <p class="alert alert-danger" th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></p>
+          <label for="year" class="form-label">Graduation Year</label>
+          <input class="form-control" list="datalistOptions2" id="year" placeholder="Type to search..." th:field="*{year}">
+          <datalist id="datalistOptions2">
+            <option value="2024" th:field="*{year}">
+            <option value="2025" th:field="*{year}">
+            </datalist>
         </div>
         <div class="form-group submit-btns">
           <button type="submit" class="btn btn-primary btn-crimson">Submit</button>
