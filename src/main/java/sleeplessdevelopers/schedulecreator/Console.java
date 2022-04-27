@@ -263,7 +263,7 @@ public class Console extends UserInterface{
                 courseEntry = intEntry(0, results.size(), scn);
 
                 // add none
-                if (courseEntry == 0) continue;
+                if (addNoneFlag(courseEntry)) continue;
 
                 coursesToAdd.add(results.get(courseEntry - 1));
                 coursesExist = true;
@@ -397,6 +397,10 @@ public class Console extends UserInterface{
             }
         }
 
+    }
+
+    private static boolean addNoneFlag(int courseEntry){
+        return (courseEntry == 0);
     }
 
     public static int mainMenu(){
