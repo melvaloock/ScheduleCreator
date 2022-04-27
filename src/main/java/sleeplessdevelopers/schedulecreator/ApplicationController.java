@@ -16,6 +16,8 @@ import java.util.ArrayList;
 @Controller
 public class ApplicationController extends UserInterface {
 
+
+
     @GetMapping("/")
     public String index() {
         return "LandingPage.html";
@@ -142,17 +144,6 @@ public class ApplicationController extends UserInterface {
         return "Guest.html";
     }
 
-    // @PostMapping("/schedule-new")
-    // public String postNewSchedule(@Valid @ModelAttribute("newScheduleForm") ScheduleForm scheduleForm,
-    //         BindingResult result) {
-    //     if (result.hasErrors()) {
-    //         return "redirect:/schedule-new";
-    //     } else {
-    //         // TODO: make old schedule 0 in database
-    //         return "Guest.html";
-    //     }
-    // }
-
 
     @GetMapping("/auto-schedule")
     public String getAutoSchedule(Model model) {
@@ -172,8 +163,8 @@ public class ApplicationController extends UserInterface {
         if (result.hasErrors()) {
             return "redirect:/auto-schedule";
         } else {
-            currentStudent.currentSchedule = getRecommendedSchedule(currentStudent.currentSchedule.semester, autoScheduleForm.getMajor(),
-                    autoScheduleForm.getYear()).makeCurrentSchedule();
+            currentStudent.setCurrentSchedule(getRecommendedSchedule(autoScheduleForm.getMajor(),
+                    autoScheduleForm.getYear()).makeCurrentSchedule());
             return "redirect:/schedule";
         }
     }
@@ -210,7 +201,7 @@ public class ApplicationController extends UserInterface {
             return "CreateAccount.html";
         } else {
             createAccount(accountCreationForm.getUsername(), accountCreationForm.getPassword());
-            return "redirect:/"; // TODO: update with proper path
+            return "redirect:/schedule-new";
         }
     }
 
@@ -377,8 +368,8 @@ public class ApplicationController extends UserInterface {
         return courses;
     }
 
-    public RecommendedSchedule getRecommendedSchedule(String semester, String major, int year) {
-        return new RecommendedSchedule(semester, major, year, db);
+    public RecommendedSchedule getRecommendedSchedule(String major, int year) {
+        return new RecommendedSchedule(major, year, db);
     }
     
     @GetMapping("/schedule/export")
