@@ -23,6 +23,7 @@ public class UserInterface {
 	static ArrayList<Course> courses;
 	protected static Account currentStudent;
 	protected static boolean isLoggedIn = false;
+	private static final String fileSavePath = "src/main/resources/static/files/";
 
 	// database for the current session -- will only work if you have
 	// an active db on your machine
@@ -334,10 +335,10 @@ public class UserInterface {
 		 * importing/exporting with the same file name at the same time
 		 */
 		String semester = cs.semester.replaceAll(" ", "");
-		String fileName = "src/main/resources/static/files/" + semester + "_" + currentStudent.getEmail() + "_"
+		String fileName = semester + "_" + currentStudent.getEmail() + "_"
 				+ rand.nextInt(100000) + ".json";
 
-		FileOutputStream fos = new FileOutputStream(fileName);
+		FileOutputStream fos = new FileOutputStream(fileSavePath + fileName);
 		PrintWriter pw = new PrintWriter(fos);
 
 		String json = currentStudent.getCurrentSchedule().toJSON();
@@ -386,11 +387,11 @@ public class UserInterface {
 	public static String generatePDF() {
 		Random rand = new Random();
 		String semester = currentStudent.getCurrentSchedule().semester.replaceAll(" ", "");
-		String filename = "src/main/resources/static/files/" + semester + "_" + currentStudent.getEmail()
+		String filename = semester + "_" + currentStudent.getEmail()
 				+ "_" + rand.nextInt(100000) + ".pdf";
 		Document doc = new Document();
 		try {
-			PdfWriter writer = PdfWriter.getInstance(doc, new FileOutputStream("./" + filename));
+			PdfWriter writer = PdfWriter.getInstance(doc, new FileOutputStream("./" + fileSavePath + filename));
 			doc.open();
 			doc.add(new Paragraph(currentStudent.getCurrentSchedule().toString()));
 			doc.close();
