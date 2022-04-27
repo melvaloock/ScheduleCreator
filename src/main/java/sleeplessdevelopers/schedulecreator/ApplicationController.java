@@ -64,7 +64,7 @@ public class ApplicationController extends UserInterface {
     }
 
     @PostMapping("/schedule-create")
-    public String postScheduleCreate(@Valid @ModelAttribute("newScheduleForm") NewScheduleForm newScheduleForm, 
+    public String postScheduleCreate(@Valid @ModelAttribute("newScheduleForm") NewScheduleForm newScheduleForm,
             BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "redirect:/schedule-create";
@@ -112,9 +112,7 @@ public class ApplicationController extends UserInterface {
 
     @GetMapping("/schedule/save")
     public String postSchedule() {
-        CurrentSchedule temp = currentStudent.currentSchedule;
-        System.out.println(temp.semester);
-        System.out.println(temp.courseList);
+        currentStudent.saveCurrentSchedule(db);
         return "redirect:/schedule";
     }
 
