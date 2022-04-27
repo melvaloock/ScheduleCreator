@@ -372,16 +372,16 @@ public class Console extends UserInterface{
                 }
             //redo feature
             }else if(choice == 5){
-                if(!coursesExist && lastCommand.isEmpty() && histct == 0){
+                if(histct == 0){
                     System.out.println("There is no step to go forward to");
-                }else if(coursesExist && histct > coursecount){
-                    if(commandHistory.get(lastCommand.size()-1).equals("Remove")){
+                }else if(histct > coursecount){
+                    if(commandHistory.get(commandHistory.size()-1).equals("Remove")){
                         ArrayList<Course> courses = currentStudent.getCurrentSchedule().getCourseList();
                         currentStudent.currentSchedule.removeCourse(courses.get(histct-1));
-                        coursecount--;
+                        coursecount++;//changed from --
                         lastCommand.add("Remove");
                         System.out.println("Successfully redid last action");
-                    }else if(commandHistory.get(lastCommand.size()-1).equals("Add")){
+                    }else if(commandHistory.get(commandHistory.size()-1).equals("Add")){
                         ArrayList<Course> coursesToAdd = new ArrayList<>();
                         coursesToAdd.add(recentCourse.get(histct - 1));
                         coursecount++;
