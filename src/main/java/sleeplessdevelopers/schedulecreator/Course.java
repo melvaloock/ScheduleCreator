@@ -273,6 +273,9 @@ public class Course {
 
 	public String displaySpecial() {
 		StringBuilder specials = new StringBuilder();
+		if (startTime.equals("NULL")) {
+			return "nodisplay";
+		}
 		String[] startData = startTime.split(":");
 		String[] endData = endTime.split(":");
 		int startMins = Integer.valueOf(startData[1]);

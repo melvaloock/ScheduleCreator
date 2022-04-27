@@ -86,9 +86,9 @@ li.earlyend {
     bottom: -1em;
 }
 
-
-
-
+li.nodisplay {
+    display: none;
+}
 /* CATEGORIES */
 .event.work { background-color: #fecf6a; }
 .event.personal { background-color: #82caaf; }
