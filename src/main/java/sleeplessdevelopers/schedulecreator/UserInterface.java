@@ -214,6 +214,7 @@ public class UserInterface {
 		}
 		currentStudent = new Account(userEmail, userPassword);
 		currentStudent.setCurrentSchedule(newSchedule);
+		currentStudent.saveCurrentSchedule(db);
 
 		isLoggedIn = true;
 		return true;
