@@ -387,10 +387,10 @@ public class UserInterface {
 		Random rand = new Random();
 		String semester = currentStudent.getCurrentSchedule().semester.replaceAll(" ", "");
 		String filename = "src/main/resources/static/files/" + semester + "_" + currentStudent.getEmail()
-				+ "_" + rand.nextInt(100000);
+				+ "_" + rand.nextInt(100000) + ".pdf";
 		Document doc = new Document();
 		try {
-			PdfWriter writer = PdfWriter.getInstance(doc, new FileOutputStream("./" + filename + ".pdf"));
+			PdfWriter writer = PdfWriter.getInstance(doc, new FileOutputStream("./" + filename));
 			doc.open();
 			doc.add(new Paragraph(currentStudent.getCurrentSchedule().toString()));
 			doc.close();

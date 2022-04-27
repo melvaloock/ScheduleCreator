@@ -16,6 +16,8 @@ import java.util.ArrayList;
 @Controller
 public class ApplicationController extends UserInterface {
 
+
+
     @GetMapping("/")
     public String index() {
         return "LandingPage.html";
@@ -64,7 +66,7 @@ public class ApplicationController extends UserInterface {
     }
 
     @PostMapping("/schedule-create")
-    public String postScheduleCreate(@Valid @ModelAttribute("newScheduleForm") NewScheduleForm newScheduleForm, 
+    public String postScheduleCreate(@Valid @ModelAttribute("newScheduleForm") NewScheduleForm newScheduleForm,
             BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "redirect:/schedule-create";
@@ -388,10 +390,12 @@ public class ApplicationController extends UserInterface {
         try {
             String jsonFileName = folderPath + makeJSONFile();
             model.addAttribute("jsonExportFileName", jsonFileName);
+            // System.out.println("JSON name: " + jsonFileName);
         } catch (FileNotFoundException e) {
             System.out.println("making JSON file error");
         }
         model.addAttribute("pdfExportFileName", pdfFileName);
+        System.out.println("PDF name: " + pdfFileName);
         return "Export.html";
     }
 
