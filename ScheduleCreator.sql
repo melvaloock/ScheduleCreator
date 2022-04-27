@@ -86,7 +86,9 @@ select * from recommendedSchedule;
 
 select * from recommendedCourse;
 
-SELECT s.UserEmail, s.ScheduleID, s.IsCurrent, c.CourseID FROM schedule s inner join courseReference c ON s.ScheduleID = c.ScheduleID WHERE s.UserEmail = "testy2@test.com";
+SELECT * FROM schedule WHERE UserEmail = "testy@test.com";
+
+SELECT s.UserEmail, s.ScheduleID, s.IsCurrent, c.CourseID FROM schedule s inner join courseReference c ON (s.ScheduleID = c.ScheduleID and s.UserEmail = c.UserEmail) WHERE s.UserEmail = "testy@test.com";
 
 -- insert into account values("hambykr19@gcc.edu", "somepasswordhash");
 
@@ -103,10 +105,15 @@ select * from course where coursecode like "%comp%";
 -- for melva
 select * from course where CourseName like "%music%";
 
-insert into recommendedSchedule values("Computer Science (BS)", 2024, "Fall 2022");
-insert into recommendedCourse values("Computer Science (BS)", "Fall 2022", 2024, "COMP 252  A", "COMPUTER ARCHITECTURE/ORG");
-insert into recommendedCourse values("Computer Science (BS)", "Fall 2022", 2024, "COMP 222  A", "INTRO TO DATA STRUCT & ALGORITHMS");
-insert into recommendedCourse values("Computer Science (BS)", "Fall 2022", 2024, "HUMA 301  A", "CIV/THE ARTS");
+insert into recommendedSchedule values("Computer Science (BS)", 2024, "Fall 2025");
+insert into recommendedCourse values("Computer Science (BS)", "Fall 2025", 2024, "COMP 252  A", "COMPUTER ARCHITECTURE/ORG");
+insert into recommendedCourse values("Computer Science (BS)", "Fall 2025", 2024, "COMP 222  A", "INTRO TO DATA STRUCT & ALGORITHMS");
+insert into recommendedCourse values("Computer Science (BS)", "Fall 2025", 2024, "HUMA 301  A", "CIV/THE ARTS");
+
+insert into recommendedSchedule values("Computer Science (BS)", 2024, "Fall 2026");
+insert into recommendedCourse values("Computer Science (BS)", "Fall 2026", 2024, "COMP 252  A", "COMPUTER ARCHITECTURE/ORG");
+insert into recommendedCourse values("Computer Science (BS)", "Fall 2026", 2024, "COMP 222  A", "INTRO TO DATA STRUCT & ALGORITHMS");
+insert into recommendedCourse values("Computer Science (BS)", "Fall 2026", 2024, "HUMA 301  A", "CIV/THE ARTS");
 
 insert into recommendedSchedule values("Computer Science (BA)", 2025, "Fall 2022");
 insert into recommendedCourse values("Computer Science (BA)", "Fall 2022", 2025, "MATH 117  A", "FINITE MATH");

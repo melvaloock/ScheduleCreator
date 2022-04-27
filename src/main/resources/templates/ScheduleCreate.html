@@ -43,9 +43,14 @@
       <h2>Create a new schedule:</h2>
       <form action="#" th:action="@{/schedule-create}" th:object="${newScheduleForm}" method="post">
         <div class="form-group">
-          <label for="Name">Name:</label>
-          <input type="text" class="form-control" id="semester" name="Name" placeholder="Enter name"
+          <label for="semester" class="form-label">Semester</label>
+          <input class="form-control" list="datalistOptions" id="semester" placeholder="Type in a semester"
             th:field="*{semester}">
+          <datalist id="datalistOptions">
+            <option value="Fall 2022" th:field="*{semester}">
+            <option value="Fall 2025" th:field="*{semester}">
+            <option value="Fall 2026" th:field="*{semester}">
+          </datalist>
           <button type="submit" class="btn btn-primary">Submit</button>
         </div>
       </form>
