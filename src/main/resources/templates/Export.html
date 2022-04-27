@@ -39,7 +39,7 @@
   <div class="container-form form">
     <div class="row border-bottom" name="pdf">
         <div class="col-md-6" name="pdfExport">
-            <a href="Export.html" download="Export">
+            <a th:href="${pdfExportFileName}" download="">
                 <button class="btn btn-primary"> Download PDF </button>
             </a>
         </div>
@@ -47,7 +47,7 @@
     <br>
     <div class="row" name="json">
       <div class="col-md-6" name="jsonExport">
-          <a href="${jsonExportFileName}" download="Export">
+          <a th:href="${jsonExportFileName}" download="">
               <button class="btn btn-primary"> Download JSON </button>
           </a>
       </div>

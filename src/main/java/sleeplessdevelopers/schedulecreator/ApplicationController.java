@@ -385,9 +385,10 @@ public class ApplicationController extends UserInterface {
     
     @GetMapping("/schedule/export")
     public String getExport(Model model) {
-        String pdfFileName = generatePDF();
+        String folderPath = "/files/";
+        String pdfFileName = folderPath + generatePDF();
         try {
-            String jsonFileName = makeJSONFile();
+            String jsonFileName = folderPath + makeJSONFile();
             model.addAttribute("jsonExportFileName", jsonFileName);
         } catch (FileNotFoundException e) {
             System.out.println("making JSON file error");
