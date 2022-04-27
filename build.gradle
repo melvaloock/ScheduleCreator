@@ -6,7 +6,7 @@ plugins {
 
 group = 'sleeplessdevelopers'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '15'
+sourceCompatibility = "17"
 
 repositories {
 	mavenCentral()
@@ -36,3 +36,4 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+targetCompatibility = JavaVersion.VERSION_17

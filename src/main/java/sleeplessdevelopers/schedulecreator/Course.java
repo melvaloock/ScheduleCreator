@@ -257,18 +257,42 @@ public class Course {
 
 	public String CSSEndTime() {
 		if (endTime.charAt(1) == ':') {
-			if(endTime.charAt(0) == '9' || endTime.charAt(0) == '8') {
-				return String.valueOf(Integer.valueOf(endTime.substring(0,1))+ 2);
+			if(endTime.charAt(0) == '9') {
+				return String.valueOf(Integer.valueOf(endTime.substring(0,1))+ 1);
 			}
-			return "0" + (Integer.valueOf(endTime.substring(0,1)) + 2);
+			return "0" + (Integer.valueOf(endTime.substring(0,1)) + 1);
 		}
-		return endTime.substring(0,2);
+		return String.valueOf(Integer.valueOf(endTime.substring(0,2)) + 1);
 	}
 
 	public String toCSSString(String dayString) {
 		return "grid-column:  " + dayString.toLowerCase() + ";	" +
 		 "grid-row:	h" + CSSStartTime() +
 		  "	/	h" + CSSEndTime() + ";	";
+	}
+
+	public String displaySpecial() {
+		StringBuilder specials = new StringBuilder();
+		if (startTime.equals("NULL")) {
+			return "nodisplay";
+		}
+		String[] startData = startTime.split(":");
+		String[] endData = endTime.split(":");
+		int startMins = Integer.valueOf(startData[1]);
+		int endMins = Integer.valueOf(endData[1]);
+		int startHours = Integer.valueOf(startData[0]);
+		int endHours =  Integer.valueOf(endData[0]);
+
+		if (startMins > 15) {
+			specials.append("latestart ");
+		}
+		if (endMins < 45) {
+			specials.append("earlyend ");
+		}
+
+		specials.append("event ");
+
+		return specials.toString();
 	}
 	public void setDays(String days) {
 		this.days = daysToEnum(days);

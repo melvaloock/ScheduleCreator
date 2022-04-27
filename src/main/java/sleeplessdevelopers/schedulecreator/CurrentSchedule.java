@@ -1,6 +1,5 @@
 package sleeplessdevelopers.schedulecreator;
 
-import java.lang.reflect.Array;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -93,7 +92,7 @@ public class CurrentSchedule extends Schedule {
 	public ArrayList<Course> getConflicts(Course c) {
 		ArrayList<Course> conflicts = new ArrayList<>();
 		// if c is NULL, then it will have no conflicts
-		if (c.getStartTime() == null){
+		if (c.getStartTime().equals("NULL")){
 			return conflicts;
 		}
 

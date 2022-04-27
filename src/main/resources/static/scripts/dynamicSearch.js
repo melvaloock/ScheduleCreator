@@ -128,8 +128,13 @@ function displayCourses(courses) {
 
                 let label = document.createElement("label");
                 label.for = "courses";
-                label.innerHTML = course.CourseCode + " | " + course.CourseName +
-                " | " + course.Weekday + " | " + course.StartTime;
+                label.innerHTML = course.CourseCode + " | " + course.CourseName;
+                if (course.Weekday != "") {
+                    label.innerHTML += " | " + course.Weekday;
+                }
+                if (course.StartTime != "NULL") {
+                     label.innerHTML += " | " + course.StartTime + " - " + course.EndTime;
+                }
                 coursesList.appendChild(label);
 
                 let newLine = document.createElement("br");
