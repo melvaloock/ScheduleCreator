@@ -212,7 +212,7 @@ public class Console extends UserInterface{
      */
     public static void consoleAlterSchedule(CurrentSchedule s) {
         int choice;
-        int courseEntry = 0;//might cause issues
+        int courseEntry;
         boolean coursesExist = false;
         int coursecount = 0;
         ArrayList<Course> recentCourse = new ArrayList<>();
@@ -336,7 +336,7 @@ public class Console extends UserInterface{
                     System.out.println("There is no step to go back to");
                 }else if(coursesExist && lastCommand.get(lastCommand.size()-1).equals("Add")){
                     ArrayList<Course> courses = currentStudent.getCurrentSchedule().getCourseList();
-                    currentStudent.currentSchedule.removeCourse(courses.get(courseEntry-1));
+                    currentStudent.currentSchedule.removeCourse(courses.get(coursecount-1));
                     coursecount--;
                     if(coursecount == 0){
                         coursesExist = false;
@@ -345,7 +345,7 @@ public class Console extends UserInterface{
                     System.out.println("Successfully undid last action");
                 }else if(lastCommand.get(lastCommand.size()-1).equals("Remove")){
                     ArrayList<Course> coursesToAdd = new ArrayList<>();
-                    coursesToAdd.add(recentCourse.get(courseEntry - 1));
+                    coursesToAdd.add(recentCourse.get(coursecount - 1));
                     coursesExist = true;
                     coursecount++;
                     lastCommand.remove(lastCommand.size()-1);
@@ -356,6 +356,21 @@ public class Console extends UserInterface{
             }else if(choice == 5){
                 if(!coursesExist && lastCommand.isEmpty() && coursecount == 0){
                     System.out.println("There is no step to go forward to");
+                }else if(coursesExist && coursecount > 1){
+                    if(lastCommand.get(lastCommand.size()-2).equals("Remove")){
+                        ArrayList<Course> courses = currentStudent.getCurrentSchedule().getCourseList();
+                        currentStudent.currentSchedule.removeCourse(courses.get(coursecount-1));
+                        coursecount--;
+                        lastCommand.remove(lastCommand.size()-2);
+                        System.out.println("Successfully redid last action");
+                    }else if(lastCommand.get(lastCommand.size()-2).equals("Add")){
+                        ArrayList<Course> coursesToAdd = new ArrayList<>();
+                        coursesToAdd.add(recentCourse.get(coursecount - 1));
+                        coursecount++;
+                        lastCommand.remove(lastCommand.size()-2);
+                        addCourses(coursesToAdd);
+                        System.out.println("Successfully redid last action");
+                    }
                 }
             }else if (choice == 6) { // return
                 break;
