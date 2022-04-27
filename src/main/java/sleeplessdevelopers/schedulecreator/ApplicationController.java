@@ -390,10 +390,12 @@ public class ApplicationController extends UserInterface {
         try {
             String jsonFileName = folderPath + makeJSONFile();
             model.addAttribute("jsonExportFileName", jsonFileName);
+            System.out.println("JSON name: " + jsonFileName);
         } catch (FileNotFoundException e) {
             System.out.println("making JSON file error");
         }
         model.addAttribute("pdfExportFileName", pdfFileName);
+        System.out.println("PDF name: " + pdfFileName);
         return "Export.html";
     }
 
