@@ -338,6 +338,11 @@ public class UserInterface {
 
 	}
 
+	public static void importFromJSONString(String json) {
+		CurrentSchedule fromJSON = CurrentSchedule.fromJSON(json);
+		currentStudent.setCurrentSchedule(fromJSON);
+	}
+
 	public static boolean deleteJSONFile(String fileName) {
 		File f = new File(fileName);
 		return f.delete();
