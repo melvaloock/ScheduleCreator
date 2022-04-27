@@ -334,7 +334,7 @@ public class UserInterface {
 		 * importing/exporting with the same file name at the same time
 		 */
 		String fileName = cs.semester + "_" + currentStudent.getEmail() + "_"
-				+ rand.nextInt(100000) + "_" + ".json";
+				+ rand.nextInt(100000) + ".json";
 
 		FileOutputStream fos = new FileOutputStream(fileName);
 		PrintWriter pw = new PrintWriter(fos);
@@ -382,7 +382,10 @@ public class UserInterface {
 		return f.delete();
 	}
 
-	public static void generatePDF(String filename) {
+	public static String generatePDF() {
+		Random rand = new Random();
+		String filename = currentStudent.getCurrentSchedule().getSemester() + "_" + currentStudent.getEmail()
+				+ "_" + rand.nextInt(100000);
 		Document doc = new Document();
 		try {
 			PdfWriter writer = PdfWriter.getInstance(doc, new FileOutputStream("./" + filename + ".pdf"));
@@ -393,6 +396,7 @@ public class UserInterface {
 		} catch (Exception e) {
 			System.out.println("Error generating PDF");
 		}
+		return filename;
 	}
 
 	public static void main(String args[]) throws ParseException {

@@ -797,8 +797,8 @@ public class Console extends UserInterface{
                 fileName+=".txt";
                 break;
             case ".pdf":
-                generatePDF(fileName);
-                fileName+=".pdf";
+                generatePDF();
+//                fileName+=".pdf";
                 break;
         }
     }

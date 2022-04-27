@@ -386,7 +386,7 @@ public class ApplicationController extends UserInterface {
     
     @GetMapping("/schedule/export")
     public String getExport(Model model) {
-        String pdfFileName = currentStudent.getCurrentSchedule().semester;
+        String pdfFileName = generatePDF();
         try {
             String jsonFileName = makeJSONFile();
             model.addAttribute("jsonExportFileName", jsonFileName);
