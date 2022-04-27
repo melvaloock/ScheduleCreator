@@ -9,13 +9,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 @Controller
 public class ApplicationController extends UserInterface {
 
+
+    
     @GetMapping("/")
     public String index() {
         return "LandingPage.html";
@@ -30,53 +31,9 @@ public class ApplicationController extends UserInterface {
             //next 3 lines for testing purposes
 //            RecommendedSchedule rs = new RecommendedSchedule("Computer Science (BS)", 2024, db);
 //            currentStudent.setCurrentSchedule(rs.makeCurrentSchedule());
-            model.addAttribute("schedulesList", getSchedules());
             model.addAttribute("schedule", currentStudent.getCurrentSchedule());
             model.addAttribute("loggedIn", isLoggedIn);
             return "ScheduleView.html";
-        }
-    }
-
-    @PostMapping("/schedule/switch")
-    public String postScheduleSwitch(@Valid @ModelAttribute("switchForm") SwitchForm switchForm
-            , BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            System.out.println("error!"); // TODO: add error message
-            return "redirect:/schedule";
-        } else {
-            System.out.println(switchForm.getSemester()); // TODO: debugging
-            currentStudent.removeCurrentSchedule(db);
-            currentStudent.currentSchedule = getNewCurrentSchedule(switchForm.getSemester(), currentStudent.getEmail());
-            currentStudent.saveCurrentSchedule(db);
-            currentStudent.makeCurrentSchedule(switchForm.getSemester(), currentStudent.getEmail(), db);
-            return "redirect:/schedule";
-        }
-    }
-
-    @GetMapping("/schedule-create")
-    public String getScheduleCreate(Model model) {
-        if (currentStudent == null) {
-            return "redirect:/login";
-        } else {
-            model.addAttribute("newScheduleForm", new NewScheduleForm());
-            return "ScheduleCreate.html";
-        }
-    }
-
-    @PostMapping("/schedule-create")
-    public String postScheduleCreate(@Valid @ModelAttribute("newScheduleForm") NewScheduleForm newScheduleForm, 
-            BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            return "redirect:/schedule-create";
-        } else {
-            currentStudent.removeCurrentSchedule(db);
-            // currentStudent.setCurrentSchedule(new CurrentSchedule(new Schedule(newScheduleForm.getSemester())));
-            currentStudent.currentSchedule = new CurrentSchedule(newScheduleForm.getSemester());
-            // System.out.println("Debugging: " + currentStudent.getCurrentSchedule().semester);
-            currentStudent.saveNewSchedule(db);
-
-            model.addAttribute("loggedIn", isLoggedIn);
-            return "redirect:/schedule-new";
         }
     }
 
@@ -112,9 +69,7 @@ public class ApplicationController extends UserInterface {
 
     @GetMapping("/schedule/save")
     public String postSchedule() {
-        CurrentSchedule temp = currentStudent.currentSchedule;
-        System.out.println(temp.semester);
-        System.out.println(temp.courseList);
+        currentStudent.saveCurrentSchedule(db);
         return "redirect:/schedule";
     }
 
@@ -144,17 +99,6 @@ public class ApplicationController extends UserInterface {
         return "Guest.html";
     }
 
-    // @PostMapping("/schedule-new")
-    // public String postNewSchedule(@Valid @ModelAttribute("newScheduleForm") ScheduleForm scheduleForm,
-    //         BindingResult result) {
-    //     if (result.hasErrors()) {
-    //         return "redirect:/schedule-new";
-    //     } else {
-    //         // TODO: make old schedule 0 in database
-    //         return "Guest.html";
-    //     }
-    // }
-
 
     @GetMapping("/auto-schedule")
     public String getAutoSchedule(Model model) {
@@ -163,7 +107,6 @@ public class ApplicationController extends UserInterface {
             //TODO: add error message
         } else {
             model.addAttribute("autoScheduleForm", new AutoScheduleForm());
-            model.addAttribute("majorsList", db.getMajorsList());
             return "AutoSchedule.html";
         }
     }
@@ -174,8 +117,8 @@ public class ApplicationController extends UserInterface {
         if (result.hasErrors()) {
             return "redirect:/auto-schedule";
         } else {
-            currentStudent.currentSchedule = getRecommendedSchedule(currentStudent.currentSchedule.semester, autoScheduleForm.getMajor(),
-                    autoScheduleForm.getYear()).makeCurrentSchedule();
+            currentStudent.setCurrentSchedule(getRecommendedSchedule(autoScheduleForm.getMajor(),
+                    autoScheduleForm.getYear()).makeCurrentSchedule());
             return "redirect:/schedule";
         }
     }
@@ -212,7 +155,7 @@ public class ApplicationController extends UserInterface {
             return "CreateAccount.html";
         } else {
             createAccount(accountCreationForm.getUsername(), accountCreationForm.getPassword());
-            return "redirect:/"; // TODO: update with proper path
+            return "redirect:/schedule-new";
         }
     }
 
@@ -379,21 +322,12 @@ public class ApplicationController extends UserInterface {
         return courses;
     }
 
-    public RecommendedSchedule getRecommendedSchedule(String semester, String major, int year) {
-        return new RecommendedSchedule(semester, major, year, db);
+    public RecommendedSchedule getRecommendedSchedule(String major, int year) {
+        return new RecommendedSchedule(major, year, db);
     }
     
     @GetMapping("/schedule/export")
-    public String getExport(Model model) {
-        String folderPath = "/files/";
-        String pdfFileName = folderPath + generatePDF();
-        try {
-            String jsonFileName = folderPath + makeJSONFile();
-            model.addAttribute("jsonExportFileName", jsonFileName);
-        } catch (FileNotFoundException e) {
-            System.out.println("making JSON file error");
-        }
-        model.addAttribute("pdfExportFileName", pdfFileName);
+    public String getExport() {
         return "Export.html";
     }
 
