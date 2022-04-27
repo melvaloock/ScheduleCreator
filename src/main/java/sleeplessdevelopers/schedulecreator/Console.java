@@ -212,12 +212,16 @@ public class Console extends UserInterface{
      */
     public static void consoleAlterSchedule(CurrentSchedule s) {
         int choice;
-        int courseEntry;
+        int courseEntry = 0;//might cause issues
+        boolean coursesExist = false;
+        int coursecount = 0;
+        ArrayList<Course> recentCourse = new ArrayList<>();
+        ArrayList<String> lastCommand = new ArrayList<>();
         while (true) {
             viewSchedule(currentStudent.getCurrentSchedule());
             System.out.println("Alter Schedule Choices: ");
-            System.out.println("1. Add Course\n2. Remove Course\n3. Clear Schedule \n4. Return to Previous Menu");
-            choice = intEntry(1, 4, scn);
+            System.out.println("1. Add Course\n2. Remove Course\n3. Clear Schedule \n4. Undo  \n5. Redo \n6. Return to Previous Menu");
+            choice = intEntry(1, 6, scn);
             if (choice == 1) { // add course
 
                 // course search
@@ -228,12 +232,14 @@ public class Console extends UserInterface{
                 System.out.println("Would you like to filter your search? (y/n)");
                 if (ynEntry(scn) == 'N') {
                     results = searchResults;
+                    recentCourse = searchResults;
                 } else {
 
                     // filter search
                     boolean filterAgain = false;
                     do {
                         results = consoleFilter(searchResults);
+                        recentCourse = results;
                         System.out.println("Would you like to use another filter?");
                         if (ynEntry(scn) == 'Y') {
                             filterAgain = true;
@@ -255,7 +261,9 @@ public class Console extends UserInterface{
                 if (courseEntry == 0) continue;
 
                 coursesToAdd.add(results.get(courseEntry - 1));
-
+                coursesExist = true;
+                coursecount++;
+                lastCommand.add("Add");
                 // see if the user wants to add any other courses from the list
                 while (true) {
                     System.out.println("Add another course? (y/n)");
@@ -306,7 +314,11 @@ public class Console extends UserInterface{
 
                 // remove course
                 currentStudent.currentSchedule.removeCourse(courses.get(courseEntry-1));
-
+                coursecount--;
+                if(coursecount == 0){
+                    coursesExist = false;
+                }
+                lastCommand.add("Remove");
                 // give result
                 System.out.println("Course Removed.");
 
@@ -319,7 +331,33 @@ public class Console extends UserInterface{
                     clearSchedule();
                 }
 
-            }else if (choice == 4) { // return
+            }else if(choice == 4){
+                if(!coursesExist && lastCommand.isEmpty() && coursecount == 0){
+                    System.out.println("There is no step to go back to");
+                }else if(coursesExist && lastCommand.get(lastCommand.size()-1).equals("Add")){
+                    ArrayList<Course> courses = currentStudent.getCurrentSchedule().getCourseList();
+                    currentStudent.currentSchedule.removeCourse(courses.get(courseEntry-1));
+                    coursecount--;
+                    if(coursecount == 0){
+                        coursesExist = false;
+                    }
+                    lastCommand.remove(lastCommand.size()-1);
+                    System.out.println("Successfully undid last action");
+                }else if(lastCommand.get(lastCommand.size()-1).equals("Remove")){
+                    ArrayList<Course> coursesToAdd = new ArrayList<>();
+                    coursesToAdd.add(recentCourse.get(courseEntry - 1));
+                    coursesExist = true;
+                    coursecount++;
+                    lastCommand.remove(lastCommand.size()-1);
+                    addCourses(coursesToAdd);
+                    System.out.println("Successfully undid last action");
+                }
+
+            }else if(choice == 5){
+                if(!coursesExist && lastCommand.isEmpty() && coursecount == 0){
+                    System.out.println("There is no step to go forward to");
+                }
+            }else if (choice == 6) { // return
                 break;
             } else { // invalid choice (shouldn't reach this)
                 System.out.println("Invalid choice, try again.");
