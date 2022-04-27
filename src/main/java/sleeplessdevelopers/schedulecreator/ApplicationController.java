@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -327,7 +328,15 @@ public class ApplicationController extends UserInterface {
     }
     
     @GetMapping("/schedule/export")
-    public String getExport() {
+    public String getExport(Model model) {
+        String pdfFileName = currentStudent.getCurrentSchedule().semester;
+        try {
+            String jsonFileName = makeJSONFile();
+            model.addAttribute("jsonExportFileName", jsonFileName);
+        } catch (FileNotFoundException e) {
+            System.out.println("making JSON file error");
+        }
+        model.addAttribute("pdfExportFileName", pdfFileName);
         return "Export.html";
     }
 

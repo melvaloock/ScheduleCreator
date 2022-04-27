@@ -38,11 +38,11 @@
 
   <div class="container-form form">
     <div class="row" name="pdf">
-      <button class="btn btn-primary"> Download PDF</button>
+      <button class="btn btn-primary" onclick="location.href='${pdfExportFileName}'"> Download PDF</button>
     </div>
     <div class="row" name="json">
       <div class="col-md-6" name="jsonExport">
-        <button class="btn btn-primary"> Download JSON </button>
+        <button class="btn btn-primary" onclick="location.href='${jsonExportFileName}'"> Download JSON </button>
       </div>
       <div class="col-md-6" name="jsonUpload">
         <form action="#" th:action="@{/uploadJSON}" method="post" enctype="multipart/form-data">
