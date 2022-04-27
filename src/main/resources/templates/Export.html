@@ -39,13 +39,17 @@
   <div class="container-form form">
     <div class="row border-bottom" name="pdf">
         <div class="col-md-6" name="pdfExport">
-            <button class="btn btn-primary" onclick="location.href='${pdfExportFileName}'"> Download PDF</button>
+            <a href="Export.html" download="Export">
+                <button class="btn btn-primary"> Download PDF </button>
+            </a>
         </div>
     </div>
     <br>
     <div class="row" name="json">
       <div class="col-md-6" name="jsonExport">
-        <button class="btn btn-primary" onclick="location.href='${jsonExportFileName}'"> Download JSON </button>
+          <a href="${jsonExportFileName}" download="Export">
+              <button class="btn btn-primary"> Download JSON </button>
+          </a>
       </div>
       <div class="col-md-6" name="jsonUpload">
         <form action="#" th:action="@{/uploadJSON}" method="post" enctype="multipart/form-data">
