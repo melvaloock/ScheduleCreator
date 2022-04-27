@@ -257,12 +257,12 @@ public class Course {
 
 	public String CSSEndTime() {
 		if (endTime.charAt(1) == ':') {
-			if(endTime.charAt(0) == '9' || endTime.charAt(0) == '8') {
-				return String.valueOf(Integer.valueOf(endTime.substring(0,1))+ 2);
+			if(endTime.charAt(0) == '9') {
+				return String.valueOf(Integer.valueOf(endTime.substring(0,1))+ 1);
 			}
-			return "0" + (Integer.valueOf(endTime.substring(0,1)) + 2);
+			return "0" + (Integer.valueOf(endTime.substring(0,1)) + 1);
 		}
-		return endTime.substring(0,2);
+		return String.valueOf(Integer.valueOf(endTime.substring(0,2)) + 1);
 	}
 
 	public String toCSSString(String dayString) {

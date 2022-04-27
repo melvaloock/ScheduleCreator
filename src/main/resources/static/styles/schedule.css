@@ -78,12 +78,11 @@ li.event,li.latestart,li.earlyend {
 }
 
 li.latestart{
-    top: 1em;
-    bottom: -2em;
+    top: 1.05em;
 }
 
 li.earlyend {
-    bottom: -1em;
+    bottom: 1em;
 }
 
 li.nodisplay {
