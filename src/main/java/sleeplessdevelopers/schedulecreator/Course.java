@@ -270,6 +270,27 @@ public class Course {
 		 "grid-row:	h" + CSSStartTime() +
 		  "	/	h" + CSSEndTime() + ";	";
 	}
+
+	public String displaySpecial() {
+		StringBuilder specials = new StringBuilder();
+		String[] startData = startTime.split(":");
+		String[] endData = endTime.split(":");
+		int startMins = Integer.valueOf(startData[1]);
+		int endMins = Integer.valueOf(endData[1]);
+		int startHours = Integer.valueOf(startData[0]);
+		int endHours =  Integer.valueOf(endData[0]);
+
+		if (startMins > 15) {
+			specials.append("latestart ");
+		}
+		if (endMins < 45) {
+			specials.append("earlyend ");
+		}
+
+		specials.append("event ");
+
+		return specials.toString();
+	}
 	public void setDays(String days) {
 		this.days = daysToEnum(days);
 	}
