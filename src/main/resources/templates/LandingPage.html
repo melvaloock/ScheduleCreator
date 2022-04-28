@@ -34,7 +34,8 @@
 
 <body>
   <header>
-    <script type="text/javascript" th:src="@{/scripts/navbar.js}"></script>
+    <script th:if="${loggedIn}" th:src="@{/scripts/AccountNavbar.js}"></script>
+    <script th:unless="${loggedIn}" th:src="@{/scripts/GuestNavbar.js}"></script>
   </header>
 
   <main>
