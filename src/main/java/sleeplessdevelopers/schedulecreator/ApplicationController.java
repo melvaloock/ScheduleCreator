@@ -425,6 +425,7 @@ public class ApplicationController extends UserInterface {
 
     @GetMapping("/logout")
     public String getLogout() {
+        currentStudent.saveCurrentSchedule(db);
         currentStudent = null;
         isLoggedIn = false;
         return "redirect:/";
