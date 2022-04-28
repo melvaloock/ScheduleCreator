@@ -1,5 +1,11 @@
-Before you can run this software, you must include a couple 
-extra libraries:
+To run this software, you will have to ensure that Gradle is
+installed on your computer. You can download it from the Gradle website:
+https://gradle.org/install/
+
+Since this software ships with the build.gradle file, most of the
+dependencies are already present. However, you will have to install
+the following dependencies if they do not appear in the library folder of
+your Java project:
     1) mysql-connector-java-8.0.28.jar (Connector/J 8.0.28)
         a) You can get this by downloading the MySQL Installer
            from the following link: https://dev.mysql.com/downloads/connector/j/
@@ -12,8 +18,9 @@ extra libraries:
         b) Add the jar file to the external libraries folder of your
            project
 
-Now that you have the libraries installed, you should be able to run
-the application from the main in the UserInterface class.
+From Windows Powershell, run the following command in the root
+of the project after installing Gradle:
+./gradlew bootRun
 
 It is possible that you may run into some issues when trying to
 connect to the cloud database because of permissions issues. If
