@@ -17,7 +17,11 @@ import java.util.ArrayList;
 public class ApplicationController extends UserInterface {
 
     @GetMapping("/")
-    public String index() {
+    public String index(Model model) {
+        if (isLoggedIn) {
+            return "redirect:/schedule";
+        }
+        model.addAttribute("loggedIn", isLoggedIn);
         return "LandingPage.html";
     }
 
@@ -55,7 +59,7 @@ public class ApplicationController extends UserInterface {
 
     @GetMapping("/schedule-create")
     public String getScheduleCreate(Model model) {
-        if (currentStudent == null) {
+        if (!isLoggedIn) {
             return "redirect:/login";
         } else {
             model.addAttribute("newScheduleForm", new NewScheduleForm());
@@ -178,6 +182,7 @@ public class ApplicationController extends UserInterface {
     
     @GetMapping("/login")
     public String getLogin(Model model) {
+        model.addAttribute("loggedIn", isLoggedIn);
         model.addAttribute("loginForm", new LoginForm());
         return "Login.html";
     }
@@ -198,6 +203,7 @@ public class ApplicationController extends UserInterface {
     @GetMapping("/create-account")
     public String getCreateAccount(Model model) {
         model.addAttribute("accountCreationForm", new AccountCreationForm());
+        model.addAttribute("loggedIn", isLoggedIn);
         return "CreateAccount.html";
     }
 
@@ -319,6 +325,7 @@ public class ApplicationController extends UserInterface {
 //            RecommendedSchedule rs = new RecommendedSchedule("Computer Science (BS)", 2024, db);
 //            currentStudent.setCurrentSchedule(rs.makeCurrentSchedule());
 //            currentStudent.addRecommendedSchedule();
+            model.addAttribute("loggedIn", isLoggedIn);
             model.addAttribute("scheduleForm", new ScheduleForm());
             model.addAttribute("courseList", currentStudent.getCurrentSchedule().getCourseList());
             return "CourseRemove.html";

@@ -43,8 +43,7 @@
 
 <body>
   <header>
-    <script th:if="${loggedIn}" th:src="@{/scripts/AccountNavbar.js}"></script>
-    <script th:unless="${loggedIn}" th:src="@{/scripts/GuestNavbar.js}"></script>
+    <script th:src="@{/scripts/AccountNavbar.js}"></script>
   </header>
   <main>
     <div class="container-form form">
