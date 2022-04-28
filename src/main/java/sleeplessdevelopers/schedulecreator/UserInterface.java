@@ -181,36 +181,21 @@ public class UserInterface {
 		return conflicts;
 	}
 
-	static boolean addActivity(ArrayList<Course> activity) {
-		// check if there is a conflict before adding
-		CurrentSchedule cs = new CurrentSchedule(currentStudent.getCurrentSchedule().getCourseList());
-		boolean hasConflict = false;
-
-		for (int i = 0; i < cs.courseList.size(); i++) {
-			boolean refNumDiff = false;
-			Random ran = new Random();
-			while (!refNumDiff) {
-				if (activity.get(0).getReferenceNum() == cs.courseList.get(i).getReferenceNum()) {
-					activity.get(0).setReferenceNum(ran.nextInt(0, 100));
-				} else {
-					break;
-				}
-			}
-		}
-
+	public static ArrayList<Course> addActivity (ArrayList<Course> activity) {
+		//Same as addCourse but deals with activities.
+		ArrayList<Course> conflicts = new ArrayList<>();
+		CurrentSchedule cs  = new CurrentSchedule(currentStudent.getCurrentSchedule().getCourseList());
 		// check this after merge
 		for (Course c : activity) {
-			if (!cs.conflictsWith(c)) {
-				hasConflict = true;
+			if (cs.conflictsWith(c)) {
+				conflicts.add(c);
+			}
+			else{
+				cs.addCourse(c);
 			}
 		}
-
-		if (!hasConflict) {
-			cs.addCourse(activity.get(0));
-			currentStudent.setCurrentSchedule(cs);
-		}
-
-		return hasConflict;
+		currentStudent.setCurrentSchedule(cs);
+		return conflicts;
 	}
 
 	/**
@@ -380,7 +365,7 @@ public class UserInterface {
 		currentStudent.setCurrentSchedule(fromJSON);
 	}
 
-	public static boolean deleteJSONFile(String fileName) {
+	public static boolean deleteFile(String fileName) {
 		File f = new File(fileName);
 		return f.delete();
 	}
@@ -404,32 +389,6 @@ public class UserInterface {
 	}
 
 	public static void main(String args[]) throws ParseException {
-
-		// ArrayList<Course> courses = new ArrayList<>();
-		//
-		// courses.add(new Course("MUSI 102", "MUSIC HISTORY II", "9:00 AM", "9:50 AM",
-		// 'A', "MWF"));
-		// courses.add(new Course("MUSI 102", "MUSIC HISTORY II", "9:00 AM", "9:50 AM",
-		// 'B', "MWF"));
-		// courses.add(new Course("COMP 141", "INTRO TO PROGRAM", "11:00 AM", "11:50
-		// AM", 'A', "MWF"));
-		// courses.add(new Course("COMP 205", "INTRO TO PROGRAM", "11:00 AM", "11:50
-		// AM", 'A', "MWF"));
-		//
-		// currentStudent = new Account("username@email.com", "pass", new
-		// CurrentSchedule(courses, "testsemester"), "comp sci", 2021);
-		//
-		// try {
-		// String fileName = makeJSONFile();
-		//// deleteJSONFile(fileName);
-		//// String importName = "tempJSONExport1649190909.json";
-		//// importFromJSONFile(importName);
-		//
-		// System.out.println();
-		//
-		// }catch (Exception e) {
-		// e.printStackTrace();
-		// }
 
 		Console.consoleMain();
 	}

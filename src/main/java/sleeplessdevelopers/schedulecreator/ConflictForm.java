@@ -2,14 +2,10 @@ package sleeplessdevelopers.schedulecreator;
 
 import java.util.ArrayList;
 
-import javax.validation.constraints.NotEmpty;
-
 public class ConflictForm {
 
-//    @NotEmpty
     ArrayList<String> conflictsInSchedule;
 
-//    @NotEmpty
     ArrayList<String> coursesToAdd;
 
     public ArrayList<String> getConflictsInSchedule() {

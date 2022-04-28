@@ -17,7 +17,11 @@ import java.util.ArrayList;
 public class ApplicationController extends UserInterface {
 
     @GetMapping("/")
-    public String index() {
+    public String index(Model model) {
+        if (isLoggedIn) {
+            return "redirect:/schedule";
+        }
+        model.addAttribute("loggedIn", isLoggedIn);
         return "LandingPage.html";
     }
 
@@ -55,7 +59,7 @@ public class ApplicationController extends UserInterface {
 
     @GetMapping("/schedule-create")
     public String getScheduleCreate(Model model) {
-        if (currentStudent == null) {
+        if (!isLoggedIn) {
             return "redirect:/login";
         } else {
             model.addAttribute("newScheduleForm", new NewScheduleForm());
@@ -178,6 +182,7 @@ public class ApplicationController extends UserInterface {
     
     @GetMapping("/login")
     public String getLogin(Model model) {
+        model.addAttribute("loggedIn", isLoggedIn);
         model.addAttribute("loginForm", new LoginForm());
         return "Login.html";
     }
@@ -198,6 +203,7 @@ public class ApplicationController extends UserInterface {
     @GetMapping("/create-account")
     public String getCreateAccount(Model model) {
         model.addAttribute("accountCreationForm", new AccountCreationForm());
+        model.addAttribute("loggedIn", isLoggedIn);
         return "CreateAccount.html";
     }
 
@@ -257,10 +263,6 @@ public class ApplicationController extends UserInterface {
             return "redirect:/login";
             //TODO: add error message
         } else {
-//            ConflictForm cf = new ConflictForm();
-//            cf.setCoursesToAdd(conflictingAdds);
-//            ArrayList<Course> conflicts = getConflicts(conflictingAdds);
-//            cf.setConflictsInSchedule(conflicts);
             model.addAttribute("conflictForm", new ConflictForm());
             model.addAttribute("adding", conflictingAdds);
             model.addAttribute("conflicts", conflictsInSchedule);
@@ -279,8 +281,6 @@ public class ApplicationController extends UserInterface {
             return "redirect:/schedule";
         } else {
             System.out.println("remove reached");
-//                ArrayList<String> conflictsInSchedule = conflictForm.conflictsInSchedule;
-//                ArrayList<String> coursesToAdd = conflictForm.coursesToAdd;
                 CurrentSchedule cs = currentStudent.getCurrentSchedule();
 
                 for (Course c: conflictsInSchedule) {
@@ -319,6 +319,7 @@ public class ApplicationController extends UserInterface {
 //            RecommendedSchedule rs = new RecommendedSchedule("Computer Science (BS)", 2024, db);
 //            currentStudent.setCurrentSchedule(rs.makeCurrentSchedule());
 //            currentStudent.addRecommendedSchedule();
+            model.addAttribute("loggedIn", isLoggedIn);
             model.addAttribute("scheduleForm", new ScheduleForm());
             model.addAttribute("courseList", currentStudent.getCurrentSchedule().getCourseList());
             return "CourseRemove.html";
@@ -381,18 +382,23 @@ public class ApplicationController extends UserInterface {
     
     @GetMapping("/schedule/export")
     public String getExport(Model model) {
-        String folderPath = "/files/";
-        String pdfFileName = folderPath + generatePDF();
-        try {
-            String jsonFileName = folderPath + makeJSONFile();
-            model.addAttribute("jsonExportFileName", jsonFileName);
-             System.out.println("JSON name: " + jsonFileName);
-        } catch (FileNotFoundException e) {
-            System.out.println("making JSON file error");
+        if (currentStudent == null) {
+            return "redirect:/login";
+            //TODO: add error message
+        } else {
+            String folderPath = "/files/";
+            String pdfFileName = folderPath + generatePDF();
+            try {
+                String jsonFileName = folderPath + makeJSONFile();
+                model.addAttribute("jsonExportFileName", jsonFileName);
+                System.out.println("JSON name: " + jsonFileName);
+            } catch (FileNotFoundException e) {
+                System.out.println("making JSON file error");
+            }
+            model.addAttribute("pdfExportFileName", pdfFileName);
+            System.out.println("PDF name: " + pdfFileName);
+            return "Export.html";
         }
-        model.addAttribute("pdfExportFileName", pdfFileName);
-        System.out.println("PDF name: " + pdfFileName);
-        return "Export.html";
     }
 
     @PostMapping("/uploadJSON")

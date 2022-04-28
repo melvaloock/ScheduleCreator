@@ -10,7 +10,7 @@ public class CurrentSchedule extends Schedule {
 		if (s.courseList != null) {
 			this.courseList = s.courseList;
 		} else {
-			this.courseList = new ArrayList<Course>();
+			this.courseList = new ArrayList<>();
 		}
 		this.semester = s.semester;
 		this.isCurrent = true;
@@ -38,7 +38,7 @@ public class CurrentSchedule extends Schedule {
 	 * removes all courses from schedule
 	 */
 	public void clearSchedule() {
-		courseList = new ArrayList<Course>();
+		courseList = new ArrayList<>();
 	}
 
 	/**
@@ -158,7 +158,6 @@ public class CurrentSchedule extends Schedule {
 			// check end time
 			if (cEnd >= tempStart && cEnd <= tempEnd){
 				conflicts.add(current);
-				continue;
 			}
 
 		}

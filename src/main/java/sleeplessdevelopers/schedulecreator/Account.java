@@ -1,13 +1,10 @@
 package sleeplessdevelopers.schedulecreator;
 
-import java.util.*; // trying to get git to work
-
-
 public class Account extends Student {
 
 	private String email;
 	private String passwordHash;
-	private int studentID; // may not need this
+	private int studentID;
 	private String advisorEmail;
 
 
@@ -148,8 +145,18 @@ public class Account extends Student {
 			return false;
 		}
 
-		// TODO: finish this method once Account is set up
-
+		if (!this.email.equals(acct.email)) {
+			return false;
+		}
+		if (!this.advisorEmail.equals(acct.advisorEmail)) {
+			return false;
+		}
+		if (this.studentID != acct.studentID) {
+			return false;
+		}
+		if (this.passwordHash != acct.passwordHash) {
+			return false;
+		}
 
 		return true;
 	}
