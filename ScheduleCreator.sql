@@ -105,20 +105,32 @@ select * from course where coursecode like "%comp%";
 -- for melva
 select * from course where CourseName like "%music%";
 
-insert into recommendedSchedule values("Computer Science (BS)", 2024, "Fall 2025");
-insert into recommendedCourse values("Computer Science (BS)", "Fall 2025", 2024, "COMP 252  A", "COMPUTER ARCHITECTURE/ORG");
-insert into recommendedCourse values("Computer Science (BS)", "Fall 2025", 2024, "COMP 222  A", "INTRO TO DATA STRUCT & ALGORITHMS");
-insert into recommendedCourse values("Computer Science (BS)", "Fall 2025", 2024, "HUMA 301  A", "CIV/THE ARTS");
-
-insert into recommendedSchedule values("Computer Science (BS)", 2024, "Fall 2026");
-insert into recommendedCourse values("Computer Science (BS)", "Fall 2026", 2024, "COMP 252  A", "COMPUTER ARCHITECTURE/ORG");
-insert into recommendedCourse values("Computer Science (BS)", "Fall 2026", 2024, "COMP 222  A", "INTRO TO DATA STRUCT & ALGORITHMS");
-insert into recommendedCourse values("Computer Science (BS)", "Fall 2026", 2024, "HUMA 301  A", "CIV/THE ARTS");
-
 insert into recommendedSchedule values("Computer Science (BA)", 2025, "Fall 2022");
+insert into recommendedCourse values("Computer Science (BA)", "Fall 2022", 2025, "COMP 222  A", "COMP PROGRAMMING II");
 insert into recommendedCourse values("Computer Science (BA)", "Fall 2022", 2025, "MATH 117  A", "FINITE MATH");
-insert into recommendedCourse values("Computer Science (BA)", "Fall 2022", 2025, "COMP 222  A", "INTRO TO DATA STRUCT & ALGORITHMS");
+insert into recommendedCourse values("Computer Science (BA)", "Fall 2022", 2025, "HUMA 201  A", "CIV/SPECULATIVE MIND");
 
+insert into recommendedSchedule values("Computer Science (BA)", 2025, "Spring 2023");
+insert into recommendedCourse values("Computer Science (BA)", "Spring 2023", 2025, "COMP 205  A", "ETHICS IN COMPUTING PROFESSION");
+insert into recommendedCourse values("Computer Science (BA)", "Spring 2023", 2025, "MATH 141  A", "BUSINESS CALCULUS");
+insert into recommendedCourse values("Computer Science (BA)", "Spring 2023", 2025, "HUMA 202  C", "CIV/LITERATURE");
+
+insert into recommendedSchedule values("Computer Science (BA)", 2025, "Fall 2023");
+insert into recommendedCourse values("Computer Science (BA)", "Fall 2023", 2025, "PSYC 201  A", "STATISTICAL METHODS");
+insert into recommendedCourse values("Computer Science (BA)", "Fall 2023", 2025, "HUMA 301  F", "CIV/THE ARTS");
+
+insert into recommendedSchedule values("Computer Science (BS)", 2025, "Fall 2022");
+insert into recommendedCourse values("Computer Science (BS)", "Fall 2022", 2025, "COMP 222  A", "INTRO TO DATA STRUCT & ALGORITHMS");
+insert into recommendedCourse values("Computer Science (BS)", "Fall 2022", 2025, "HUMA 201  A", "CIV/SPECULATIVE MIND");
+
+insert into recommendedSchedule values("Computer Science (BS)", 2025, "Spring 2023");
+insert into recommendedCourse values("Computer Science (BS)", "Spring 2023", 2025, "COMP 205  A", "ETHICS IN COMPUTING PROFESSION");
+insert into recommendedCourse values("Computer Science (BS)", "Spring 2023", 2025, "HUMA 202  C", "CIV/LITERATURE");
+insert into recommendedCourse values("Computer Science (BS)", "Spring 2023", 2025, "MATH 214  A", "APPLIED PROBABLITY AND LINEAR ALG");
+
+insert into recommendedSchedule values("Computer Science (BS)", 2025, "Fall 2023");
+insert into recommendedCourse values("Computer Science (BS)", "Fall 2023", 2025, "HUMA 301  A", "CIV/THE ARTS");
+insert into recommendedCourse values("Computer Science (BS)", "Fall 2023", 2025, "COMP 252  A", "COMPUTER ARCHITECTURE/ORG");
 
 select * from recommendedCourse where major = "Computer Science (BS)" and gradyear = 2023 and semester = "Fall 2022";
 
