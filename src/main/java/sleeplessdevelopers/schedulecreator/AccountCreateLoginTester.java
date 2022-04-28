@@ -215,7 +215,6 @@ public class AccountCreateLoginTester {
 
     @Test
     public void addScheduleTest() throws SQLException {
-        // TODO: update this test when addSchedule is updated
         dbSetUp();
 
         String addSchedCurrentScheduleID = "AddTestID";

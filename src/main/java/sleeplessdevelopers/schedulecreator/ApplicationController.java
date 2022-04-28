@@ -263,10 +263,6 @@ public class ApplicationController extends UserInterface {
             return "redirect:/login";
             //TODO: add error message
         } else {
-//            ConflictForm cf = new ConflictForm();
-//            cf.setCoursesToAdd(conflictingAdds);
-//            ArrayList<Course> conflicts = getConflicts(conflictingAdds);
-//            cf.setConflictsInSchedule(conflicts);
             model.addAttribute("conflictForm", new ConflictForm());
             model.addAttribute("adding", conflictingAdds);
             model.addAttribute("conflicts", conflictsInSchedule);
@@ -285,8 +281,6 @@ public class ApplicationController extends UserInterface {
             return "redirect:/schedule";
         } else {
             System.out.println("remove reached");
-//                ArrayList<String> conflictsInSchedule = conflictForm.conflictsInSchedule;
-//                ArrayList<String> coursesToAdd = conflictForm.coursesToAdd;
                 CurrentSchedule cs = currentStudent.getCurrentSchedule();
 
                 for (Course c: conflictsInSchedule) {
