@@ -39,6 +39,8 @@
   <div class="container-form form">
     <div class="row border-bottom" name="pdf">
         <div class="col-md-6" name="pdfExport">
+<!--            needs to use tr:href="@{}" to get file, but also needs ${} to get the variable name.
+                not sure how to combine them together -->
 <!--            <a th:href="${pdfExportFileName}" download="">-->
             <a href="/files/dummypdf.pdf" download="">
                 <button class="btn btn-primary"> Download PDF </button>
