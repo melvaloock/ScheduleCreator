@@ -181,36 +181,21 @@ public class UserInterface {
 		return conflicts;
 	}
 
-	static boolean addActivity(ArrayList<Course> activity) {
-		// check if there is a conflict before adding
-		CurrentSchedule cs = new CurrentSchedule(currentStudent.getCurrentSchedule().getCourseList());
-		boolean hasConflict = false;
-
-		for (int i = 0; i < cs.courseList.size(); i++) {
-			boolean refNumDiff = false;
-			Random ran = new Random();
-			while (!refNumDiff) {
-				if (activity.get(0).getReferenceNum() == cs.courseList.get(i).getReferenceNum()) {
-					activity.get(0).setReferenceNum(ran.nextInt(0, 100));
-				} else {
-					break;
-				}
-			}
-		}
-
+	public static ArrayList<Course> addActivity (ArrayList<Course> activity) {
+		//Same as addCourse but deals with activities.
+		ArrayList<Course> conflicts = new ArrayList<>();
+		CurrentSchedule cs  = new CurrentSchedule(currentStudent.getCurrentSchedule().getCourseList());
 		// check this after merge
 		for (Course c : activity) {
-			if (!cs.conflictsWith(c)) {
-				hasConflict = true;
+			if (cs.conflictsWith(c)) {
+				conflicts.add(c);
+			}
+			else{
+				cs.addCourse(c);
 			}
 		}
-
-		if (!hasConflict) {
-			cs.addCourse(activity.get(0));
-			currentStudent.setCurrentSchedule(cs);
-		}
-
-		return hasConflict;
+		currentStudent.setCurrentSchedule(cs);
+		return conflicts;
 	}
 
 	/**
