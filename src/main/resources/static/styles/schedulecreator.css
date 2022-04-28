@@ -1,4 +1,8 @@
 
+
+.filterbox {
+    margin-left: 3em;
+}
 button {
     justify-content: center;
     background-color: crimson !important;
@@ -23,8 +27,8 @@ footer{
 
 .btn-light {
     background-color: rgb(222, 222, 222);
-        margin-bottom: .7em;
-        margin-top: .7em
+    margin-bottom: .7em;
+    margin-top: .7em;
 }
 
 body {
@@ -84,4 +88,8 @@ h1, h3 {
 .remove-input::before {
     content: '\A';
     white-space: pre-line;
+}
+
+#filters {
+    text-align: center !important;
 }

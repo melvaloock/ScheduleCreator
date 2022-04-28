@@ -42,7 +42,10 @@ crossorigin="anonymous"></script> -->
   <div class="container-form form">
     <h2>Remove Courses: </h2>
     <form action="#" th:action="@{/remove-course}" th:object="${scheduleForm}" method="post">
-      <button type="submit" class="btn btn-primary">Select Courses</button>
+      <div class="submit-btns">
+        <a class="btn btn-light ms-3" th:href="@{/schedule}"> Back to Schedule</a>
+        <button type="submit" class="btn btn-primary">Select Courses</button>
+      </div>
       <br>
       <th:block th:each="course : ${courseList}">
       <br>
