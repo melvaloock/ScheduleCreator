@@ -8,12 +8,12 @@ public class Course {
 
 	private String title;
 	private String code;
-	private String semester; //Spring 2022
+	private String semester;
 	private String color;
 	private int referenceNum;
 	private String startTime;
 	private String endTime;
-	private ArrayList<Day> days;// figure out how to do enum later
+	private ArrayList<Day> days;
 	private String professor;
 	private char section;
 	private int totalSeats;
@@ -85,7 +85,6 @@ public class Course {
 		if (referenceNum != c.referenceNum){
 			return false;
 		}
-		
 
 		return true;
 	}
@@ -97,7 +96,7 @@ public class Course {
 	 */
 	public ArrayList<Day> daysToEnum(String days) {
 		ArrayList<Day> dayList = new ArrayList<Day>();
-		if (days == "") {
+		if (days.equals("")) {
 			dayList.add(Day.NULL);
 			return dayList;
 		}
