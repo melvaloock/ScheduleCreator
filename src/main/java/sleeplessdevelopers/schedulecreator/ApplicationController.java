@@ -62,6 +62,9 @@ public class ApplicationController extends UserInterface {
         if (!isLoggedIn) {
             return "redirect:/login";
         } else {
+            if (currentStudent.currentSchedule.getCourseList().size() != 0) {
+                currentStudent.saveCurrentSchedule(db);
+            }
             model.addAttribute("newScheduleForm", new NewScheduleForm());
             return "ScheduleCreate.html";
         }
@@ -76,6 +79,8 @@ public class ApplicationController extends UserInterface {
             currentStudent.removeCurrentSchedule(db);
             currentStudent.currentSchedule = new CurrentSchedule(newScheduleForm.getSemester());
             currentStudent.saveNewSchedule(db);
+//            currentStudent.saveCurrentSchedule(db);
+
 
             model.addAttribute("loggedIn", isLoggedIn);
             return "redirect:/schedule-new";
@@ -380,7 +385,7 @@ public class ApplicationController extends UserInterface {
         return new RecommendedSchedule(semester, major, year, db);
     }
     
-    @GetMapping("/schedule/export")
+    @GetMapping("/schedule-export")
     public String getExport(Model model) {
         if (currentStudent == null) {
             return "redirect:/login";
@@ -405,7 +410,7 @@ public class ApplicationController extends UserInterface {
     public String importJSON(@RequestParam("jsonImportFile") MultipartFile file) {
             if (file.isEmpty()) {
                 System.out.println("empty file");
-                return "redirect:/schedule/export";
+                return "redirect:/schedule-export";
             }
 
             try {
@@ -418,7 +423,7 @@ public class ApplicationController extends UserInterface {
             return "redirect:/schedule";
     }
 
-    @GetMapping("/schedule/email")
+    @GetMapping("/schedule-email")
     public String getEmail() {
         return "redirect:/schedule";
     }

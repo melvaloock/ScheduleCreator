@@ -1,6 +1,8 @@
 
 button {
     justify-content: center;
+    background-color: crimson !important;
+    border: crimson !important;
 }
 
 .btn-white {
@@ -12,8 +14,8 @@ footer{
 }
 
 .btn-crimson {
-    background-color: crimson !important;
-    border: crimson !important;
+    background-color: crimson;
+    border: crimson;
     color: white;
     margin-bottom: .7em;
     margin-top: .7em
@@ -21,6 +23,8 @@ footer{
 
 .btn-light {
     background-color: rgb(222, 222, 222);
+        margin-bottom: .7em;
+        margin-top: .7em
 }
 
 body {
