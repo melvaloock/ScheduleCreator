@@ -388,18 +388,23 @@ public class ApplicationController extends UserInterface {
     
     @GetMapping("/schedule/export")
     public String getExport(Model model) {
-        String folderPath = "/files/";
-        String pdfFileName = folderPath + generatePDF();
-        try {
-            String jsonFileName = folderPath + makeJSONFile();
-            model.addAttribute("jsonExportFileName", jsonFileName);
-             System.out.println("JSON name: " + jsonFileName);
-        } catch (FileNotFoundException e) {
-            System.out.println("making JSON file error");
+        if (currentStudent == null) {
+            return "redirect:/login";
+            //TODO: add error message
+        } else {
+            String folderPath = "/files/";
+            String pdfFileName = folderPath + generatePDF();
+            try {
+                String jsonFileName = folderPath + makeJSONFile();
+                model.addAttribute("jsonExportFileName", jsonFileName);
+                System.out.println("JSON name: " + jsonFileName);
+            } catch (FileNotFoundException e) {
+                System.out.println("making JSON file error");
+            }
+            model.addAttribute("pdfExportFileName", pdfFileName);
+            System.out.println("PDF name: " + pdfFileName);
+            return "Export.html";
         }
-        model.addAttribute("pdfExportFileName", pdfFileName);
-        System.out.println("PDF name: " + pdfFileName);
-        return "Export.html";
     }
 
     @PostMapping("/uploadJSON")
