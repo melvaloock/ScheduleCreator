@@ -349,7 +349,7 @@ public class ApplicationController extends UserInterface {
     @ResponseBody
     @GetMapping("/api/get/courses")
     public String getCourses() {
-        try {;
+        try {
             String json = db.getJSONCourses();
             return json;
         } catch (Exception e) {

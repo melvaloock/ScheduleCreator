@@ -1,13 +1,12 @@
 package sleeplessdevelopers.schedulecreator;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
-
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Pattern;
+
+/**
+ * To run console version, run this class
+ */
 
 public class Console extends UserInterface{
 

@@ -4,7 +4,7 @@ https://gradle.org/install/
 
 Since this software ships with the build.gradle file, most of the
 dependencies are already present. However, you will have to install
-the following dependencies if they do not appear in the library folder of
+the following dependencies if they do not appear in the lib folder of
 your Java project:
     1) mysql-connector-java-8.0.28.jar (Connector/J 8.0.28)
         a) You can get this by downloading the MySQL Installer
