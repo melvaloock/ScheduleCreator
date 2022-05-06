@@ -1,4 +1,4 @@
-let isCacheSupported = 'caches' in window; // may not need this
+let isCacheSupported = 'caches' in window; 
 const coursesURL = "/api/get/courses/"
 
 window.addEventListener("DOMContentLoaded", async function () {
@@ -30,7 +30,7 @@ window.onload = function () {
 
 async function cacheCourses() {
     caches.open('dynamicSearchCache').then(cache => {
-        cache.add(coursesURL) // this validates the JSON
+        cache.add(coursesURL) 
             .then(console.log("Courses added to cache"))
             .catch(error => {
                 console.log("Courses Fetch Failed: " + error);
@@ -90,14 +90,12 @@ function filterCourses(courses, searchTerm) {
             }
         }
     } else if (daysFilter.checked) {
-        // TODO: add extra div with more days divs (EXTRA)
-
         for (const course of courses.courses) {
             if (expand(course.Weekday).toLowerCase().includes(searchTerm.toLowerCase()) || course.Weekday.toLowerCase().includes(searchTerm.toLowerCase())) {
                 courseList.push(course);
             } 
         }
-    } else { // searches by keyword as default
+    } else { 
         for (const course of courses.courses) {
             if (course.CourseName.toLowerCase().includes(searchTerm.toLowerCase())) {
                 courseList.push(course);
@@ -123,16 +121,11 @@ function displayCourses(courses) {
             paragraph.innerHTML = "No courses found";
             coursesList.appendChild(paragraph);
         } else {
-//            let submit = document.createElement("input");
-//            submit.type = "submit";
-//            submit.value = "Select Courses";
-//            coursesList.appendChild(submit);
             for (const course of courses) {
                 let courseItem = document.createElement("input");
                 courseItem.type = "checkbox";
                 courseItem.name = "courses";
                 courseItem.value = JSON.stringify(course);
-                // courseItem.value = course;
                 coursesList.appendChild(courseItem);
 
                 let label = document.createElement("label");
@@ -188,6 +181,7 @@ function validateSearch() {
 /**
  * Validate a response to ensure the HTTP status code indcates success.
  * 
+ * @author Dr. Brian Dickinson
  * @param {Response} response HTTP response to be checked
  * @returns {object} object encoded by JSON in the response
  */
